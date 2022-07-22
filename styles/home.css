@@ -4,8 +4,8 @@
 
 @layer components {
   .home-container {
-    @apply lg:grid grid-cols-4 gap-x-10 px-5 
-    lg:px-10 xl:px-32 2xl:px-64;
+    @apply mx-auto md:w-[500px] lg:w-primary lg:grid grid-cols-primary gap-x-primary
+    text-justify;
   }
 
   /* home side menu */
@@ -14,13 +14,9 @@
   }
 
   /* home main part */
-  .home-main-part {
-    @apply col-span-2 text-center;
-  }
 
   /* home ads part */
   .home-ads {
     @apply hidden lg:block;
   }
 }
-

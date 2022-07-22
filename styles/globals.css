@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background-color: #f2f3f7;
+@layer components{
+  body{
+    @apply bg-[#f2f3f7] px-3 md:px-0
+  }
 }
