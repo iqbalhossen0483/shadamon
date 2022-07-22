@@ -22,7 +22,7 @@ const Header = () => {
 
   return (
     <>
-      <section className=' home-header-container'>
+      <section className='header-container'>
         {/* logo */}
         <div className='lg:w-[60%]'>
           <Image width={150} height={33} src='/logo.png' alt='Logo' />

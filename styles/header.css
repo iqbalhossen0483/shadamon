@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary_color: #ff6903;
+}
+
+@layer components {
+  .header-container {
+    @apply col-span-3 grid gap-x-10 items-center bg-white pt-2 pb-1 border-b-2 
+    grid-cols-2 mx-auto lg:grid-cols-4 px-5 xl:px-32 2xl:px-64 md:w-[70%] lg:w-full;
+  }
+
+  /* main menu */
+  .header-container .main-menu {
+    @apply col-span-2 pb-3 hidden lg:block;
+  }
+  .header-container .main-menu button {
+    @apply px-3 text-xl font-semibold relative text-gray-500;
+  }
+  .header-container .main-menu .btn-highlight {
+    @apply text-gray-900;
+  }
+  .header-container .main-menu .btn-highlight::after {
+    @apply highlight;
+  }
+
+  /* user menu */
+  .user-menus {
+    @apply space-x-2 text-sm flex items-center ml-auto;
+  }
+  .language-btn {
+    @apply bg-gray-200 rounded-full py-1 px-1.5 hover:border-primary border-2
+    border-gray-200;
+  }
+  .notification-btn {
+    @apply hidden lg:block bg-gray-200 rounded-full py-1 px-1.5 border-2 
+    border-gray-200 relative;
+  }
+  .notification-btn .notification {
+    @apply absolute -top-[10px] -right-2 bg-primary text-white font-semibold 
+    h-7 w-7 rounded-full flex justify-center items-center;
+  }
+  .user-menus .add-post-btn {
+    @apply hidden lg:block text-white bg-primary rounded-2xl px-3;
+  }
+  .auth-btn {
+    @apply bg-gray-200 p-1 rounded-full;
+  }
+
+  /* second menu */
+  .header-second-menu {
+    @apply hidden lg:block col-span-4 w-2/4 mx-auto mt-2 space-x-4;
+  }
+  .header-second-menu button {
+    @apply text-gray-900 bg-gray-200;
+  }
+
+  /* third menu */
+  .header-third-menu {
+    @apply grid grid-cols-3 items-center mx-auto  bg-white rounded-b-xl md:w-[70%] 
+    xl:w-[39%] lg:w-[45%] py-2 px-5 2xl:px-32;
+  }
+  .header-third-menu .search-btn {
+    @apply flex items-center gap-2 h-8;
+  }
+}
+
+@layer utilities {
+  .highlight {
+    content: "";
+    width: 100%;
+    height: 4px;
+    background: var(--primary_color);
+    position: absolute;
+    bottom: -12px;
+    left: 0;
+  }
+}
