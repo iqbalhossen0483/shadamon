@@ -13,12 +13,41 @@ type User = {
 };
 
 const LoginPage = () => {
+  const [loading, setLoading] = useState(false);
   const [login, setLogin] = useState(true);
   const { register, handleSubmit } = useForm<User>();
   const store = useStore();
 
-  function onSubmit(user: User) {
-    console.log(user);
+  function handleError(error: null | string) {
+    if (!error) {
+      store?.State.setShowLoginPage(false);
+      store?.State.setShowLoginRegister(false);
+    } else {
+      store?.State.setAlert({ msg: error, type: "error" });
+    }
+  }
+
+  async function onSubmit(user: User) {
+    setLoading(true);
+    if (!login) {
+      if (store) {
+        const { error } = await store.auth.emailSignUp(
+          user.name,
+          user.email,
+          user.password
+        );
+        handleError(error);
+      }
+    } else {
+      if (store) {
+        const { error } = await store.auth.emailSingIn(
+          user.email,
+          user.password
+        );
+        handleError(error);
+      }
+    }
+    setLoading(false);
   }
 
   return (
@@ -28,8 +57,13 @@ const LoginPage = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {!login && <Input {...register("name")} required label='Name' />}
         <Input {...register("email")} required label='Email or Phone number' />
-        <Input {...register("password")} required label='Password' />
-        <Button type='submit' variant='contained'>
+        <Input
+          {...register("password")}
+          type='password'
+          required
+          label='Password'
+        />
+        <Button disabled={loading} type='submit' variant='contained'>
           {login ? "Login" : "Sign Up"}
         </Button>
       </form>

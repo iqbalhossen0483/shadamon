@@ -6,6 +6,9 @@ import {
   onAuthStateChanged,
   signOut,
   FacebookAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { AuthReturnType } from "../contex-type";
@@ -61,11 +64,57 @@ const Auth = (): AuthReturnType => {
     }
   }
 
+  //email singup
+  async function emailSignUp(
+    name: string,
+    email: string,
+    password: string
+  ): Promise<{ error: null | string }> {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      await updateUser(name);
+      return { error: null };
+    } catch (err: any) {
+      return { error: err.message };
+    }
+  } //till
+
+  //email sing in;
+  async function emailSingIn(
+    email: string,
+    password: string
+  ): Promise<{ error: null | string }> {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      return { error: null };
+    } catch (err: any) {
+      return { error: err.message };
+    }
+  } //till;
+
+  //update user info;
+  async function updateUser(
+    name: string
+  ): Promise<{ error: boolean } | undefined> {
+    if (auth.currentUser) {
+      try {
+        await updateProfile(auth.currentUser, {
+          displayName: name,
+        });
+        return { error: false };
+      } catch (err) {
+        return { error: true };
+      }
+    }
+  } //till;
+
   return {
     googleLogin,
     user,
     singOut,
     facebookLogin,
+    emailSignUp,
+    emailSingIn,
   };
 };
 

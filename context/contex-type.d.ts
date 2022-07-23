@@ -16,4 +16,13 @@ type AuthReturnType = {
   user: User | null;
   singOut(): Promise<{ error: boolean }>;
   facebookLogin(): Promise<{ error: null | string }>;
+  emailSignUp(
+    name: string,
+    email: string,
+    password: string
+  ): Promise<{ error: null | string }>;
+  emailSingIn(
+    email: string,
+    password: string
+  ): Promise<{ error: null | string }>;
 };
