@@ -1,7 +1,9 @@
 import { Button } from "@mui/material";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import useStore from "../../../context/hooks/useStore";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import Input from "../../utilitize/Input";
 import CloseBack from "./CloseBack";
 import TopPart from "./TopPart";
@@ -13,6 +15,7 @@ type User = {
 };
 
 const LoginPage = () => {
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [login, setLogin] = useState(true);
   const { register, handleSubmit } = useForm<User>();
@@ -57,12 +60,21 @@ const LoginPage = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {!login && <Input {...register("name")} required label='Name' />}
         <Input {...register("email")} required label='Email or Phone number' />
-        <Input
-          {...register("password")}
-          type='password'
-          required
-          label='Password'
-        />
+        <div className='relative'>
+          <Input
+            {...register("password")}
+            fullWidth
+            type={passwordVisible ? "text" : "password"}
+            required
+            label='Password'
+          />
+          <div
+            onClick={() => setPasswordVisible((prev) => !prev)}
+            className='visibility-icon'
+          >
+            {!passwordVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+          </div>
+        </div>
         <Button disabled={loading} type='submit' variant='contained'>
           {login ? "Login" : "Sign Up"}
         </Button>

@@ -56,6 +56,9 @@
     @apply bg-primary hover:bg-primary hover:shadow-none shadow-none normal-case 
     font-semibold text-base;
   }
+  .visibility-icon {
+    @apply text-gray-600 absolute top-2/4 right-3 -translate-y-2/4 cursor-pointer;
+  }
 }
 
 @media (max-width: 1024px) {
