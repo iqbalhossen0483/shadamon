@@ -7,6 +7,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import SearchIcon from "@mui/icons-material/Search";
 import SortIcon from "@mui/icons-material/Sort";
 import { Button, Input } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
 import useStore from "../../context/hooks/useStore";
 
 const Header = () => {
@@ -23,9 +24,18 @@ const Header = () => {
     else setLanguage("BN");
   }
 
+  async function singOut() {
+    if (store) {
+      const { error } = await store.auth.singOut();
+      if (error) {
+        store.State.setAlert({ msg: "An error occured", type: "error" });
+      }
+    }
+  }
+
   return (
     <>
-      <div className='bg-white lg:border-b-2 md:w-[500px] lg:w-full mx-auto'>
+      <div className='header-first-menu'>
         <section className='header-container'>
           {/* logo */}
           <div className='lg:w-[60%]'>
@@ -58,15 +68,21 @@ const Header = () => {
               <Button className='add-post-btn' size='small'>
                 post ad
               </Button>
-              <button
-                onClick={() => {
-                  store?.State.setShowLoginRegister(true);
-                  store?.State.setShowLoginPage(false);
-                }}
-                className='auth-btn'
-              >
-                <ArrowDropDownIcon />
-              </button>
+              {!store?.auth.user ? (
+                <button
+                  onClick={() => {
+                    store?.State.setShowLoginRegister(true);
+                    store?.State.setShowLoginPage(false);
+                  }}
+                  className='auth-btn'
+                >
+                  <ArrowDropDownIcon />
+                </button>
+              ) : (
+                <button onClick={singOut}>
+                  <LogoutIcon fontSize='small' />
+                </button>
+              )}
             </div>
           </div>
         </section>

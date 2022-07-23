@@ -8,6 +8,7 @@ import "../styles/loginRegister.css";
 import Header from "../components/header/Header";
 import StoreProvider from "../context/provider/StoreProvider";
 import LoginRegister from "../components/LoginRegister.tsx/LoginRegister";
+import AlertProvider from "../context/provider/AlertProvider";
 
 type Props = {
   Component: NextComponentType<NextPageContext, any, {}>;
@@ -20,6 +21,7 @@ function Layout({ Component, pageProps }: Props) {
       <Metahead />
       <Header />
       <Component {...pageProps} />
+      <AlertProvider />
       <LoginRegister />
     </>
   );

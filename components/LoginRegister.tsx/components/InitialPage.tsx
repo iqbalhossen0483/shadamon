@@ -4,12 +4,34 @@ import useStore from "../../../context/hooks/useStore";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import EmailIcon from "@mui/icons-material/Email";
-import Image from "next/image";
 import CloseBack from "./CloseBack";
 import TopPart from "./TopPart";
 
 const InitialPage = () => {
   const store = useStore();
+
+  async function googleLogIn() {
+    if (store) {
+      const { error } = await store?.auth.googleLogin();
+      if (error) {
+        store.State.setAlert({ msg: error, type: "error" });
+      } else {
+        store?.State.setShowLoginRegister(false);
+      }
+    }
+  }
+
+  async function facebookLogin() {
+    if (store) {
+      const { error } = await store?.auth.facebookLogin();
+      if (error) {
+        store.State.setAlert({ msg: error, type: "error" });
+      } else {
+        store?.State.setShowLoginRegister(false);
+      }
+    }
+  }
+
   return (
     <>
       {/* close button */}
@@ -17,10 +39,10 @@ const InitialPage = () => {
 
       <TopPart />
       <main>
-        <Button variant='outlined'>
+        <Button onClick={googleLogIn} variant='outlined'>
           <GoogleIcon /> Continue with Google
         </Button>
-        <Button variant='contained'>
+        <Button onClick={facebookLogin} variant='contained'>
           <FacebookIcon /> Continue with Facebook
         </Button>
         <Button

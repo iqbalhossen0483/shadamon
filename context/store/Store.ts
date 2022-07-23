@@ -5,22 +5,24 @@
 // } from "../contex-type";
 // import Cart from "../services/Cart";
 // import Firebase from "../services/Firebase";
+import { AuthReturnType, StatesReturnType } from "../contex-type";
+import Auth from "../services/Auth";
 import States from "../services/States";
 
 export interface StoreReturnType {
   State: StatesReturnType;
   // Carts: CartReturnType;
-  // firebase: FirebaseReturn;
+  auth: AuthReturnType;
 }
 
 function Store(): StoreReturnType {
   const State = States();
   // const Carts = Cart();
-  // const firebase = Firebase();
+  const auth = Auth();
   return {
     State,
     // Carts,
-    // firebase,
+    auth,
   };
 }
 

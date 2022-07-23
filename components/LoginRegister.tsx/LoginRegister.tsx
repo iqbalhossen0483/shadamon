@@ -8,23 +8,22 @@ const LoginRegister = () => {
   const store = useStore();
   const style = {
     position: "absolute" as "absolute",
-    // top: "50%",
-    // left: "50%",
-    // transform: "translate(-50%, -50%)",
     overflow: "auto",
     display: "block",
   };
 
   return (
-    <Modal
-      open={store?.State.showLoginRegister || false}
-      onClose={() => store?.State.setShowLoginRegister(false)}
-    >
-      <Box sx={style} className='login-register-container'>
-        {!store?.State.showLoginPage && <InitialPage />}
-        {store?.State.showLoginPage && <LoginPage />}
-      </Box>
-    </Modal>
+    <div>
+      <Modal
+        open={store?.State.showLoginRegister || false}
+        onClose={() => store?.State.setShowLoginRegister(false)}
+      >
+        <Box sx={style} className='login-register-container'>
+          {!store?.State.showLoginPage && <InitialPage />}
+          {store?.State.showLoginPage && <LoginPage />}
+        </Box>
+      </Modal>
+    </div>
   );
 };
 
