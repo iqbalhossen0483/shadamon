@@ -7,11 +7,13 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import SearchIcon from "@mui/icons-material/Search";
 import SortIcon from "@mui/icons-material/Sort";
 import { Button, Input } from "@mui/material";
+import useStore from "../../context/hooks/useStore";
 
 const Header = () => {
   const [highlightBtn, setHighlightBtn] = useState(0);
   const [language, setLanguage] = useState<"EN" | "BN">("EN");
   const [showSearchBtn, setShowSearchBtn] = useState(false);
+  const store = useStore();
 
   const secondMenus = ["All Products", "All Orders", "My Page", "Promote"];
   const mainMenus = ["All ads", "Loan", "Offer", "Bit"];
@@ -56,7 +58,13 @@ const Header = () => {
               <Button className='add-post-btn' size='small'>
                 post ad
               </Button>
-              <button className='auth-btn'>
+              <button
+                onClick={() => {
+                  store?.State.setShowLoginRegister(true);
+                  store?.State.setShowLoginPage(false);
+                }}
+                className='auth-btn'
+              >
                 <ArrowDropDownIcon />
               </button>
             </div>
@@ -84,7 +92,7 @@ const Header = () => {
           <div>
             <GridViewIcon /> Categories
           </div>
-          <div className="md:ml-24 lg:ml-0">
+          <div className='md:ml-24 lg:ml-0'>
             <LocationOnIcon /> Locations
           </div>
           <div className='search-btn'>

@@ -4,7 +4,10 @@ import type { AppProps } from "next/app";
 import "../styles/globals.css";
 import "../styles/home.css";
 import "../styles/header.css";
-import Header from "../components/home/header/Header";
+import "../styles/loginRegister.css";
+import Header from "../components/header/Header";
+import StoreProvider from "../context/provider/StoreProvider";
+import LoginRegister from "../components/LoginRegister.tsx/LoginRegister";
 
 type Props = {
   Component: NextComponentType<NextPageContext, any, {}>;
@@ -17,12 +20,17 @@ function Layout({ Component, pageProps }: Props) {
       <Metahead />
       <Header />
       <Component {...pageProps} />
+      <LoginRegister />
     </>
   );
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Layout Component={Component} pageProps={pageProps} />;
+  return (
+    <StoreProvider>
+      <Layout Component={Component} pageProps={pageProps} />
+    </StoreProvider>
+  );
 }
 
 export default MyApp;

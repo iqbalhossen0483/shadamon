@@ -1,0 +1,74 @@
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .login-register-container {
+    @apply bg-white rounded-t-lg lg:rounded-lg flex flex-col w-full px-5 py-5 left-0 bottom-0 lg:top-2/4 
+    md:left-2/4 md:-translate-x-2/4 lg:-translate-y-2/4 xl:p-10 md:w-[440px] h-[95%] 
+    lg:h-[90%];
+  }
+  .close-icon .close,
+  .close-icon .back {
+    @apply absolute bg-gray-200 text-gray-500 rounded-2xl cursor-pointer;
+  }
+  .close-icon .close {
+    @apply top-3 right-3;
+  }
+  .close-icon .back {
+    @apply top-3 left-3;
+  }
+
+  /* initial page start */
+  .login-register-container div:nth-child(2) {
+    @apply text-center;
+  }
+  .login-register-container main {
+    @apply my-5;
+  }
+  .login-register-container main button {
+    @apply block mb-2 w-full text-left md:px-10 py-2 normal-case;
+  }
+  .login-register-container main button:nth-child(1) {
+    @apply text-gray-900 bg-gray-200 border-gray-500;
+  }
+  .login-register-container main button:nth-child(2) {
+    @apply bg-[#1976d2] shadow-none;
+  }
+  .login-register-container main button:nth-child(3) {
+    @apply bg-primary shadow-none;
+  }
+  .login-register-container main button svg {
+    @apply mr-2 text-base;
+  }
+  .login-register-container .bottom-part {
+    @apply text-center mt-2;
+  }
+  .login-register-container .bottom-part button {
+    @apply normal-case font-semibold bg-gray-200 text-gray-900 border-gray-500
+    text-lg;
+  }
+  /* initaial page end */
+
+  .login-container form {
+    @apply flex flex-col gap-3 my-5;
+  }
+  .login-container form button {
+    @apply bg-primary hover:bg-primary hover:shadow-none shadow-none normal-case 
+    font-semibold text-base;
+  }
+}
+
+@media (max-width: 1024px) {
+  .login-register-container {
+    animation: showFromBotom 250ms ease-in-out;
+  }
+}
+
+@keyframes showFromBotom {
+  0% {
+    bottom: -100%;
+  }
+  100% {
+    bottom: 0;
+  }
+}

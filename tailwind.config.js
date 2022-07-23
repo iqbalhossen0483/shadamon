@@ -19,6 +19,9 @@ module.exports = {
       width: {
         primary: "1010px",
       },
+      screens: {
+        sm: "375",
+      },
     },
   },
   plugins: [],
