@@ -57,10 +57,11 @@ const Auth = (): AuthReturnType => {
   //facebook sing up
   async function facebookLogin(): Promise<{ error: null | string }> {
     try {
-      await signInWithPopup(auth, facebookProvider);
       setIsFacebookLogin(true);
+      await signInWithPopup(auth, facebookProvider);
       return { error: null };
     } catch (err: any) {
+      setIsFacebookLogin(false);
       return { error: err.message };
     }
   } //till
