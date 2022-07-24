@@ -6,14 +6,19 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import SearchIcon from "@mui/icons-material/Search";
 import SortIcon from "@mui/icons-material/Sort";
-import { Button, Input } from "@mui/material";
+import { Button, IconButton, Tooltip } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import useStore from "../../context/hooks/useStore";
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
+import CurrencyBitcoinIcon from "@mui/icons-material/CurrencyBitcoin";
+import LanguageIcon from "@mui/icons-material/Language";
+import { DebounceInput } from "react-debounce-input";
 
 const Header = () => {
   const [highlightBtn, setHighlightBtn] = useState(0);
   const [language, setLanguage] = useState<"EN" | "BN">("EN");
   const [showSearchBtn, setShowSearchBtn] = useState(false);
+  const [searchText, setSearchText] = useState("");
   const store = useStore();
 
   const secondMenus = ["All Products", "All Orders", "My Page", "Promote"];
@@ -58,31 +63,56 @@ const Header = () => {
 
             {/* user menu */}
             <div className='user-menus'>
-              <button className='language-btn' onClick={handleLanguage}>
-                {language}
-              </button>
-              <button className='notification-btn'>
-                <MailIcon fontSize='small' />
-                <span className='notification'>14</span>
-              </button>
+              <Tooltip title='Loan'>
+                <IconButton className='lg:hidden'>
+                  <CurrencyExchangeIcon fontSize='small' />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title='Bit'>
+                <IconButton className='lg:hidden'>
+                  <CurrencyBitcoinIcon fontSize='small' />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title='Language'>
+                <button onClick={handleLanguage}>
+                  <span className='hidden lg:block'>{language}</span>
+                  <span className='lg:hidden'>
+                    <LanguageIcon fontSize='small' />
+                  </span>
+                </button>
+              </Tooltip>
+              <Tooltip title='Notification'>
+                <IconButton className='notification-btn'>
+                  <MailIcon fontSize='small' />
+                  <span className='notification'>14</span>
+                </IconButton>
+              </Tooltip>
               <Button className='add-post-btn' size='small'>
                 post ad
               </Button>
-              {!store?.auth.user ? (
-                <button
-                  onClick={() => {
-                    store?.State.setShowLoginRegister(true);
-                    store?.State.setShowLoginPage(false);
-                  }}
-                  className='auth-btn'
-                >
-                  <ArrowDropDownIcon />
-                </button>
+
+              {/* login log out butn start */}
+              {store?.auth.user &&
+              (store?.auth.user?.emailVerified ||
+                store?.auth.user?.phoneNumber) ? (
+                <Tooltip title='LogOut'>
+                  <IconButton onClick={singOut}>
+                    <LogoutIcon fontSize='small' />
+                  </IconButton>
+                </Tooltip>
               ) : (
-                <button onClick={singOut}>
-                  <LogoutIcon fontSize='small' />
-                </button>
+                <Tooltip title='LogIn'>
+                  <IconButton
+                    onClick={() => {
+                      store?.State.setShowLoginRegister(true);
+                      store?.State.setShowLoginPage(false);
+                    }}
+                  >
+                    <ArrowDropDownIcon />
+                  </IconButton>
+                </Tooltip>
               )}
+              {/* login log out butn end */}
             </div>
           </div>
         </section>
@@ -119,7 +149,15 @@ const Header = () => {
               <SearchIcon />
               {!showSearchBtn && <span>Search</span>}
             </p>
-            {showSearchBtn && <Input color='warning' placeholder='Search' />}
+            {showSearchBtn && (
+              <DebounceInput
+                className='search-input'
+                placeholder='Search'
+                minLength={3}
+                debounceTimeout={300}
+                onChange={(event) => setSearchText(event.target.value)}
+              />
+            )}
           </div>
           <div className='lg:hidden ml-auto'>
             <SortIcon />

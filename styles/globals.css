@@ -2,8 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components{
-  body{
-    @apply bg-[#f2f3f7] px-3 md:px-0
+@layer base {
+  h3 {
+    @apply text-xl font-semibold text-center;
+  }
+}
+@layer components {
+  body {
+    @apply bg-[#f2f3f7];
   }
 }

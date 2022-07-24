@@ -59,9 +59,24 @@
   .visibility-icon {
     @apply text-gray-600 absolute top-2/4 right-3 -translate-y-2/4 cursor-pointer;
   }
+  .login-container form .forgot-password,
+  .login-container form .resend-email {
+    @apply font-semibold cursor-pointer text-center text-violet-600;
+  }
+
+  /* opt component style */
+  .email-otp-varify-container {
+    @apply h-full flex flex-col justify-between items-center gap-5;
+  }
+  .email-container {
+    @apply text-xl;
+  }
+  .email-container button {
+    @apply mt-5 text-gray-900 bg-gray-200;
+  }
 }
 
-@media (max-width: 1024px) {
+/* @media (max-width: 1024px) {
   .login-register-container {
     animation: showFromBotom 250ms ease-in-out;
   }
@@ -74,4 +89,4 @@
   100% {
     bottom: 0;
   }
-}
+} */

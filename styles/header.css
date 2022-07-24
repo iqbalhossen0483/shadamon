@@ -10,8 +10,8 @@
     @apply bg-white lg:border-b-2 md:w-[500px] lg:w-full mx-auto lg:sticky lg:top-0;
   }
   .header-container {
-    @apply col-span-3 grid gap-x-primary items-center bg-white pt-2 pb-1 px-2 
-    grid-cols-2 mx-auto lg:grid-cols-header md:w-[500px] lg:w-primary;
+    @apply col-span-3 grid gap-x-4 md:gap-x-primary items-center bg-white pt-2 pb-1 px-2 
+    lg:px-0 grid-cols-2 mx-auto lg:grid-cols-header md:w-[500px] lg:w-primary;
   }
 
   /* main menu */
@@ -30,25 +30,20 @@
 
   /* user menu */
   .user-menus {
-    @apply space-x-3 text-sm flex items-center ml-auto;
+    @apply space-x-2 md:space-x-3 text-sm flex items-center ml-auto;
   }
-  .language-btn {
-    @apply bg-gray-200 rounded-full py-1 px-1.5 hover:border-primary border-2
-    border-gray-200;
+  .user-menus button {
+    @apply bg-gray-200 rounded-2xl p-1;
   }
   .notification-btn {
-    @apply hidden lg:block bg-gray-200 rounded-full py-1 px-1.5 border-2 
-    border-gray-200 relative;
+    @apply hidden lg:block relative;
   }
   .notification-btn .notification {
-    @apply absolute -top-[10px] -right-4 bg-primary text-white font-semibold 
+    @apply absolute -top-[10px] -right-4 text-sm bg-primary text-white font-semibold 
     h-5 w-9 rounded-full flex justify-center items-center;
   }
   .user-menus .add-post-btn {
     @apply hidden lg:block text-white bg-primary rounded-2xl px-3;
-  }
-  .auth-btn {
-    @apply bg-gray-200 p-1 rounded-full;
   }
 
   /* second menu */
@@ -70,6 +65,9 @@
   }
   .header-third-menu .search-btn {
     @apply hidden lg:flex items-center gap-2 h-8;
+  }
+  .search-input {
+    @apply border-b-2 border-b-primary w-full focus:outline-none;
   }
 }
 

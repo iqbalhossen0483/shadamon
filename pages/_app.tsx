@@ -23,6 +23,7 @@ function Layout({ Component, pageProps }: Props) {
       <Component {...pageProps} />
       <AlertProvider />
       <LoginRegister />
+      <div id='recaptcha-container'></div>
     </>
   );
 }

@@ -7,14 +7,25 @@ const CloseBack = () => {
   const store = useStore();
   return (
     <div className='close-icon'>
-      {store?.State.showLoginPage && (
+      {(store?.State.showLoginPage || store?.State.showMessage.otp) && (
         <KeyboardBackspaceIcon
-          onClick={() => store?.State.setShowLoginPage(false)}
+          onClick={() => {
+            if (store.State.showMessage.otp) {
+              store.State.setShowMessage({ otp: false, email: false });
+            } else if (store.State.showLoginPage) {
+              store.State.setShowLoginPage(false);
+            }
+          }}
           className='back'
         />
       )}
       <CloseIcon
-        onClick={() => store?.State.setShowLoginRegister(false)}
+        onClick={() => {
+          store?.State.setShowLoginRegister(false);
+          if (store?.auth.user?.emailVerified) {
+            store?.State.setShowMessage({ otp: false, email: false });
+          }
+        }}
         className='close'
       />
     </div>
