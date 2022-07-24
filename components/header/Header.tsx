@@ -37,7 +37,6 @@ const Header = () => {
       }
     }
   }
-  console.log(store?.auth.isfacebookLogin);
 
   return (
     <>
@@ -94,9 +93,9 @@ const Header = () => {
 
               {/* login log out butn start */}
               {store?.auth.user &&
-              (store?.auth.user?.emailVerified ||
-                store?.auth.user?.phoneNumber ||
-                store.auth.isfacebookLogin) ? (
+              (store.auth.user?.emailVerified ||
+                store.auth.user?.phoneNumber ||
+                store.auth.user.photoURL?.includes("facebook.com")) ? (
                 <Tooltip title='LogOut'>
                   <IconButton onClick={singOut}>
                     <LogoutIcon fontSize='small' />

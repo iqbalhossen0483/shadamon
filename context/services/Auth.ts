@@ -22,7 +22,6 @@ initialization();
 
 const Auth = (): AuthReturnType => {
   const [user, setUser] = useState<User | null>(null);
-  const [isfacebookLogin, setIsFacebookLogin] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const auth = getAuth();
@@ -32,9 +31,11 @@ const Auth = (): AuthReturnType => {
   //manage user;
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log("outside", user);
-      if (user?.emailVerified || user?.phoneNumber || isfacebookLogin) {
-        console.log("inside", user);
+      if (
+        user?.emailVerified ||
+        user?.phoneNumber ||
+        user?.photoURL?.includes("facebook.com")
+      ) {
         setUser(user);
       }
       setLoading(false);
@@ -57,11 +58,9 @@ const Auth = (): AuthReturnType => {
   //facebook sing up
   async function facebookLogin(): Promise<{ error: null | string }> {
     try {
-      setIsFacebookLogin(true);
       await signInWithPopup(auth, facebookProvider);
       return { error: null };
     } catch (err: any) {
-      setIsFacebookLogin(false);
       return { error: err.message };
     }
   } //till
@@ -71,7 +70,6 @@ const Auth = (): AuthReturnType => {
     try {
       await signOut(auth);
       setUser(null);
-      setIsFacebookLogin(false);
       return { error: false };
     } catch (err) {
       return { error: true };
@@ -199,7 +197,6 @@ const Auth = (): AuthReturnType => {
     varifyOtp,
     resetPassword,
     varifyEmail,
-    isfacebookLogin,
   };
 };
 
