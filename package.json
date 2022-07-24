@@ -19,7 +19,6 @@
     "react-debounce-input": "^3.3.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.33.1",
-    "react-otp-input": "^2.4.0",
     "sharp": "^0.30.7"
   },
   "devDependencies": {

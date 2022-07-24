@@ -9,9 +9,6 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
-  signInWithPhoneNumber,
-  RecaptchaVerifier,
-  sendEmailVerification,
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
@@ -31,13 +28,7 @@ const Auth = (): AuthReturnType => {
   //manage user;
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (
-        user?.emailVerified ||
-        user?.phoneNumber ||
-        user?.photoURL?.includes("facebook.com")
-      ) {
-        setUser(user);
-      }
+      setUser(user);
       setLoading(false);
     });
 
@@ -83,28 +74,13 @@ const Auth = (): AuthReturnType => {
     password: string
   ): Promise<{ error: null | string }> {
     try {
-      const { user } = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      await createUserWithEmailAndPassword(auth, email, password);
       await updateUser(name);
-      await varifyEmail(user);
       return { error: null };
     } catch (err: any) {
       return { error: err.message };
     }
   } //till
-
-  //varify email;
-  async function varifyEmail(user: User) {
-    try {
-      await sendEmailVerification(user);
-      return { error: null };
-    } catch (error: any) {
-      return error;
-    }
-  }
 
   //email sing in;
   async function emailSingIn(
@@ -112,13 +88,8 @@ const Auth = (): AuthReturnType => {
     password: string
   ): Promise<{ error: null | string }> {
     try {
-      const { user } = await signInWithEmailAndPassword(auth, email, password);
-      if (user.emailVerified || user.phoneNumber) {
-        return { error: null };
-      } else {
-        window.user = user;
-        return { error: "Email isn't varified, Please varify your email" };
-      }
+      await signInWithEmailAndPassword(auth, email, password);
+      return { error: null };
     } catch (err: any) {
       return { error: err.message };
     }
@@ -140,42 +111,6 @@ const Auth = (): AuthReturnType => {
     }
   } //till;
 
-  //phone number login
-  async function singUpWihPhone(
-    number: string,
-    name: string
-  ): Promise<{ error: any }> {
-    try {
-      if (!window.recaptchaVerifier) {
-        window.recaptchaVerifier = new RecaptchaVerifier(
-          "recaptcha-container",
-          { size: "invisible" },
-          auth
-        );
-      }
-      const appVerifier = window.recaptchaVerifier;
-      const result = await signInWithPhoneNumber(auth, number, appVerifier);
-      window.confirmationResult = result;
-      window.userName = name;
-
-      return { error: null };
-    } catch (err: any) {
-      return { error: err.message };
-    }
-  }
-  async function varifyOtp(otp: string): Promise<{ error: any }> {
-    try {
-      const confimationResult = window.confirmationResult;
-      const result = await confimationResult.confirm(otp);
-      setUser(result.user);
-      await updateUser(window.userName!);
-      delete window.userName;
-      return { error: null };
-    } catch (error: any) {
-      return { error: error.message };
-    }
-  } //till
-
   //reset password
   async function resetPassword(email: string): Promise<{ error: any }> {
     try {
@@ -193,10 +128,7 @@ const Auth = (): AuthReturnType => {
     facebookLogin,
     emailSignUp,
     emailSingIn,
-    singUpWihPhone,
-    varifyOtp,
     resetPassword,
-    varifyEmail,
   };
 };
 

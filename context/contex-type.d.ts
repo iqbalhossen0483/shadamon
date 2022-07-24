@@ -9,10 +9,6 @@ interface StatesReturnType {
   setShowLoginPage: React.Dispatch<React.SetStateAction<boolean>>;
   alert: Alert;
   setAlert: React.Dispatch<React.SetStateAction<Alert>>;
-  showMessage: { otp: boolean; email: boolean };
-  setShowMessage: React.Dispatch<
-    React.SetStateAction<{ otp: boolean; email: boolean }>
-  >;
 }
 
 type AuthReturnType = {
@@ -29,10 +25,7 @@ type AuthReturnType = {
     email: string,
     password: string
   ): Promise<{ error: null | string }>;
-  singUpWihPhone(number: string, name: string): Promise<{ error: any }>;
-  varifyOtp(otp: string): Promise<{ error: any }>;
   resetPassword(email: string): Promise<{ error: any }>;
-  varifyEmail(user: User): Promise<any>;
 };
 
 declare global {

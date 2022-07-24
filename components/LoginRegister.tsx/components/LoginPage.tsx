@@ -41,64 +41,31 @@ const LoginPage = () => {
     return re.test(phone);
   }
 
-  async function loginWithNumber(user: User) {
-    if (!user.email.startsWith("+88")) {
-      user.email = "+88" + user.email;
-    }
+  async function signUp(user: User, number: boolean) {
     if (store) {
-      const { error } = await store.auth.singUpWihPhone(user.email, user.name);
-      if (error) {
-        store.State.setAlert({ msg: error, type: "error" });
-      } else {
-        store.State.setShowMessage({ otp: true, email: false });
+      if (number) {
+        user.email = user.email + "@gmail.com";
       }
-    }
-  }
-
-  async function signUp(user: User, email: boolean, number: boolean) {
-    if (store) {
-      if (email) {
-        const { error } = await store.auth.emailSignUp(
-          user.name,
-          user.email,
-          user.password
-        );
-        if (!error) {
-          store.State.setShowMessage({ otp: false, email: true });
-        } else {
-          store?.State.setAlert({ msg: error, type: "error" });
-        }
-      } else if (number) {
-        loginWithNumber(user);
-      } else {
-        store.State.setAlert({
-          msg: "Please Enter a valid email or Number",
-          type: "error",
-        });
-      }
+      const { error } = await store.auth.emailSignUp(
+        user.name,
+        user.email,
+        user.password
+      );
+      handleError(error);
     }
     setLoading(false);
   }
-  async function signIn(user: User, email: boolean, number: boolean) {
+  async function signIn(user: User, number: boolean) {
     if (store) {
-      if (email) {
-        const { error } = await store.auth.emailSingIn(
-          user.email,
-          user.password
-        );
-        if (error) setError(error);
-        else setError(null);
-        handleError(error);
-      } else if (number) {
-        loginWithNumber(user);
-      } else {
-        store.State.setAlert({
-          msg: "Please Enter a valid email or Number",
-          type: "error",
-        });
+      if (number) {
+        user.email = user.email + "@gmail.com";
       }
+      const { error } = await store.auth.emailSingIn(user.email, user.password);
+      if (error) setError(error);
+      else setError(null);
+      handleError(error);
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   async function onSubmit(user: User) {
@@ -106,10 +73,18 @@ const LoginPage = () => {
     const email = validateEmail(user.email);
     const number = validatePhone(user.email);
 
+    if (!number && !email) {
+      store?.State.setAlert({
+        msg: "Please Enter a valid email or Number",
+        type: "error",
+      });
+      return;
+    }
+
     if (login) {
-      signIn(user, email, number);
+      signIn(user, number);
     } else {
-      signUp(user, email, number);
+      signUp(user, number);
     }
   }
 
@@ -127,18 +102,6 @@ const LoginPage = () => {
           type: "success",
         });
       }
-    }
-  }
-
-  async function varifyEmail() {
-    const { error } = await store?.auth.varifyEmail(window.user);
-    if (error) {
-      store?.State.setAlert({ msg: error.message, type: "error" });
-    } else {
-      store?.State.setAlert({
-        msg: "Varification email sent your email address",
-        type: "success",
-      });
     }
   }
 
@@ -177,11 +140,6 @@ const LoginPage = () => {
           {error && error?.includes("auth/wrong-password") && (
             <p className='forgot-password' onClick={resetPassword}>
               Forgot Password?
-            </p>
-          )}
-          {error && error.includes("Email isn't varified") && (
-            <p onClick={varifyEmail} className='resend-email'>
-              Resend varification email
             </p>
           )}
         </form>

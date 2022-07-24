@@ -7,7 +7,7 @@
 
 @layer components {
   .header-first-menu {
-    @apply bg-white lg:border-b-2 md:w-[500px] lg:w-full mx-auto lg:sticky lg:top-0;
+    @apply bg-white z-50 lg:border-b-2 md:w-[500px] lg:w-full mx-auto lg:sticky lg:top-0;
   }
   .header-container {
     @apply col-span-3 grid gap-x-4 md:gap-x-primary items-center bg-white pt-2 pb-1 px-2 
@@ -19,7 +19,7 @@
     @apply pb-3 hidden lg:block;
   }
   .header-container .main-menu button {
-    @apply px-3 text-xl font-semibold relative text-gray-500;
+    @apply px-3 text-lg font-bold relative text-gray-500;
   }
   .header-container .main-menu .btn-highlight {
     @apply text-gray-900;
@@ -67,6 +67,9 @@
   .header-third-menu main {
     @apply flex lg:grid grid-cols-3 gap-3 bg-white py-2 px-3 rounded-b-xl;
   }
+  .header-third-menu main svg{
+    @apply text-gray-500;
+  }
   .header-third-menu .search-btn {
     @apply hidden lg:flex items-center gap-2 h-8;
   }
@@ -82,7 +85,7 @@
     height: 4px;
     background: var(--primary_color);
     position: absolute;
-    bottom: -12px;
+    bottom: -17px;
     left: 0;
   }
 }

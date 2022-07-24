@@ -3,9 +3,9 @@
 
 @layer components {
   .login-register-container {
-    @apply bg-white rounded-t-lg lg:rounded-lg flex flex-col w-full px-5 py-5 left-0 bottom-0 lg:top-2/4 
-    md:left-2/4 md:-translate-x-2/4 lg:-translate-y-2/4 xl:p-10 md:w-[440px] h-[95%] 
-    lg:h-[90%];
+    @apply bg-white rounded-t-lg lg:rounded-lg flex flex-col w-full px-5 py-5 left-0 
+    bottom-2 md:left-2/4 md:-translate-x-[52%] lg:-translate-x-[42.5%] xl:p-10
+    md:w-[500px] h-[80%] lg:h-[85%];
   }
   .close-icon .close,
   .close-icon .back {
@@ -44,17 +44,18 @@
     @apply text-center mt-2;
   }
   .login-register-container .bottom-part button {
-    @apply normal-case font-semibold bg-gray-200 text-gray-900 border-gray-500
-    text-lg;
+    @apply normal-case bg-gray-200 text-gray-600 border-gray-500
+    text-lg border-none;
   }
   /* initaial page end */
 
+  /* login page */
   .login-container form {
     @apply flex flex-col gap-3 my-5;
   }
   .login-container form button {
     @apply bg-primary hover:bg-primary hover:shadow-none shadow-none normal-case 
-    font-semibold text-base;
+    text-base py-3;
   }
   .visibility-icon {
     @apply text-gray-600 absolute top-2/4 right-3 -translate-y-2/4 cursor-pointer;
@@ -81,18 +82,3 @@
     @apply mt-5 text-gray-900 bg-gray-200;
   }
 }
-
-/* @media (max-width: 1024px) {
-  .login-register-container {
-    animation: showFromBotom 250ms ease-in-out;
-  }
-}
-
-@keyframes showFromBotom {
-  0% {
-    bottom: -100%;
-  }
-  100% {
-    bottom: 0;
-  }
-} */

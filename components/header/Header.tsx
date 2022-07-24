@@ -44,7 +44,7 @@ const Header = () => {
         <section className='header-container'>
           {/* logo */}
           <div className='lg:w-[60%]'>
-            <Image width={150} height={33} src='/logo.png' alt='Logo' />
+            <Image width={132} height={29} src='/logo.png' alt='Logo' />
           </div>
 
           <div className='flex justify-between'>
@@ -92,10 +92,7 @@ const Header = () => {
               </Button>
 
               {/* login log out butn start */}
-              {store?.auth.user &&
-              (store.auth.user?.emailVerified ||
-                store.auth.user?.phoneNumber ||
-                store.auth.user.photoURL?.includes("facebook.com")) ? (
+              {store?.auth.user ? (
                 <Tooltip title='LogOut'>
                   <IconButton onClick={singOut}>
                     <LogoutIcon fontSize='small' />
