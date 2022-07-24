@@ -33,6 +33,7 @@ type AuthReturnType = {
   varifyOtp(otp: string): Promise<{ error: any }>;
   resetPassword(email: string): Promise<{ error: any }>;
   varifyEmail(user: User): Promise<any>;
+  isfacebookLogin: boolean;
 };
 
 declare global {

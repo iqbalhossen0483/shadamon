@@ -22,6 +22,7 @@ initialization();
 
 const Auth = (): AuthReturnType => {
   const [user, setUser] = useState<User | null>(null);
+  const [isfacebookLogin, setIsFacebookLogin] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const auth = getAuth();
@@ -31,14 +32,14 @@ const Auth = (): AuthReturnType => {
   //manage user;
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log(user);
-      if (user?.emailVerified || user?.phoneNumber) {
+      if (user?.emailVerified || user?.phoneNumber || isfacebookLogin) {
         setUser(user);
       }
       setLoading(false);
     });
 
     return () => unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth]);
 
   //google sing up / in;
@@ -55,6 +56,7 @@ const Auth = (): AuthReturnType => {
   async function facebookLogin(): Promise<{ error: null | string }> {
     try {
       await signInWithPopup(auth, facebookProvider);
+      setIsFacebookLogin(true);
       return { error: null };
     } catch (err: any) {
       return { error: err.message };
@@ -66,6 +68,7 @@ const Auth = (): AuthReturnType => {
     try {
       await signOut(auth);
       setUser(null);
+      setIsFacebookLogin(false);
       return { error: false };
     } catch (err) {
       return { error: true };
@@ -193,6 +196,7 @@ const Auth = (): AuthReturnType => {
     varifyOtp,
     resetPassword,
     varifyEmail,
+    isfacebookLogin,
   };
 };
 

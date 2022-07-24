@@ -94,7 +94,8 @@ const Header = () => {
               {/* login log out butn start */}
               {store?.auth.user &&
               (store?.auth.user?.emailVerified ||
-                store?.auth.user?.phoneNumber) ? (
+                store?.auth.user?.phoneNumber ||
+                store.auth.isfacebookLogin) ? (
                 <Tooltip title='LogOut'>
                   <IconButton onClick={singOut}>
                     <LogoutIcon fontSize='small' />
