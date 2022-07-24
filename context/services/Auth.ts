@@ -31,6 +31,7 @@ const Auth = (): AuthReturnType => {
   //manage user;
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      console.log(user);
       if (user?.emailVerified || user?.phoneNumber) {
         setUser(user);
       }
