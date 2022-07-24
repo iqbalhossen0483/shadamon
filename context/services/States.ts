@@ -5,7 +5,7 @@ const States = (): StatesReturnType => {
   const [showLoginRegister, setShowLoginRegister] = useState(false);
   const [showLoginPage, setShowLoginPage] = useState(false);
   const [alert, setAlert] = useState<Alert>({ msg: "", type: "info" });
-  const [showMessage, setShowMessage] = useState({ otp: false, email: false });
+  const [showMessage, setShowMessage] = useState({ otp: true, email: false });
   return {
     showLoginRegister,
     setShowLoginRegister,

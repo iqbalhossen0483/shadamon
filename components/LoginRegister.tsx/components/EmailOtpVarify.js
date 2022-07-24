@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import OTPInput from "otp-input-react";
 import CloseBack from "./CloseBack";
 import useStore from "../../../context/hooks/useStore";
 import { Button } from "@mui/material";
+import OtpInput from "react-otp-input";
 
 const OtpVarify = () => {
   const [otp, setOtp] = useState("");
@@ -27,14 +27,11 @@ const OtpVarify = () => {
     <div className='email-otp-varify-container'>
       <CloseBack />
       {store.State.showMessage.otp ? (
-        <OTPInput
+        <OtpInput
           value={otp}
-          onChange={setOtp}
-          autoFocus
-          inputClassName='border border-gray-500 rounded'
-          OTPLength={6}
-          otpType='number'
-          disabled={false}
+          onChange={(otp) => setOtp(otp)}
+          className='border border-gray-600 rounded py-2 px-3'
+          numInputs={6}
         />
       ) : (
         <div className='email-container'>

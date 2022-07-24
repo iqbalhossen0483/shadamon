@@ -68,6 +68,12 @@
   .email-otp-varify-container {
     @apply h-full flex flex-col justify-between items-center gap-5;
   }
+  .email-otp-varify-container div:nth-child(2) {
+    @apply space-x-3;
+  }
+  .email-otp-varify-container input {
+    @apply focus:outline-none;
+  }
   .email-container {
     @apply text-xl;
   }
