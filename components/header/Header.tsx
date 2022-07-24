@@ -63,13 +63,13 @@ const Header = () => {
 
             {/* user menu */}
             <div className='user-menus'>
-              <Tooltip title='Loan'>
-                <IconButton className='loan-icon'>
+              <Tooltip className='loan-icon' title='Loan'>
+                <IconButton>
                   <CurrencyExchangeIcon fontSize='small' />
                 </IconButton>
               </Tooltip>
-              <Tooltip title='Bit'>
-                <IconButton className='bit-icon'>
+              <Tooltip className='bit-icon' title='Bit'>
+                <IconButton>
                   <CurrencyBitcoinIcon fontSize='small' />
                 </IconButton>
               </Tooltip>
