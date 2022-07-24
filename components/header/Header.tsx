@@ -81,7 +81,7 @@ const Header = () => {
                   </span>
                 </button>
               </Tooltip>
-              <Tooltip title='Notification'>
+              <Tooltip className="notification-wrapper" title='Notification'>
                 <IconButton className='notification-btn'>
                   <MailIcon fontSize='small' />
                   <span className='notification'>14</span>

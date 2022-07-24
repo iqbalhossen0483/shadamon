@@ -39,8 +39,11 @@
   .user-menus .bit-icon {
     @apply lg:hidden;
   }
+  .notification-wrapper {
+    @apply hidden lg:block;
+  }
   .notification-btn {
-    @apply hidden lg:block relative;
+    @apply relative;
   }
   .notification-btn .notification {
     @apply absolute -top-[10px] -right-4 text-sm bg-primary text-white font-semibold 
