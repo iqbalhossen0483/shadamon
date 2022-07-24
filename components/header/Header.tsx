@@ -64,12 +64,12 @@ const Header = () => {
             {/* user menu */}
             <div className='user-menus'>
               <Tooltip title='Loan'>
-                <IconButton className='lg:hidden'>
+                <IconButton className='loan-icon'>
                   <CurrencyExchangeIcon fontSize='small' />
                 </IconButton>
               </Tooltip>
               <Tooltip title='Bit'>
-                <IconButton className='lg:hidden'>
+                <IconButton className='bit-icon'>
                   <CurrencyBitcoinIcon fontSize='small' />
                 </IconButton>
               </Tooltip>

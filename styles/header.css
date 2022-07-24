@@ -35,6 +35,10 @@
   .user-menus button {
     @apply bg-gray-200 rounded-2xl p-1;
   }
+  .loan-icon,
+  .bit-icon {
+    @apply lg:hidden;
+  }
   .notification-btn {
     @apply hidden lg:block relative;
   }
@@ -43,7 +47,7 @@
     h-5 w-9 rounded-full flex justify-center items-center;
   }
   .user-menus .add-post-btn {
-    @apply hidden lg:block text-white bg-primary rounded-2xl px-3;
+    @apply hidden lg:block text-white bg-primary hover:bg-primary rounded-2xl px-3;
   }
 
   /* second menu */
