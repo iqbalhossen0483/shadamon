@@ -37,6 +37,7 @@ const Header = () => {
       }
     }
   }
+  console.log(searchText);
 
   return (
     <>
