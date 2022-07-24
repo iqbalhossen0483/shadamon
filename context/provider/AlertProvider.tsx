@@ -10,8 +10,6 @@ const AlertProvider = () => {
     ? msg.replace("Firebase", "").replace(": ", "").replace("auth", "username")
     : msg;
 
-  console.log(msg);
-
   return (
     <Snackbar
       open={store?.State.alert.msg ? true : false}

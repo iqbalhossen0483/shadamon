@@ -32,7 +32,9 @@ const Auth = (): AuthReturnType => {
   //manage user;
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      console.log("outside", user);
       if (user?.emailVerified || user?.phoneNumber || isfacebookLogin) {
+        console.log("inside", user);
         setUser(user);
       }
       setLoading(false);
