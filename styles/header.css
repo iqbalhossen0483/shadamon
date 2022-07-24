@@ -30,7 +30,7 @@
 
   /* user menu */
   .user-menus {
-    @apply space-x-2 md:space-x-3 text-sm flex items-center ml-auto;
+    @apply space-x-2 md:space-x-4 text-sm flex items-center ml-auto;
   }
   .user-menus button {
     @apply bg-gray-200 rounded-2xl p-1;
@@ -39,11 +39,8 @@
   .user-menus .bit-icon {
     @apply lg:hidden;
   }
-  .notification-wrapper {
-    @apply hidden lg:block;
-  }
   .notification-btn {
-    @apply relative;
+    @apply hidden lg:block relative;
   }
   .notification-btn .notification {
     @apply absolute -top-[10px] -right-4 text-sm bg-primary text-white font-semibold 
@@ -87,5 +84,26 @@
     position: absolute;
     bottom: -12px;
     left: 0;
+  }
+}
+
+@media (min-width: 375px) {
+  .header-third-menu main .location {
+    margin-left: 35px;
+  }
+}
+@media (min-width: 425px) {
+  .header-third-menu main .location {
+    margin-left: 60px;
+  }
+}
+@media (min-width: 728px) {
+  .header-third-menu main .location {
+    margin-left: 90px;
+  }
+}
+@media (min-width: 1024px) {
+  .header-third-menu main .location {
+    margin-left: 0px;
   }
 }

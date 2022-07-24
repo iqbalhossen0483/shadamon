@@ -81,11 +81,11 @@ const Header = () => {
                   </span>
                 </button>
               </Tooltip>
-              <Tooltip className="notification-wrapper" title='Notification'>
-                <IconButton className='notification-btn'>
+              <Tooltip className='notification-btn' title='Notification'>
+                <button>
                   <MailIcon fontSize='small' />
                   <span className='notification'>14</span>
-                </IconButton>
+                </button>
               </Tooltip>
               <Button className='add-post-btn' size='small'>
                 post ad
@@ -138,7 +138,7 @@ const Header = () => {
           <div>
             <GridViewIcon /> Categories
           </div>
-          <div className='md:ml-24 lg:ml-0'>
+          <div className='location'>
             <LocationOnIcon /> Locations
           </div>
           <div className='search-btn'>
