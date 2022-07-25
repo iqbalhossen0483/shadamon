@@ -18,6 +18,9 @@
   .footer-user-menu div:nth-child(3) {
     @apply w-[225px] flex justify-start md:gap-5 gap-2;
   }
+  .footer-user-menu div button svg {
+    @apply bg-gray-200 rounded-full p-1;
+  }
   .footer-user-menu .down-icon {
     @apply bg-gray-200 h-10 w-10 rounded-full border-2 border-gray-400 text-gray-900
      absolute -top-[45%] left-2/4 -translate-x-[20%] flex justify-center items-center px-0;

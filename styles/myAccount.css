@@ -3,12 +3,96 @@
 
 @layer components {
   .my-account-container {
-    @apply bg-white rounded-lg lg:rounded-lg flex flex-col w-[97%] ml-[1.5%] md:ml-0
-    px-5 py-5 left-0 bottom-2 md:left-2/4 md:-translate-x-[52%] lg:-translate-x-[42.5%] 
-    xl:p-10 md:w-[500px] h-[80%] lg:h-[85%];
+    @apply bg-gray-200 rounded-lg lg:rounded-xl flex flex-col w-[97%] ml-[1.5%] md:ml-0
+    left-0 bottom-2 md:left-2/4 md:-translate-x-[52%] lg:-translate-x-[42.5%] 
+     md:w-[500px] h-[80%] lg:h-[85%];
   }
-  .my-account-container .close-icon {
-    @apply absolute top-3 right-3 bg-gray-200 rounded-full flex justify-center 
+  .my-account-container header {
+    @apply flex justify-between px-5 py-1;
+  }
+  .my-account-container header div button {
+    @apply text-gray-900 bg-gray-200 border-gray-300 mr-3 normal-case font-semibold
+    hover:bg-gray-200 hover:border-gray-300 py-1;
+  }
+  .my-account-container header div:nth-child(2) {
+    @apply bg-gray-200 rounded-full flex justify-center 
     items-center h-9 w-9 cursor-pointer text-gray-500;
+  }
+
+  /* dashboard */
+  /* user info */
+  .dasboard-container .user-info {
+    @apply bg-white m-3 px-5 py-3 rounded;
+  }
+  .dasboard-container .user-info .user-photo {
+    @apply flex justify-center items-center relative;
+  }
+  .dasboard-container .user-info .add-icon {
+    @apply absolute -bottom-3 left-2/4 -translate-x-2/4 bg-primary text-white 
+    rounded-full h-9 w-9 flex justify-center items-center cursor-pointer;
+  }
+  .dasboard-container .user-name {
+    @apply flex justify-between mt-3 pb-2 border-b mb-2;
+  }
+  .dasboard-container .user-name div:nth-child(1) .name {
+    @apply text-xl font-semibold;
+  }
+  .dasboard-container .user-name div:nth-child(1) .number {
+    @apply font-semibold text-gray-500;
+  }
+  .dasboard-container .user-name div:nth-child(2) p {
+    @apply text-lg font-semibold text-gray-500;
+  }
+  .dasboard-container .user-name div:nth-child(2) div {
+    @apply space-x-2 font-semibold text-sm text-gray-400 cursor-pointer;
+  }
+  .dasboard-container .user-varification {
+    @apply font-semibold text-gray-500;
+  }
+  /* user info end */
+
+  /* post and earn */
+  .dasboard-container .post-earn main {
+    @apply bg-white mx-3 rounded py-3 px-5;
+  }
+  .dasboard-container .post-earn main button {
+    @apply hover:bg-primary bg-primary py-1 text-white normal-case;
+  }
+
+  /* combined */
+  .dasboard-container .user-activity > h3,
+  .dasboard-container .user-setting h3,
+  .dasboard-container .post-earn h3,
+  .dasboard-container .following h3 {
+    @apply text-xl font-semibold text-gray-500 pb-2 pl-9 text-left mt-3;
+  }
+
+  /* user activity */
+  .dasboard-container .user-activity main {
+    @apply grid grid-cols-3 bg-white mx-3 rounded gap-y-5;
+  }
+  .dasboard-container .user-activity div {
+    @apply shadow px-5  py-3;
+  }
+  .dasboard-container .user-activity div h3 {
+    @apply text-3xl font-semibold;
+  }
+  .dasboard-container .user-activity div p {
+    @apply font-semibold;
+  }
+  /* user activity end */
+
+  /* user-setting */
+  .dasboard-container .user-setting main {
+    @apply bg-white mx-3 rounded space-y-2 p-3;
+  }
+  .dasboard-container .user-setting main button {
+    @apply text-left normal-case block w-full pl-5 py-2 text-xl 
+    text-gray-900 hover:bg-gray-200 hover:border-gray-200;
+  }
+  /* user setting end */
+
+  .dasboard-container .ads {
+    @apply mx-3 mt-4;
   }
 }

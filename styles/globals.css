@@ -4,7 +4,7 @@
 
 @layer base {
   h3 {
-    @apply text-xl font-semibold text-center;
+    @apply text-xl font-semibold;
   }
 }
 @layer components {

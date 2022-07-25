@@ -7,6 +7,10 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import useStore from "../../context/hooks/useStore";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Image from "next/image";
+import AppsIcon from "@mui/icons-material/Apps";
+import GradingIcon from "@mui/icons-material/Grading";
+import FlagIcon from "@mui/icons-material/Flag";
+import CampaignIcon from "@mui/icons-material/Campaign";
 
 const Footer = () => {
   const [highlight, setHighlight] = useState(1);
@@ -37,11 +41,11 @@ const Footer = () => {
       >
         <div>
           <button>
-            <HomeIcon />
+            <AppsIcon />
             <p>All Post</p>
           </button>
           <button>
-            <HomeIcon />
+            <GradingIcon />
             <p>All Order</p>
           </button>
         </div>
@@ -52,11 +56,11 @@ const Footer = () => {
         </div>
         <div>
           <button>
-            <HomeIcon />
+            <FlagIcon />
             <p>My Page</p>
           </button>
           <button>
-            <HomeIcon />
+            <CampaignIcon />
             <p>Promote</p>
           </button>
         </div>
