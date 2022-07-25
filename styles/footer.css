@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+
+@layer components {
+  .footer-user-menu,
+  .footer-main-menu {
+    @apply bg-white sticky w-full md:w-[500px] mx-auto h-[55px] px-5 md:px-7
+    lg:hidden text-gray-700 border-t-2 
+    border-x-2 border-gray-400;
+  }
+
+  .footer-user-menu {
+    @apply bottom-[55px] rounded-t-2xl flex gap-16 text-xs;
+  }
+  .footer-user-menu div:nth-child(1) {
+    @apply w-[250px] flex justify-end md:gap-5 gap-3;
+  }
+  .footer-user-menu div:nth-child(3) {
+    @apply w-[225px] flex justify-start md:gap-5 gap-2;
+  }
+  .footer-user-menu .down-icon {
+    @apply bg-gray-200 h-10 w-10 rounded-full border-2 border-gray-400 text-gray-900
+     absolute -top-[45%] left-2/4 -translate-x-[20%] flex justify-center items-center px-0;
+  }
+
+  .footer-main-menu {
+    @apply bottom-0 flex items-center justify-between text-sm;
+  }
+  .footer-main-menu button {
+    @apply leading-3 px-3 md:px-6 h-[53px] rounded-b-2xl;
+  }
+  .footer-main-menu .plus-icon {
+    @apply bg-primary text-white h-14 w-14 rounded-full border-b-2 border-x-2 
+    border-gray-400 absolute -top-2/4 left-2/4 -translate-x-[30%] flex justify-center
+    items-center px-0 z-30;
+  }
+
+  .footer-main-menu .notification-btn {
+    @apply relative z-10;
+  }
+  .footer-main-menu .notification-btn .notification {
+    @apply absolute top-[2px] right-0 md:right-3 text-xs bg-primary text-white 
+    font-semibold h-4 w-8 rounded-full flex justify-center items-center;
+  }
+}
+
+.footer-main-menu {
+  animation: Footer 150ms ease-out;
+}
+
+@keyframes Footer {
+  0% {
+    bottom: -100%;
+  }
+  100% {
+    bottom: 0;
+  }
+}

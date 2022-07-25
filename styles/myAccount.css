@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+
+@layer components {
+  .my-account-container {
+    @apply bg-white rounded-lg lg:rounded-lg flex flex-col w-[97%] ml-[1.5%] md:ml-0
+    px-5 py-5 left-0 bottom-2 md:left-2/4 md:-translate-x-[52%] lg:-translate-x-[42.5%] 
+    xl:p-10 md:w-[500px] h-[80%] lg:h-[85%];
+  }
+  .my-account-container .close-icon {
+    @apply absolute top-3 right-3 bg-gray-200 rounded-full flex justify-center 
+    items-center h-9 w-9 cursor-pointer text-gray-500;
+  }
+}

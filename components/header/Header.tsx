@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MailIcon from "@mui/icons-material/Mail";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import GridViewIcon from "@mui/icons-material/GridView";
@@ -7,18 +7,19 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import SearchIcon from "@mui/icons-material/Search";
 import SortIcon from "@mui/icons-material/Sort";
 import { Button, IconButton, Tooltip } from "@mui/material";
-import LogoutIcon from "@mui/icons-material/Logout";
 import useStore from "../../context/hooks/useStore";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import CurrencyBitcoinIcon from "@mui/icons-material/CurrencyBitcoin";
 import LanguageIcon from "@mui/icons-material/Language";
 import { DebounceInput } from "react-debounce-input";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const Header = () => {
   const [highlightBtn, setHighlightBtn] = useState(0);
   const [language, setLanguage] = useState<"EN" | "BN">("EN");
   const [showSearchBtn, setShowSearchBtn] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [showheader, setShowHeader] = useState(true);
   const store = useStore();
 
   const secondMenus = ["All Products", "All Orders", "My Page", "Promote"];
@@ -29,18 +30,22 @@ const Header = () => {
     else setLanguage("BN");
   }
 
-  async function singOut() {
-    if (store) {
-      const { error } = await store.auth.singOut();
-      if (error) {
-        store.State.setAlert({ msg: "An error occured", type: "error" });
+  useEffect(() => {
+    let oldScroll = 0;
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > oldScroll) {
+        setShowHeader(false);
+        oldScroll = window.scrollY;
+      } else {
+        setShowHeader(true);
+        oldScroll = window.scrollY;
       }
-    }
-  }
+    });
+  }, []);
 
   return (
     <>
-      <div className='header-first-menu'>
+      <div className={`header-first-menu ${showheader && "sticky"}`}>
         <section className='header-container'>
           {/* logo */}
           <div className='lg:w-[60%]'>
@@ -92,24 +97,34 @@ const Header = () => {
               </Button>
 
               {/* login log out butn start */}
-              {store?.auth.user ? (
-                <Tooltip title='LogOut'>
-                  <IconButton onClick={singOut}>
-                    <LogoutIcon fontSize='small' />
-                  </IconButton>
-                </Tooltip>
-              ) : (
-                <Tooltip title='LogIn'>
-                  <IconButton
-                    onClick={() => {
-                      store?.State.setShowLoginRegister(true);
-                      store?.State.setShowLoginPage(false);
-                    }}
-                  >
-                    <ArrowDropDownIcon />
-                  </IconButton>
-                </Tooltip>
-              )}
+              <div className='hidden lg:block'>
+                {store?.auth.user ? (
+                  <Tooltip title='My Account'>
+                    <IconButton
+                      onClick={() => {
+                        if (store.auth.user) {
+                          store.State.setShowMyAccountPage(true);
+                        } else {
+                          store?.State.setShowLoginRegister(true);
+                        }
+                      }}
+                    >
+                      <AccountCircleIcon fontSize='small' />
+                    </IconButton>
+                  </Tooltip>
+                ) : (
+                  <Tooltip title='LogIn'>
+                    <IconButton
+                      onClick={() => {
+                        store?.State.setShowLoginRegister(true);
+                        store?.State.setShowLoginPage(false);
+                      }}
+                    >
+                      <ArrowDropDownIcon />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </div>
               {/* login log out butn end */}
             </div>
           </div>
@@ -117,20 +132,24 @@ const Header = () => {
       </div>
 
       {/* second menu  */}
-      <div className='bg-white border-b-2 hidden lg:block'>
-        <section className='header-second-menu'>
-          <div className='hidden lg:block'></div>
-          <div>
-            {secondMenus.map((menu, index) => (
-              <Button key={index}>{menu}</Button>
-            ))}
-          </div>
-          <div className='hidden lg:block'></div>
-        </section>
-      </div>
+      {store?.auth.user && (
+        <div className='bg-white border-b-2 hidden lg:block'>
+          <section className='header-second-menu'>
+            <div className='hidden lg:block'></div>
+            <div>
+              {secondMenus.map((menu, index) => (
+                <Button key={index}>{menu}</Button>
+              ))}
+            </div>
+            <div className='hidden lg:block'></div>
+          </section>
+        </div>
+      )}
 
       {/* header third menu  */}
-      <section className='header-third-menu'>
+      <section
+        className={`header-third-menu ${showheader ? "top-11" : "top-0"}`}
+      >
         <div className='hidden lg:block'></div>
         <main>
           <div>

@@ -8,19 +8,23 @@ const CloseBack = () => {
   return (
     <div className='close-icon'>
       {store?.State.showLoginPage && (
-        <KeyboardBackspaceIcon
+        <div
+          className='back'
           onClick={() => {
             store.State.setShowLoginPage(false);
           }}
-          className='back'
-        />
+        >
+          <KeyboardBackspaceIcon />
+        </div>
       )}
-      <CloseIcon
+      <div
         onClick={() => {
           store?.State.setShowLoginRegister(false);
         }}
         className='close'
-      />
+      >
+        <CloseIcon />
+      </div>
     </div>
   );
 };

@@ -7,7 +7,7 @@
 
 @layer components {
   .header-first-menu {
-    @apply bg-white z-50 lg:border-b-2 md:w-[500px] lg:w-full mx-auto lg:sticky lg:top-0;
+    @apply bg-white z-50 lg:border-b-2 md:w-[500px] lg:w-full mx-auto lg:sticky top-0;
   }
   .header-container {
     @apply col-span-3 grid gap-x-4 md:gap-x-primary items-center bg-white pt-2 pb-1 px-2 
@@ -39,11 +39,11 @@
   .user-menus .bit-icon {
     @apply lg:hidden;
   }
-  .notification-btn {
+  .user-menus .notification-btn {
     @apply hidden lg:block relative;
   }
-  .notification-btn .notification {
-    @apply absolute -top-[10px] -right-4 text-sm bg-primary text-white font-semibold 
+  .user-menus .notification-btn .notification {
+    @apply absolute -top-[10px] -right-4 text-xs bg-primary text-white font-semibold 
     h-5 w-9 rounded-full flex justify-center items-center;
   }
   .user-menus .add-post-btn {
@@ -62,12 +62,12 @@
   /* third menu */
   .header-third-menu {
     @apply md:w-[500px] lg:w-primary  mx-auto lg:grid grid-cols-primary gap-primary sticky 
-    top-0 lg:static;
+    lg:static;
   }
   .header-third-menu main {
     @apply flex lg:grid grid-cols-3 gap-3 bg-white py-2 px-3 rounded-b-xl;
   }
-  .header-third-menu main svg{
+  .header-third-menu main svg {
     @apply text-gray-500;
   }
   .header-third-menu .search-btn {
