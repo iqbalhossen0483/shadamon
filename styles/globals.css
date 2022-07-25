@@ -11,4 +11,13 @@
   body {
     @apply bg-[#f2f3f7];
   }
+  .modal {
+    @apply bg-white rounded-lg lg:rounded-xl flex flex-col w-[97%] ml-[1.5%] md:ml-0
+    left-0 bottom-2 md:left-2/4 md:-translate-x-[52%] lg:-translate-x-[42.5%] md:w-[500px] 
+    h-[80%] lg:h-[85%];
+  }
+  .close-icon {
+    @apply absolute top-3 right-3 bg-gray-200 rounded-full flex justify-center 
+    items-center h-9 w-9 cursor-pointer text-gray-500;
+  }
 }

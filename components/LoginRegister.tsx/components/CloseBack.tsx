@@ -3,15 +3,20 @@ import useStore from "../../../context/hooks/useStore";
 import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
 
-const CloseBack = () => {
+type Props = {
+  showLogin: boolean;
+  setShowLogin: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const CloseBack = ({ showLogin, setShowLogin }: Props) => {
   const store = useStore();
   return (
-    <div className='close-icon'>
-      {store?.State.showLoginPage && (
+    <div className='back-close-icon'>
+      {showLogin && (
         <div
           className='back'
           onClick={() => {
-            store.State.setShowLoginPage(false);
+            setShowLogin(false);
           }}
         >
           <KeyboardBackspaceIcon />
@@ -20,6 +25,7 @@ const CloseBack = () => {
       <div
         onClick={() => {
           store?.State.setShowLoginRegister(false);
+          setShowLogin(false);
         }}
         className='close'
       >

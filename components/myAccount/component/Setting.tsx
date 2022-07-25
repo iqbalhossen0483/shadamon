@@ -1,6 +1,6 @@
 import { Box, Modal } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
+import CloseButton from "../../utilitize/CloseButton";
 
 type Props = {
   showSetting: boolean;
@@ -17,12 +17,10 @@ const Setting = ({ showSetting, setShowSetting }: Props) => {
   return (
     <div>
       <Modal open={showSetting} onClose={() => setShowSetting(false)}>
-        <Box sx={style} className='my-account-container'>
+        <Box sx={style} className='modal'>
           <header>
             <p>Account Setting</p>
-            <div onClick={() => setShowSetting(false)}>
-              <CloseIcon />
-            </div>
+            <CloseButton onClick={setShowSetting} />
           </header>
         </Box>
       </Modal>

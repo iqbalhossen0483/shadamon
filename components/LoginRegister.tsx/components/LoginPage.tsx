@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Box, Button, Modal } from "@mui/material";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import useStore from "../../../context/hooks/useStore";
@@ -13,8 +13,12 @@ type User = {
   email: string;
   password: string;
 };
+type Props = {
+  showLogin: boolean;
+  setShowLogin: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-const LoginPage = () => {
+const LoginPage = ({ showLogin, setShowLogin }: Props) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -22,10 +26,15 @@ const LoginPage = () => {
   const [login, setLogin] = useState(true);
   const { register, handleSubmit } = useForm<User>();
   const store = useStore();
+  const style = {
+    position: "absolute" as "absolute",
+    overflow: "auto",
+    display: "block",
+  };
 
   function handleError(error: null | string) {
     if (!error) {
-      store?.State.setShowLoginPage(false);
+      setShowLogin(false);
       store?.State.setShowLoginRegister(false);
     } else {
       store?.State.setAlert({ msg: error, type: "error" });
@@ -106,9 +115,9 @@ const LoginPage = () => {
   }
 
   return (
-    <>
-      <div className='login-container'>
-        <CloseBack />
+    <Modal open={showLogin} onClose={() => setShowLogin(false)}>
+      <Box sx={style} className='login-register-container login-container'>
+        <CloseBack showLogin={showLogin} setShowLogin={setShowLogin} />
         <TopPart title={login ? "Login" : "Sign Up"} />
         <form onSubmit={handleSubmit(onSubmit)}>
           {!login && <Input {...register("name")} required label='Name' />}
@@ -152,8 +161,8 @@ const LoginPage = () => {
             {!login ? "Login" : "Sign Up"}
           </Button>
         </div>
-      </div>
-    </>
+      </Box>
+    </Modal>
   );
 };
 

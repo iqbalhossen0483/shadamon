@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import useStore from "../../../context/hooks/useStore";
 import AddIcon from "@mui/icons-material/Add";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
@@ -8,9 +8,22 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import BeenhereIcon from "@mui/icons-material/Beenhere";
 import { Button } from "@mui/material";
+import UserPhotoUpload from "./UserPhotoUpload";
 
 const Dashboard = () => {
+  const [showUserPhotoUpload, setShowUserPhotoUpload] = useState(false);
   const store = useStore();
+
+  async function singOut() {
+    if (store) {
+      const { error } = await store.auth.singOut();
+      if (error) {
+        store.State.setAlert({ msg: "An error occured", type: "error" });
+      } else {
+        store.State.setShowMyAccountPage(false);
+      }
+    }
+  }
 
   return (
     <div className='dasboard-container'>
@@ -23,7 +36,10 @@ const Dashboard = () => {
             src={store?.auth.user?.photoURL || "/no-picture-logo.jpg"}
             alt='profile'
           />
-          <div className='add-icon'>
+          <div
+            onClick={() => setShowUserPhotoUpload(true)}
+            className='add-icon'
+          >
             <AddIcon />
           </div>
         </div>
@@ -74,7 +90,7 @@ const Dashboard = () => {
             <p>
               At certain times, revenue from certain number of ad posts will be
               backed up as a dicount before purchasing a new package.
-              <p>also read Terms & Condition & Privacy in our website</p>
+              <p>Also read Terms & Condition & Privacy in our website</p>
             </p>
           </div>
         </main>
@@ -128,11 +144,17 @@ const Dashboard = () => {
           <Button>
             <BeenhereIcon /> Favorite Products
           </Button>
+          <Button onClick={singOut}>Log Out</Button>
         </main>
       </div>
       <div className='ads'>
         <Image width={500} height={60} src='/ads.jpg' alt='Ad' />
       </div>
+
+      <UserPhotoUpload
+        showUserPhotoUpload={showUserPhotoUpload}
+        setShowUserPhotoUpload={setShowUserPhotoUpload}
+      />
     </div>
   );
 };

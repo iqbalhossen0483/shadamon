@@ -7,15 +7,15 @@
     px-5 py-5 left-0 bottom-2 md:left-2/4 md:-translate-x-[52%] lg:-translate-x-[42.5%] 
     xl:p-10 md:w-[500px] h-[80%] lg:h-[85%];
   }
-  .close-icon .close,
-  .close-icon .back {
+  .back-close-icon .close,
+  .back-close-icon .back {
     @apply absolute bg-gray-200 text-gray-500 rounded-full cursor-pointer 
     h-9 w-9 flex justify-center items-center;
   }
-  .close-icon .close {
+  .back-close-icon .close {
     @apply top-3 right-3;
   }
-  .close-icon .back {
+  .back-close-icon .back {
     @apply top-3 left-3;
   }
 

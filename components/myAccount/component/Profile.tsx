@@ -2,6 +2,7 @@ import { Modal } from "@mui/material";
 import { Box } from "@mui/system";
 import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
+import CloseButton from "../../utilitize/CloseButton";
 
 type Props = {
   showProfile: boolean;
@@ -18,12 +19,10 @@ const Profile = ({ showProfile, setShowProfile }: Props) => {
   return (
     <div>
       <Modal open={showProfile} onClose={() => setShowProfile(false)}>
-        <Box sx={style} className='my-account-container'>
+        <Box sx={style} className='modal'>
           <header>
             <p>Profile</p>
-            <div onClick={() => setShowProfile(false)}>
-              <CloseIcon />
-            </div>
+            <CloseButton onClick={setShowProfile} />
           </header>
         </Box>
       </Modal>

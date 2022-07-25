@@ -1,10 +1,10 @@
 import { Box, Button, Modal } from "@mui/material";
 import React, { useState } from "react";
 import useStore from "../../context/hooks/useStore";
-import CloseIcon from "@mui/icons-material/Close";
 import Dashboard from "./component/Dashboard";
 import Profile from "./component/Profile";
 import Setting from "./component/Setting";
+import CloseButton from "../utilitize/CloseButton";
 
 const MyAccount = () => {
   const [showProfile, setShowProfile] = useState(false);
@@ -16,17 +16,6 @@ const MyAccount = () => {
     overflow: "auto",
     display: "block",
   };
-
-  async function singOut() {
-    if (store) {
-      const { error } = await store.auth.singOut();
-      if (error) {
-        store.State.setAlert({ msg: "An error occured", type: "error" });
-      } else {
-        store.State.setShowMyAccountPage(false);
-      }
-    }
-  }
 
   function handlePagination(page: string) {
     if (page === "Profile") {
@@ -42,7 +31,7 @@ const MyAccount = () => {
         open={store?.State.showMyAccountPage || false}
         onClose={() => store?.State.setShowMyAccountPage(false)}
       >
-        <Box sx={style} className='my-account-container'>
+        <Box sx={style} className='my-account-container modal bg-gray-200'>
           <header className='bg-white'>
             <div>
               {buttons.map((button) => (
@@ -55,9 +44,10 @@ const MyAccount = () => {
                 </Button>
               ))}
             </div>
-            <div onClick={() => store?.State.setShowMyAccountPage(false)}>
-              <CloseIcon />
-            </div>
+            <CloseButton
+              onClick={store?.State.setShowMyAccountPage}
+              classes='top-1'
+            />
           </header>
           <Dashboard />
           <Profile showProfile={showProfile} setShowProfile={setShowProfile} />

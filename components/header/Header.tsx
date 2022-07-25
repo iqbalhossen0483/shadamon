@@ -117,7 +117,6 @@ const Header = () => {
                     <IconButton
                       onClick={() => {
                         store?.State.setShowLoginRegister(true);
-                        store?.State.setShowLoginPage(false);
                       }}
                     >
                       <ArrowDropDownIcon />
