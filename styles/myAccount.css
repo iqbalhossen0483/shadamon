@@ -9,6 +9,9 @@
     @apply text-gray-900 bg-gray-200 border-gray-300 mr-3 normal-case
     hover:bg-gray-200 hover:border-gray-300 py-1;
   }
+  .my-account-container header div button:nth-child(1) {
+    @apply bg-primary hover:bg-primary text-white;
+  }
 
   /* dashboard */
   /* user info */
