@@ -44,7 +44,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div className='user-name'>
-          <div>
+          <div className='leading-5'>
             <p className='name'>{store?.auth.user?.displayName}</p>
             <p className='number'>
               {store?.auth.user?.phoneNumber || "02255525575"}
@@ -59,7 +59,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className='user-varification'>
+        <div className='text-gray-500'>
           <p>NID/Passport is not varified</p>
           <p>Mobile is not varified</p>
         </div>
@@ -67,13 +67,12 @@ const Dashboard = () => {
       <section className='post-earn'>
         <h3>Post & Earn</h3>
         <main>
-          <div className='text-left leading-4 mb-3'>
-            <b className='text-2xl text-gray-700'>Your Earning: TK {200}</b>{" "}
-            <br />
-            <b>Valid: till 26.12.22</b>
+          <div className='text-left leading-5 mb-3'>
+            <p className='font-semibold'>Your Earning: TK {200}</p>
+            <p className='text-gray-500'>Valid: till 26.12.22</p>
           </div>
           <div className='border-y flex justify-between bg-gray-100 py-2'>
-            <div className='text-xl font-semibold text-gray-500'>
+            <div className='text-gray-500'>
               <p>Get $1500. Post 30 Ad in 1 month.</p>
               <p>Get $2500. Post 30 Ad in 1 year.</p>
             </div>
@@ -86,8 +85,8 @@ const Dashboard = () => {
             <p>*See More</p>
           </div>
           <div className='leading-5 pb-3'>
-            <b>How to get `Bonus Income`</b>
-            <p>
+            <p>How to get &quot;Bonus Income&quot;</p>
+            <p className='text-gray-500'>
               At certain times, revenue from certain number of ad posts will be
               backed up as a dicount before purchasing a new package.
               <p>Also read Terms & Condition & Privacy in our website</p>

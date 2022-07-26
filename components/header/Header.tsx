@@ -44,7 +44,7 @@ const Header = () => {
   }, []);
 
   return (
-    <>
+    <div>
       <div className={`header-first-menu ${showheader && "sticky"}`}>
         <section className='header-container'>
           {/* logo */}
@@ -181,7 +181,7 @@ const Header = () => {
         </main>
         <div className='hidden lg:block'></div>
       </section>
-    </>
+    </div>
   );
 };
 

@@ -3,6 +3,7 @@ import { NextComponentType, NextPageContext } from "next";
 import type { AppProps } from "next/app";
 import "../styles/globals.css";
 import "../styles/home.css";
+import "../styles/admin.css";
 import "../styles/header.css";
 import "../styles/footer.css";
 import "../styles/myAccount.css";
@@ -13,6 +14,7 @@ import LoginRegister from "../components/LoginRegister.tsx/LoginRegister";
 import AlertProvider from "../context/provider/AlertProvider";
 import Footer from "../components/footer/Footer";
 import MyAccount from "../components/myAccount/MyAccount";
+import { useRouter } from "next/router";
 
 type Props = {
   Component: NextComponentType<NextPageContext, any, {}>;
@@ -20,15 +22,17 @@ type Props = {
 };
 
 function Layout({ Component, pageProps }: Props) {
+  const router = useRouter();
+
   return (
     <>
       <Metahead />
-      <Header />
+      {router.pathname !== "/admin" && <Header />}
       <Component {...pageProps} />
-      <AlertProvider />
-      <LoginRegister />
+      {router.pathname !== "/admin" && <LoginRegister />}
       <MyAccount />
-      <Footer />
+      <AlertProvider />
+      {router.pathname !== "/admin" && <Footer />}
     </>
   );
 }

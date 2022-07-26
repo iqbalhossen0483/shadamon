@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+
+@layer components {
+  
+}
+
+.s{
+  justify-content: space-between;
+}
