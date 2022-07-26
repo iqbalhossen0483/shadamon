@@ -41,4 +41,14 @@
   .user-container .menus div .focused button {
     @apply bg-primary hover:bg-primary border-primary;
   }
+  .user-container th,
+  .user-container td {
+    @apply py-1 px-3 text-center;
+  }
+  .user-container td {
+    @apply text-gray-500;
+  }
+  .user-container .select-status div {
+    @apply py-1 px-2 text-gray-500 text-sm;
+  }
 }
