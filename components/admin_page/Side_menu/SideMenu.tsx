@@ -81,15 +81,11 @@ const SideMenu = () => {
   ];
 
   return (
-    <Drawer variant='permanent' open={open}>
+    <Drawer variant='permanent' open={open} className='drawer-header-container'>
       <DrawerHeader>
         {open ? (
-          <IconButton onClick={() => setOpen(false)}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
+          <IconButton className='left-icon' onClick={() => setOpen(false)}>
+            <ChevronLeftIcon />
           </IconButton>
         ) : (
           <IconButton
@@ -104,7 +100,7 @@ const SideMenu = () => {
         )}
         {open && <h2 className='text-xl font-semibold'>SHADAMON</h2>}
       </DrawerHeader>
-      <Divider />
+      <Divider className='bg-gray-600' />
       <List>
         {menus.map((Menu) => (
           <ListItem key={Menu.text} disablePadding sx={{ display: "block" }}>

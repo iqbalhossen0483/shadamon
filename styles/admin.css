@@ -2,9 +2,10 @@
 @tailwind components;
 
 @layer components {
-  
-}
-
-.s{
-  justify-content: space-between;
+  .drawer-header-container div {
+    @apply bg-gray-900 text-gray-100;
+  }
+  .drawer-header-container div .left-icon {
+    @apply text-gray-100;
+  }
 }
