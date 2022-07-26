@@ -1,23 +1,18 @@
-import React from "react";
-import List from "@mui/material/List";
+import React, { useState } from "react";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import { useTheme, styled, Theme, CSSObject } from "@mui/material/styles";
+import { styled, Theme, CSSObject } from "@mui/material/styles";
+import PeopleIcon from "@mui/icons-material/People";
 import MuiDrawer from "@mui/material/Drawer";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
+import { Button } from "@mui/material";
+import { useRouter } from "next/router";
 
 const drawerWidth = 200;
 
@@ -70,15 +65,21 @@ const Drawer = styled(MuiDrawer, {
 
 //main function
 const SideMenu = () => {
-  const [open, setOpen] = React.useState(true);
-  const theme = useTheme();
+  const [open, setOpen] = useState(true);
+  const router = useRouter();
+
   const menus = [
     { text: "Dashboard", icon: DashboardIcon },
+    { text: "Users", icon: PeopleIcon },
     { text: "All Products", icon: InventoryIcon },
     { text: "All Orders", icon: BusinessCenterIcon },
     { text: "Loan", icon: CreditScoreIcon },
     { text: "Offer", icon: CardGiftcardIcon },
   ];
+
+  function handleRouter(text: string) {
+    router.push("?" + text.toLowerCase().replace(" ", "_"));
+  }
 
   return (
     <Drawer variant='permanent' open={open} className='drawer-header-container'>
@@ -101,33 +102,19 @@ const SideMenu = () => {
         {open && <h2 className='text-xl font-semibold'>SHADAMON</h2>}
       </DrawerHeader>
       <Divider className='bg-gray-600' />
-      <List>
+
+      <div className='menus mt-3 '>
         {menus.map((Menu) => (
-          <ListItem key={Menu.text} disablePadding sx={{ display: "block" }}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <Menu.icon />
-              </ListItemIcon>
-              <ListItemText
-                primary={Menu.text}
-                sx={{ opacity: open ? 1 : 0 }}
-              />
-            </ListItemButton>
-          </ListItem>
+          <Button
+            onClick={() => handleRouter(Menu.text)}
+            fullWidth
+            key={Menu.text}
+          >
+            <Menu.icon />
+            {open && <p className='text-left w-[70%]'>{Menu.text}</p>}
+          </Button>
         ))}
-      </List>
+      </div>
     </Drawer>
   );
 };

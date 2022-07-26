@@ -2,10 +2,43 @@
 @tailwind components;
 
 @layer components {
+  .admin-header-container {
+    @apply flex justify-between items-center border-b-2 py-1;
+  }
+  .admin-header-container main {
+    @apply flex justify-end gap-2 items-center;
+  }
+  .admin-header-container main img {
+    @apply rounded-lg;
+  }
+
   .drawer-header-container div {
     @apply bg-gray-900 text-gray-100;
   }
   .drawer-header-container div .left-icon {
     @apply text-gray-100;
+  }
+  .drawer-header-container .menus button {
+    @apply flex justify-between px-6 normal-case text-gray-100 py-2;
+  }
+  .drawer-header-container .menus .highlight {
+    @apply bg-slate-300;
+  }
+
+  /* user page  */
+  .user-container {
+    @apply px-7;
+  }
+  .user-container .menus {
+    @apply flex justify-between py-2 border-b-2;
+  }
+  .user-container .menus button {
+    @apply text-white normal-case py-1;
+  }
+  .user-container .menus div .normal button {
+    @apply bg-green-800 hover:bg-green-800 border-green-900;
+  }
+  .user-container .menus div .focused button {
+    @apply bg-primary hover:bg-primary border-primary;
   }
 }
