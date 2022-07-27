@@ -6,7 +6,7 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import SearchIcon from "@mui/icons-material/Search";
 import SortIcon from "@mui/icons-material/Sort";
-import { Button, IconButton, Tooltip } from "@mui/material";
+import { AppBar, Button, IconButton, Tooltip } from "@mui/material";
 import useStore from "../../context/hooks/useStore";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import CurrencyBitcoinIcon from "@mui/icons-material/CurrencyBitcoin";
@@ -45,7 +45,7 @@ const Header = () => {
 
   return (
     <div>
-      <div className={`header-first-menu ${showheader && "sticky"}`}>
+      <div className={`header-first-menu ${!showheader && "hidden"} lg:block`}>
         <section className='header-container'>
           {/* logo */}
           <div className='lg:w-[60%]'>
@@ -132,8 +132,8 @@ const Header = () => {
 
       {/* second menu  */}
       {store?.auth.user && (
-        <div className='bg-white border-b-2 hidden lg:block'>
-          <section className='header-second-menu'>
+        <div className='bg-white mt-[54px] border-b-2 hidden lg:block'>
+          <div className='header-second-menu'>
             <div className='hidden lg:block'></div>
             <div>
               {secondMenus.map((menu, index) => (
@@ -141,13 +141,15 @@ const Header = () => {
               ))}
             </div>
             <div className='hidden lg:block'></div>
-          </section>
+          </div>
         </div>
       )}
 
       {/* header third menu  */}
-      <section
-        className={`header-third-menu ${showheader ? "top-11" : "top-0"}`}
+      <div
+        className={`header-third-menu ${
+          showheader ? "top-[46px]" : "top-[0px]"
+        }`}
       >
         <div className='hidden lg:block'></div>
         <main>
@@ -180,7 +182,7 @@ const Header = () => {
           </div>
         </main>
         <div className='hidden lg:block'></div>
-      </section>
+      </div>
     </div>
   );
 };

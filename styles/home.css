@@ -5,7 +5,7 @@
 @layer components {
   .home-container {
     @apply mx-auto md:w-[500px] lg:w-primary lg:grid grid-cols-primary gap-x-primary
-    text-justify;
+    text-justify mt-[90px] lg:mt-0;
   }
 
   /* home side menu */

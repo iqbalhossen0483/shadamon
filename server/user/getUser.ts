@@ -12,8 +12,7 @@ export async function getUser(req: NextApiRequest, res: NextApiResponse) {
     // }
     const allUser = await admin.auth().listUsers();
     res.send(allUser);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send({ message: "server error" });
+  } catch (error) {
+    res.status(500).send(error);
   }
 }

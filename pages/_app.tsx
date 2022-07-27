@@ -27,7 +27,6 @@ function Layout({ Component, pageProps }: Props) {
   return (
     <>
       <Metahead />
-      {router.pathname !== "/admin" && <Header />}
       <Component {...pageProps} />
       {router.pathname !== "/admin" && <LoginRegister />}
       <MyAccount />

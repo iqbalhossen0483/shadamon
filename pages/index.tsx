@@ -1,8 +1,10 @@
 import type { NextPage } from "next";
+import Header from "../components/header/Header";
 
 const Home: NextPage = () => {
   return (
-    <>
+    <div>
+      <Header />
       <main className='home-container'>
         <div className='home-side-menu'>
           <p>
@@ -130,7 +132,7 @@ const Home: NextPage = () => {
           </p>
         </div>
       </main>
-    </>
+    </div>
   );
 };
 

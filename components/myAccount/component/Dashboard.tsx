@@ -12,6 +12,7 @@ import UserPhotoUpload from "./UserPhotoUpload";
 
 const Dashboard = () => {
   const [showUserPhotoUpload, setShowUserPhotoUpload] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
   const store = useStore();
 
   async function singOut() {
@@ -82,14 +83,20 @@ const Dashboard = () => {
           </div>
           <div className='flex justify-between text-sm mb-5'>
             <p>Bonus Income Discount Code: xxxxx (valid: till 12.12.22)</p>
-            <p>*See More</p>
+            <p
+              className='cursor-pointer underline'
+              onClick={() => setShowDetails((prev) => !prev)}
+            >
+              {showDetails ? "See Less" : "*See More"}
+            </p>
           </div>
-          <div className='leading-5 pb-3'>
+          <div className={showDetails ? "leading-5 pb-3 block" : "hidden"}>
             <p>How to get &quot;Bonus Income&quot;</p>
             <p className='text-gray-500'>
               At certain times, revenue from certain number of ad posts will be
-              backed up as a dicount before purchasing a new package.
-              <p>Also read Terms & Condition & Privacy in our website</p>
+              backed up as a dicount before purchasing a new package. Also read
+              <br />
+              Terms & Condition & Privacy in our website
             </p>
           </div>
         </main>

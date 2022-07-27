@@ -7,10 +7,11 @@
 
 @layer components {
   .header-first-menu {
-    @apply bg-white z-50 lg:border-b-2 md:w-[500px] lg:w-full mx-auto lg:sticky top-0;
+    @apply bg-white lg:border-b-2 w-full md:w-[500px] lg:w-full fixed top-0 left-2/4 
+    -translate-x-2/4 lg:translate-x-0 lg:left-0 z-30;
   }
   .header-container {
-    @apply col-span-3 grid gap-x-4 md:gap-x-primary items-center bg-white pt-2 pb-1 px-2 
+    @apply col-span-3 grid gap-x-4 md:gap-x-primary items-center pt-2 pb-1 px-2 
     lg:px-0 grid-cols-2 mx-auto lg:grid-cols-header md:w-[500px] lg:w-primary;
   }
 
@@ -33,7 +34,7 @@
     @apply space-x-2 md:space-x-4 text-sm flex items-center ml-auto;
   }
   .user-menus button {
-    @apply bg-gray-200 rounded-2xl p-1;
+    @apply bg-gray-200 text-gray-900 rounded-2xl p-1;
   }
   .user-menus .loan-icon,
   .user-menus .bit-icon {
@@ -52,7 +53,7 @@
 
   /* second menu */
   .header-second-menu {
-    @apply grid grid-cols-primary gap-x-primary bg-white py-2 
+    @apply grid grid-cols-primary gap-x-primary py-2 
     w-primary mx-auto;
   }
   .header-second-menu button {
@@ -61,8 +62,9 @@
 
   /* third menu */
   .header-third-menu {
-    @apply md:w-[500px] lg:w-primary  mx-auto lg:grid grid-cols-primary gap-primary sticky 
-    lg:static;
+    @apply w-full md:w-[500px] bg-gray-100 shadow-none lg:w-primary  mx-auto lg:grid 
+    grid-cols-primary gap-primary text-gray-900 left-2/4 -translate-x-2/4 lg:translate-x-0
+    fixed lg:static;
   }
   .header-third-menu main {
     @apply flex lg:grid grid-cols-3 gap-3 bg-white py-2 px-3 rounded-b-xl;

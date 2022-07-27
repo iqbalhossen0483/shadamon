@@ -91,4 +91,7 @@
   .user-photo-container .submit-btn {
     @apply bg-primary hover:bg-primary text-white py-3;
   }
+  .user-photo-container .submit-btn:disabled {
+    @apply bg-gray-200 text-gray-600 cursor-not-allowed;
+  }
 }
