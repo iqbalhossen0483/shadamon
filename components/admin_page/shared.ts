@@ -1,0 +1,22 @@
+export const buttonType = [
+  "Call Seller",
+  "Order Now",
+  "Send Other",
+  "Chat/MSG",
+  "Send BioData",
+  "See Code",
+  "Callback Request",
+];
+
+export const parentCategory = [
+  "Sell Anything",
+  "Rent Anything",
+  "Post a Job",
+  "Create a Office, Bit",
+  "Look Somthing to Buy",
+];
+
+export const modal_style = {
+  position: "absolute" as "absolute",
+  overflow: "auto",
+};

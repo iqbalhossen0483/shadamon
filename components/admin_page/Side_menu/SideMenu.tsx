@@ -11,8 +11,17 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
-import { Button } from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Button,
+} from "@mui/material";
 import { useRouter } from "next/router";
+import SettingsIcon from "@mui/icons-material/Settings";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import CategoryIcon from "@mui/icons-material/Category";
+import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 
 const drawerWidth = 200;
 
@@ -69,12 +78,21 @@ const SideMenu = () => {
   const router = useRouter();
 
   const menus = [
-    { text: "Dashboard", icon: DashboardIcon },
-    { text: "Users", icon: PeopleIcon },
-    { text: "All Products", icon: InventoryIcon },
-    { text: "All Orders", icon: BusinessCenterIcon },
-    { text: "Loan", icon: CreditScoreIcon },
-    { text: "Offer", icon: CardGiftcardIcon },
+    { text: "Dashboard", icon: DashboardIcon, type: "normal" },
+    { text: "Users", icon: PeopleIcon, type: "normal" },
+    { text: "All Products", icon: InventoryIcon, type: "normal" },
+    { text: "All Orders", icon: BusinessCenterIcon, type: "normal" },
+    { text: "Loan", icon: CreditScoreIcon, type: "normal" },
+    { text: "Offer", icon: CardGiftcardIcon, type: "normal" },
+    {
+      text: "Setting",
+      icon: SettingsIcon,
+      type: "collaps",
+      subMenus: [
+        { text: "Add Category", icon: CategoryIcon },
+        { text: "Add Location", icon: AddLocationAltIcon },
+      ],
+    },
   ];
 
   function handleRouter(text: string) {
@@ -105,14 +123,44 @@ const SideMenu = () => {
 
       <div className='menus mt-3 '>
         {menus.map((Menu) => (
-          <Button
-            onClick={() => handleRouter(Menu.text)}
-            fullWidth
-            key={Menu.text}
-          >
-            <Menu.icon />
-            {open && <p className='text-left w-[70%]'>{Menu.text}</p>}
-          </Button>
+          <React.Fragment key={Menu.text}>
+            {Menu.type === "normal" ? (
+              <Button onClick={() => handleRouter(Menu.text)} fullWidth>
+                <Menu.icon />
+                {open && <p className='text-left w-[70%]'>{Menu.text}</p>}
+              </Button>
+            ) : (
+              <Accordion className='collaps'>
+                <AccordionSummary
+                  className='collaps-summery'
+                  sx={{ padding: 0 }}
+                  expandIcon={open && <ExpandMoreIcon />}
+                >
+                  <Button fullWidth>
+                    <Menu.icon />
+                    {open && <p className='text-left w-[70%]'>{Menu.text}</p>}
+                  </Button>
+                </AccordionSummary>
+                <Divider className='bg-gray-600' />
+                <AccordionDetails
+                  sx={{ padding: `0 ${!open ? "3px" : "24px"}` }}
+                >
+                  {Menu.subMenus?.map((Submenu) => (
+                    <Button
+                      key={Submenu.text}
+                      onClick={() => handleRouter(Submenu.text)}
+                      fullWidth
+                    >
+                      <Submenu.icon />
+                      {open && (
+                        <p className='text-left w-[70%]'>{Submenu.text}</p>
+                      )}
+                    </Button>
+                  ))}
+                </AccordionDetails>
+              </Accordion>
+            )}
+          </React.Fragment>
         ))}
       </div>
     </Drawer>

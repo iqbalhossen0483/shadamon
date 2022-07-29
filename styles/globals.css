@@ -20,4 +20,33 @@
     @apply absolute top-3 right-3 bg-gray-200 rounded-full flex justify-center 
     items-center h-9 w-9 cursor-pointer text-gray-500;
   }
+  button:disabled {
+    @apply cursor-not-allowed;
+  }
+  input:disabled {
+    @apply cursor-not-allowed;
+  }
+
+  /* select ulitilize */
+  .select-component {
+    @apply border rounded border-gray-500 py-2 px-3 relative;
+  }
+  .select-component .chip {
+    @apply bg-primary rounded-full m-0 py-1 pl-2 pr-5 w-fit relative;
+  }
+  .select-component .chip svg {
+    @apply text-gray-500 text-lg absolute top-0 right-1;
+  }
+  .select-component .options {
+    @apply absolute top-full left-0 shadow-md border rounded-b w-full p-3 bg-white z-40;
+  }
+  .select-component .selected {
+    @apply w-[80%] flex flex-wrap gap-1;
+  }
+  .select-component .options button {
+    @apply block w-full text-left border-b pb-1;
+  }
+  .select-component .icons {
+    @apply absolute right-0 top-0;
+  }
 }

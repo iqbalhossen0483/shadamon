@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { bodyParser } from "../../../server/services/body_parser";
+import { bodyParser } from "../../../server/services/multer/multer";
 import { getUser } from "../../../server/user/getUser";
 import { updateUser } from "../../../server/user/updateUser";
 import nc from "next-connect";

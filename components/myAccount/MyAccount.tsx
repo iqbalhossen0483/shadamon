@@ -45,7 +45,7 @@ const MyAccount = () => {
               ))}
             </div>
             <CloseButton
-              onClick={store?.State.setShowMyAccountPage}
+              onClick={() => store?.State.setShowMyAccountPage(false)}
               classes='top-1'
             />
           </header>

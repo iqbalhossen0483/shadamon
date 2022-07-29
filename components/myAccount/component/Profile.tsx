@@ -22,7 +22,7 @@ const Profile = ({ showProfile, setShowProfile }: Props) => {
         <Box sx={style} className='modal'>
           <header>
             <p>Profile</p>
-            <CloseButton onClick={setShowProfile} />
+            <CloseButton onClick={() => setShowProfile(false)} />
           </header>
         </Box>
       </Modal>

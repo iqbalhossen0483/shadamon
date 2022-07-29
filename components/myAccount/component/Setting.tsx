@@ -20,7 +20,7 @@ const Setting = ({ showSetting, setShowSetting }: Props) => {
         <Box sx={style} className='modal'>
           <header>
             <p>Account Setting</p>
-            <CloseButton onClick={setShowSetting} />
+            <CloseButton onClick={() => setShowSetting(false)} />
           </header>
         </Box>
       </Modal>

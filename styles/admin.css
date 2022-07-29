@@ -24,6 +24,9 @@
   .drawer-header-container .menus .highlight {
     @apply bg-slate-300;
   }
+  .drawer-header-container .menus .collaps-summery div {
+    @apply my-0;
+  }
 
   /* user page  */
   .user-container {
@@ -50,5 +53,75 @@
   }
   .user-container .select-status div {
     @apply py-1 px-2 text-gray-500 text-sm;
+  }
+
+  /* add category */
+  /* combined */
+  .add-category-modal .category .header,
+  .add-feature-modal .header {
+    @apply flex justify-between items-center py-1 px-5 border-b;
+  }
+  .add-category-modal .category .header svg,
+  .add-feature-modal .header svg {
+    @apply text-gray-500;
+  }
+  .add-category-modal .category .header .save,
+  .add-feature-modal .header .save {
+    @apply text-gray-100 shadow-none bg-violet-700 hover:bg-violet-700 normal-case;
+  }
+  .add-category-modal .category .header .cancel,
+  .add-feature-modal .header .cancel {
+    @apply text-gray-900 shadow-none bg-gray-200 hover:bg-gray-200 normal-case ml-2;
+  }
+  .add-category-modal .category form,
+  .add-feature-modal form {
+    @apply grid grid-cols-5 gap-2 p-5;
+  }
+  .add-category-modal .category form div,
+  .add-feature-modal form div {
+    @apply space-y-2;
+  }
+  .add-category-modal .category form input[type="text"],
+  .add-category-modal .category form select,
+  .add-feature-modal form input[type="text"],
+  .add-feature-modal form select {
+    @apply focus:outline-none border border-gray-600 rounded py-2 px-3 w-full;
+  }
+
+  .add-remove {
+    @apply flex space-x-2 absolute top-0 left-full ml-2;
+  }
+  /* till */
+
+  .add-category-container {
+    @apply mx-7;
+  }
+  .add-category-container .first-header {
+    @apply flex justify-between py-2 border-b-2;
+  }
+  .add-category-container .first-header p {
+    @apply bg-green-600 py-1 px-3 rounded text-white;
+  }
+  .add-category-container .first-header button {
+    @apply bg-gray-200;
+  }
+  .add-category-modal {
+    @apply w-[80%] grid grid-cols-5;
+  }
+  .add-category-modal .category {
+    @apply border-r-2 col-span-3;
+  }
+  .add-category-modal .features header {
+    @apply border-b pt-1;
+  }
+  .add-category-modal .features header button {
+    @apply ml-5;
+  }
+  .add-category-modal .features {
+    @apply col-span-2;
+  }
+  .add-category-modal .features td,
+  .add-category-modal .features th {
+    @apply py-2 px-2;
   }
 }

@@ -2,7 +2,7 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import CollectionsIcon from "@mui/icons-material/Collections";
 import { Button, IconButton, Modal } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { fetchApi } from "../../../client/services/fetchApi";
 import useStore from "../../../context/hooks/useStore";
 import CloseButton from "../../utilitize/CloseButton";
@@ -48,11 +48,15 @@ const UserPhotoUpload = ({
       video: true,
       audio: false,
     });
+    window.stream = stream;
+
     if (video.current) {
-      video.current.srcObject = stream;
+      video.current.srcObject = window.stream;
     }
   }
-  function captureImage() {
+
+  async function captureImage() {
+    const form = new FormData();
     if (canva.current && video.current) {
       canva.current
         .getContext("2d")
@@ -63,8 +67,14 @@ const UserPhotoUpload = ({
           canva.current.width,
           canva.current.height
         );
-      const image_data_url = canva.current.toDataURL("image/jpeg");
-      console.log(image_data_url);
+      const data_url = canva.current.toDataURL("image/jpeg");
+
+      form.append("image", data_url);
+      const { data, error } = await fetchApi("/api/users?camera", {
+        method: "PUT",
+        body: form,
+      });
+      console.log({ data, error });
     }
   }
 
@@ -74,7 +84,14 @@ const UserPhotoUpload = ({
       onClose={() => setShowUserPhotoUpload(false)}
     >
       <Box sx={style} className='modal user-photo-container'>
-        <CloseButton onClick={setShowUserPhotoUpload} />
+        <CloseButton
+          onClick={() => {
+            setShowUserPhotoUpload(false);
+            if (window.stream) {
+              window.stream.getVideoTracks()[0].stop();
+            }
+          }}
+        />
         <div className='flex justify-center gap-5'>
           <div className='text-center'>
             <IconButton
@@ -117,8 +134,8 @@ const UserPhotoUpload = ({
         </Button>
 
         <Modal open={showTakePicture} onClose={() => setShowTakePicture(false)}>
-          <Box sx={style} className='modal'>
-            <CloseButton onClick={setShowTakePicture} />
+          <Box id='cameraView' sx={style} className='modal'>
+            <CloseButton onClick={() => setShowTakePicture(false)} />
             <button onClick={startCamera}>Start Camera</button>
             <video ref={video} width='320' height='240' autoPlay></video>
             <Button onClick={captureImage}>Click Photo</Button>

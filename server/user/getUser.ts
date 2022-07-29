@@ -10,6 +10,7 @@ export async function getUser(req: NextApiRequest, res: NextApiResponse) {
     // const user = await admin.auth().getUser(req.query.uid as string);
     //   res.status(200).send({ role: user.customClaims?.role || "User" });
     // }
+
     const allUser = await admin.auth().listUsers();
     res.send(allUser);
   } catch (error) {

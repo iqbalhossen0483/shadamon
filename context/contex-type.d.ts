@@ -34,5 +34,6 @@ declare global {
     confirmationResult: any;
     userName?: string;
     user: any;
+    stream: MediaStream | undefined;
   }
 }
