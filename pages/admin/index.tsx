@@ -8,7 +8,7 @@ import AllProducts from "../../components/admin_page/all_product/AllProducts";
 import AllOrders from "../../components/admin_page/all_order/AllOrders";
 import Loan from "../../components/admin_page/loan/Loan";
 import Offers from "../../components/admin_page/offer/Offers";
-import AddCategory from "../../components/admin_page/add_category/AddCategory";
+import Category from "../../components/admin_page/category/Category";
 import AddLocation from "../../components/admin_page/add_location/AddLocation";
 
 export default function AdminDashboard() {
@@ -31,7 +31,7 @@ export default function AdminDashboard() {
         {router.query.all_orders !== undefined && <AllOrders />}
         {router.query.loan !== undefined && <Loan />}
         {router.query.offer !== undefined && <Offers />}
-        {router.query.add_category !== undefined && <AddCategory />}
+        {router.query.add_category !== undefined && <Category />}
         {router.query.add_location !== undefined && <AddLocation />}
       </Box>
     </Box>

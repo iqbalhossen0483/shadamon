@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "server/user/updateUser.js", "server/schema/CategorySchema.js", "components/utilitize/Select.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "server/user/updateUser.js", "server/schema/CategorySchema.js", "components/utilitize/Select.js", "components/admin_page/components/header/shared/CategoryModal.js"],
   "exclude": ["node_modules"]
 }

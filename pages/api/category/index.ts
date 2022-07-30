@@ -4,6 +4,7 @@ import nc from "next-connect";
 import { postCategory } from "../../../server/category/postCategory";
 import { getCategory } from "../../../server/category/getCategory";
 import { deleteCategory } from "../../../server/category/deleteCategory";
+import { updateCategory } from "../../../server/category/updateCategory";
 
 export const config = {
   api: {
@@ -22,8 +23,10 @@ const handler = nc<NextApiRequest, NextApiResponse>({
     res.status(404).send({ message: "Page is not found" });
   },
 })
-  .post(multer.single("icon"), postCategory)
+  .use(multer.single("icon"))
+  .post(postCategory)
   .get(getCategory)
-  .delete(deleteCategory);
+  .delete(deleteCategory)
+  .put(updateCategory);
 
 export default handler;

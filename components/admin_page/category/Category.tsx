@@ -13,13 +13,16 @@ import { fetchApi } from "../../../client/services/fetchApi";
 import useStore from "../../../context/hooks/useStore";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
-import AddCategoryModal from "../components/header/shared/AddCategoryModal";
+import CategoryModal from "../components/header/shared/CategoryModal";
+import { useRouter } from "next/router";
 
-const AddCategory = () => {
-  const [showModal, setShowModal] = useState(false);
+const Category = () => {
+  const [addCategory, setAddCategory] = useState(false);
+  const [updateCategory, setUpdateCategory] = useState(false);
   const [categories, setCategories] = useState<Category[] | null>(null);
   const [update, setUpdate] = useState(false);
   const store = useStore();
+  const router = useRouter();
 
   const tableHeaders = [
     "Category Name",
@@ -54,7 +57,7 @@ const AddCategory = () => {
         type: "success",
       });
       setUpdate((prev) => !prev);
-      setShowModal(false);
+      setAddCategory(false);
     } else {
       store?.State.setAlert({
         msg: error.message,
@@ -92,11 +95,27 @@ const AddCategory = () => {
     console.log(data);
   }
 
+  async function putCategory(formData: FormData) {
+    const { data, error } = await fetchApi("/api/category", {
+      method: "PUT",
+      body: formData,
+    });
+    if (!error && data.modifiedCount > 0) {
+      store?.State.setAlert({ msg: data.message, type: "success" });
+      setUpdateCategory(false);
+      setUpdate((prev) => !prev);
+    } else if (!error && data.modifiedCount === 0) {
+      store?.State.setAlert({ msg: "Ops!, try again", type: "error" });
+    } else {
+      store?.State.setAlert({ msg: error.message, type: "error" });
+    }
+  }
+
   return (
     <div className='add-category-container'>
       <Header title='Add Category' />
       <div className='first-header'>
-        <IconButton onClick={() => setShowModal(true)}>
+        <IconButton onClick={() => setAddCategory(true)}>
           <AddIcon />
         </IconButton>
         <p>Categories</p>
@@ -121,7 +140,14 @@ const AddCategory = () => {
               <TableCell>{category.created_by.name}</TableCell>
               <TableCell>
                 <div className='space-x-2'>
-                  <button>
+                  <button
+                    onClick={() => {
+                      setUpdateCategory(true);
+                      router.push(
+                        `${router.pathname}?add_category=true&id=${category._id}`
+                      );
+                    }}
+                  >
                     <BorderColorIcon />
                   </button>
                   <button
@@ -135,13 +161,20 @@ const AddCategory = () => {
           ))}
         </TableBody>
       </Table>
-      <AddCategoryModal
-        setShowModal={setShowModal}
-        showModal={showModal}
+      <CategoryModal
+        title='Add Category'
+        setShowModal={setAddCategory}
+        showModal={addCategory}
         submitter={postCategory}
+      />
+      <CategoryModal
+        title='Update Category'
+        setShowModal={setUpdateCategory}
+        showModal={updateCategory}
+        submitter={putCategory}
       />
     </div>
   );
 };
 
-export default AddCategory;
+export default Category;
