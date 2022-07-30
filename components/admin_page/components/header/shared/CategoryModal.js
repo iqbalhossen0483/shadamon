@@ -21,6 +21,7 @@ const CategoryModal = (props) => {
   const [selectedBtn, setSelectedBtn] = useState([]);
   const [features, setFeatures] = useState([]);
   const [icon, setIcon] = useState("");
+  const [loading, setLoading] = useState(false);
   const submitBtn = useRef(null);
   const [basicData, setBasicData] = useState({
     free_post: "",
@@ -77,6 +78,7 @@ const CategoryModal = (props) => {
 
   async function onSubmit(e) {
     e.preventDefault();
+    setLoading(true);
     //packeging..
     const payload = {};
     const sub_category = [];
@@ -127,6 +129,7 @@ const CategoryModal = (props) => {
       setSelectedBtn([]);
       setFeatures([]);
     }
+    setLoading(false);
   }
 
   function handleInput(value, name) {
@@ -146,6 +149,7 @@ const CategoryModal = (props) => {
             <div>
               <Button
                 onClick={() => submitBtn.current?.click()}
+                disabled={loading}
                 variant='contained'
                 className='save'
               >

@@ -15,12 +15,14 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CategoryModal from "../components/header/shared/CategoryModal";
 import { useRouter } from "next/router";
+import Spinner from "../../utilitize/Spinner";
 
 const Category = () => {
   const [addCategory, setAddCategory] = useState(false);
   const [updateCategory, setUpdateCategory] = useState(false);
   const [categories, setCategories] = useState<Category[] | null>(null);
   const [update, setUpdate] = useState(false);
+  const [loading, setLoading] = useState(true);
   const store = useStore();
   const router = useRouter();
 
@@ -38,6 +40,7 @@ const Category = () => {
       const { data, error } = await fetchApi("/api/category");
       if (!error) {
         setCategories(data);
+        setLoading(false);
       } else {
         store?.State.setAlert({ msg: error.message, type: "error" });
       }
@@ -109,6 +112,10 @@ const Category = () => {
     } else {
       store?.State.setAlert({ msg: error.message, type: "error" });
     }
+  }
+
+  if (loading) {
+    return <Spinner />;
   }
 
   return (

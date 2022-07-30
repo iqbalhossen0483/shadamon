@@ -27,6 +27,10 @@
     @apply cursor-not-allowed;
   }
 
+  .spinner {
+    @apply flex justify-center items-center h-screen text-xl text-gray-500 font-semibold;
+  }
+
   /* select ulitilize */
   .select-component {
     @apply border rounded border-gray-500 py-2 px-3 relative;
