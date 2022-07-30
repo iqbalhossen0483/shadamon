@@ -3,8 +3,6 @@ import fs from "fs";
 
 export function deleteImage(file_path: string) {
   const file = path.join(process.cwd(), "public", file_path);
-
-  if (fs.existsSync(file)) return;
   fs.unlink(file, (err) => {
     if (err) console.log("image deleted successfully");
     else {
