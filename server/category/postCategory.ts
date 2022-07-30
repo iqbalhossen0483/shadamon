@@ -23,6 +23,7 @@ export async function postCategory(req: any, res: NextApiResponse) {
       }
     });
   } catch (error) {
+    console.log(error);
     deleteImage(`/icons/${req.file.filename}`);
     res.status(500).send({ message: "server error" });
   }
