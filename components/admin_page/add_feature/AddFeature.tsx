@@ -19,7 +19,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import ClearIcon from "@mui/icons-material/Clear";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { modal_style } from "../shared";
+import { featureType, modal_style } from "../shared";
 import useStore from "../../../context/hooks/useStore";
 
 type Props = {
@@ -35,7 +35,6 @@ const AddFeature = ({ features, setFeatures }: Props) => {
   const [isSub, setIsSub] = useState(false);
   const submitBtn = useRef<HTMLButtonElement>(null);
   const { register, handleSubmit, reset } = useForm<any>();
-  const featureType = ["input", "select", "checkbox", "radio", "url"];
   const featureHeader = ["Feature Name", "Input", "Order", "Status", ""];
   const store = useStore();
 

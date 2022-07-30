@@ -2,7 +2,7 @@ import multer from "multer";
 import path from "path";
 
 export function bodyParser(folder: string, fileSize: number) {
-  return multer({
+  const parser = multer({
     storage: multer.diskStorage({
       destination: function (req, file, cb) {
         cb(null, path.join(process.cwd(), "public", folder));
@@ -20,4 +20,5 @@ export function bodyParser(folder: string, fileSize: number) {
       fileSize: fileSize,
     },
   });
+  return parser;
 }

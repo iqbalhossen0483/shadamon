@@ -3,24 +3,17 @@ import {
   KeyboardArrowDown,
   KeyboardArrowUp,
 } from "@mui/icons-material";
-import React, { ReactNode, useEffect, useRef, useState } from "react";
+import React, {  useEffect, useRef, useState } from "react";
 
-type Props = {
-  children: ReactNode;
-  label: string;
-  selectedOptions: string[];
-  setSelectedOptions: React.Dispatch<React.SetStateAction<string[]>>;
-};
-
-const Select = (props: Props) => {
-  const [options, setOptions] = useState<string[]>([]);
+const Select = (props) => {
+  const [options, setOptions] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const selectDiv = useRef<HTMLDivElement>(null);
+  const selectDiv = useRef(null);
   const { children, label, selectedOptions, setSelectedOptions } = props;
 
   useEffect(() => {
-    const childrenArr = Array.from(children as ArrayLike<ReactNode>);
-    const textArr: string[] = [];
+    const childrenArr = Array.from(children );
+    const textArr = [];
     if (childrenArr.length) {
       childrenArr.forEach((child) => {
         if (!selectedOptions.includes(child?.props.children)) {
@@ -34,7 +27,7 @@ const Select = (props: Props) => {
     }
 
     window.addEventListener("click", (e) => {
-      const isActive = selectDiv.current?.contains(e.target as Node);
+      const isActive = selectDiv.current?.contains(e.target);
       if (!isActive) {
         setIsOpen(false);
       }
@@ -42,7 +35,7 @@ const Select = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [children]);
 
-  function handleAdd(target: any) {
+  function handleAdd(target) {
     if (
       target.innerText !== "None" &&
       !selectedOptions.includes(target.innerText)
@@ -52,7 +45,7 @@ const Select = (props: Props) => {
       setOptions(exist);
     }
   }
-  function handleRemove(text: string) {
+  function handleRemove(text) {
     const exist = selectedOptions.filter((opt) => opt !== text);
     setSelectedOptions(exist);
     setOptions((prev) => [...prev, text]);

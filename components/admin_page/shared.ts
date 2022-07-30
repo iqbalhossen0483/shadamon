@@ -8,6 +8,8 @@ export const buttonType = [
   "Callback Request",
 ];
 
+export const featureType = ["input", "select", "checkbox", "radio", "url"];
+
 export const parentCategory = [
   "Sell Anything",
   "Rent Anything",
