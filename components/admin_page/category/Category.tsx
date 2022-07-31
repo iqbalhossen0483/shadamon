@@ -61,11 +61,13 @@ const Category = () => {
       });
       setUpdate((prev) => !prev);
       setAddCategory(false);
+      return { error: false };
     } else {
       store?.State.setAlert({
         msg: error.message,
         type: "error",
       });
+      return { error: true };
     }
   }
 
@@ -95,7 +97,6 @@ const Category = () => {
         type: "error",
       });
     }
-    console.log(data);
   }
 
   async function putCategory(formData: FormData) {
@@ -104,13 +105,16 @@ const Category = () => {
       body: formData,
     });
     if (!error && data.modifiedCount > 0) {
-      store?.State.setAlert({ msg: data.message, type: "success" });
+      store?.State.setAlert({ msg: "Update successful", type: "success" });
       setUpdateCategory(false);
       setUpdate((prev) => !prev);
+      return { error: false };
     } else if (!error && data.modifiedCount === 0) {
       store?.State.setAlert({ msg: "Ops!, try again", type: "error" });
+      return { error: true };
     } else {
       store?.State.setAlert({ msg: error.message, type: "error" });
+      return { error: true };
     }
   }
 
@@ -158,7 +162,9 @@ const Category = () => {
                     <BorderColorIcon />
                   </button>
                   <button
-                    onClick={() => deleteCategory(category._id, category.icon)}
+                    onClick={() =>
+                      deleteCategory(category._id, category.icon.id)
+                    }
                   >
                     <DeleteIcon />
                   </button>

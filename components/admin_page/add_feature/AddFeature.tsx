@@ -58,6 +58,8 @@ const AddFeature = ({ features, setFeatures }: Props) => {
   }
 
   function onSubmit(data: any) {
+    data.ordering = parseInt(data.ordering);
+
     const sub_features = [];
     for (let i = 0; i < subFeature.length; i++) {
       const element = subFeature[i];
@@ -84,8 +86,7 @@ const AddFeature = ({ features, setFeatures }: Props) => {
     if (neddOrdered) {
       const feature = features;
       feature.forEach((opt) => {
-        const newOrder = parseInt(opt.ordering) + 1;
-        opt.ordering = newOrder.toString();
+        opt.ordering = opt.ordering + 1;
       });
       feature.push(data);
       setFeatures(feature);
@@ -232,7 +233,7 @@ const AddFeature = ({ features, setFeatures }: Props) => {
             <div className='col-span-2'>
               <input
                 {...register("ordering", { required: true })}
-                type='text'
+                type='number'
                 required
                 placeholder='Ordering'
               />

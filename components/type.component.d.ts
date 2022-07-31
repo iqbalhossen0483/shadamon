@@ -17,7 +17,7 @@ interface Category {
   features: Feature;
   active_features: Feature;
   buttons: string[];
-  icon: string;
+  icon: { url: string; id: string };
   created_by: {
     uid: string;
     name: string;

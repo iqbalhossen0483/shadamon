@@ -9,7 +9,7 @@ export async function getCategory(req: NextApiRequest, res: NextApiResponse) {
       const result = await Category.findOne({ _id: req.query.id });
       res.send(result);
     } else {
-      const categories = await Category.find({});
+      const categories = await Category.find({}).sort({ ordering: 1 });
       res.send(categories);
     }
   } catch (error) {

@@ -10,3 +10,4 @@ export function deleteImage(file_path: string) {
     }
   });
 }
+// deleteImage(`/icons/${req.file.filename}`);

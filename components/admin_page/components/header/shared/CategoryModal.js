@@ -10,14 +10,11 @@ import useStore from "../../../../../context/hooks/useStore";
 import { fetchApi } from "../../../../../client/services/fetchApi";
 import { useRouter } from "next/router";
 
-const sub = [{ i: 1, uid: "category_1" }];
-
 const CategoryModal = (props) => {
-  const [subCategoryValue, setSubCategoryValue] = useState([]);
-  const [selectedFeature, setSeatectedFeature] = useState([]);
+  const [subCategory, setSubCategory] = useState({ category_1: "" });
+  const [selectedFeature, setSetectedFeature] = useState([]);
   const [parant_category, setParentC] = useState("Sell Anything");
   const { showModal, setShowModal, submitter, title } = props;
-  const [subCategory, setSubCategory] = useState(sub);
   const [selectedBtn, setSelectedBtn] = useState([]);
   const [features, setFeatures] = useState([]);
   const [icon, setIcon] = useState("");
@@ -33,7 +30,7 @@ const CategoryModal = (props) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (title === "Update Category" && router.query.id) {
+    if (title === "Update Category" && router.query.id && showModal) {
       (async () => {
         const { data, error } = await fetchApi(
           `/api/category?id=${router.query.id}`
@@ -45,13 +42,12 @@ const CategoryModal = (props) => {
           data.active_features.forEach((ft) => {
             sft.push(ft.feature_name);
           });
-          const subC = [];
+          const subCategory = {};
           data.sub_category.forEach((sub, i) => {
-            subC.push({ i: i + 1, uid: `category_${i + 1}` });
+            subCategory[`category_${i + 1}`] = sub;
           });
-          setSubCategory(subC);
-          setSubCategoryValue(data.sub_category);
-          setSeatectedFeature(sft);
+          setSubCategory(subCategory);
+          setSetectedFeature(sft);
           setParentC(data.parant_category);
           setBasicData({
             category_name: data.category_name,
@@ -60,32 +56,36 @@ const CategoryModal = (props) => {
             status: data.status,
           });
           setIcon(data.icon);
+          window.imgId = data.icon.id;
         } else store?.State.setAlert({ msg: error.message, type: "error" });
       })();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.query.id, title]);
+  }, [router.query.id, showModal]);
 
-  function handleRemove() {
-    if (subCategory.length > 1) {
-      setSubCategory([...subCategory.slice(0, -1)]);
+  function handleRemove(key, i) {
+    if (i > 0) {
+      const sub = subCategory;
+      delete sub[key];
+      setSubCategory({ ...sub });
     }
   }
-  function handleAdd(featue) {
-    const uid = featue.uid.split("_")[0] + `_${parseInt(featue.i) + 1}`;
-    setSubCategory((prev) => [...prev, { i: featue.i + 1, uid }]);
+  function handleAdd(index) {
+    const sub = subCategory;
+    sub[`category_${index + 2}`] = "";
+    setSubCategory({ ...sub });
   }
 
   async function onSubmit(e) {
     e.preventDefault();
     setLoading(true);
+
     //packeging..
     const payload = {};
     const sub_category = [];
-    for (let i = 0; i < subCategoryValue.length; i++) {
-      sub_category.push(subCategoryValue[i]);
-    }
-    // console.log(sub_category);
+    Object.entries(subCategory).forEach(([_, value]) => {
+      sub_category.push(value);
+    });
     const active_features = [];
     for (let i = 0; i < selectedFeature.length; i++) {
       const element = features.find(
@@ -103,16 +103,18 @@ const CategoryModal = (props) => {
       uid: store?.auth.user?.uid,
       name: store?.auth.user?.displayName,
     });
-    payload.icon = icon.length ? icon[0] : icon;
-    payload.free_post = basicData.free_post;
-    payload.ordering = basicData.ordering;
+    payload.icon = icon.length ? icon[0] : JSON.stringify(icon);
+    payload.free_post = parseInt(basicData.free_post);
+    payload.ordering = parseInt(basicData.ordering);
     payload.category_name = basicData.category_name;
     payload.status = basicData.status;
     payload.parant_category = parant_category;
 
     if (title === "Update Category") {
-      payload.url = icon;
       payload.id = router.query.id;
+    }
+    if (title === "Update Category" && icon.length) {
+      payload.imgId = window.imgId;
     }
     //till;
 
@@ -123,11 +125,18 @@ const CategoryModal = (props) => {
     });
 
     // do action
-    await submitter(formData);
-    if (title === "Add Category") {
-      setSeatectedFeature([]);
-      setSelectedBtn([]);
+    const { error } = await submitter(formData);
+    if (!error) {
+      setSubCategory({ category_1: "" });
+      setBasicData({
+        free_post: "",
+        ordering: "",
+        category_name: "",
+        status: "Yes",
+      });
       setFeatures([]);
+      setSetectedFeature([]);
+      setSelectedBtn([]);
     }
     setLoading(false);
   }
@@ -158,7 +167,6 @@ const CategoryModal = (props) => {
               <Button
                 onClick={() => {
                   setShowModal(false);
-                  setSubCategory([{ i: 1, uid: "category_1" }]);
                 }}
                 variant='contained'
                 className='cancel'
@@ -189,31 +197,31 @@ const CategoryModal = (props) => {
                   required
                   placeholder='Category Name'
                 />
-                {subCategory.map((category, i, arr) => (
-                  <div className='relative' key={category.uid}>
+                {Object.entries(subCategory).map(([key, value], i, arr) => (
+                  <div className='relative' key={key}>
                     <input
                       onChange={(e) =>
-                        setSubCategoryValue((prev) => {
+                        setSubCategory((prev) => {
                           const newP = prev;
-                          newP[category.uid] = e.target.value;
-                          return newP;
+                          newP[key] = e.target.value;
+                          return { ...newP };
                         })
                       }
-                      defaultValue={subCategoryValue[i] || ""}
+                      value={value || ""}
                       type='text'
                       placeholder='Sub-category'
                     />
-                    {category.i === arr.length && (
+                    {i === arr.length - 1 && (
                       <section className='add-remove'>
                         <button
-                          onClick={() => handleAdd(category)}
+                          onClick={() => handleAdd(i)}
                           className='border'
                           type='button'
                         >
                           <AddIcon />
                         </button>
                         <button
-                          onClick={handleRemove}
+                          onClick={() => handleRemove(key, i)}
                           className='border'
                           type='button'
                         >
@@ -230,7 +238,7 @@ const CategoryModal = (props) => {
             <div className='col-span-2'>
               <Select
                 selectedOptions={selectedFeature}
-                setSelectedOptions={setSeatectedFeature}
+                setSelectedOptions={setSetectedFeature}
                 label='Features'
               >
                 {features.length ? (
@@ -252,14 +260,14 @@ const CategoryModal = (props) => {
               </Select>
               <input
                 onChange={(e) => handleInput(e.target.value, "free_post")}
-                type='text'
+                type='number'
                 value={basicData.free_post}
                 placeholder='Free Post'
               />
               <input
                 onChange={(e) => handleInput(e.target.value, "ordering")}
                 value={basicData.ordering}
-                type='text'
+                type='number'
                 placeholder='Ordering'
               />
               <input

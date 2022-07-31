@@ -82,8 +82,9 @@
     @apply space-y-2;
   }
   .add-category-modal .category form input[type="text"],
+  .add-category-modal .category form input[type="number"],
   .add-category-modal .category form select,
-  .add-feature-modal form input[type="text"],
+  .add-feature-modal form input,
   .add-feature-modal form select {
     @apply focus:outline-none border border-gray-600 rounded py-2 px-3 w-full;
   }
