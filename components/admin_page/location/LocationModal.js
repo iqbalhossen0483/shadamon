@@ -1,5 +1,5 @@
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import { Box, Button, Modal } from "@mui/material";
+import { Backdrop, Box, Button, CircularProgress, Modal } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { modal_style } from "../shared";
 import AddIcon from "@mui/icons-material/Add";
@@ -66,6 +66,7 @@ const LocationModal = ({ showModal, setShowModal, title, submitter }) => {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
     const payload = {};
     payload.location_name = locationData.location_name;
     payload.map_link = locationData.map_link;
@@ -95,8 +96,19 @@ const LocationModal = ({ showModal, setShowModal, title, submitter }) => {
         status: "Yes",
       });
     }
+    setLoading(false);
   }
 
+  if (loading) {
+    return (
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress color='inherit' />
+      </Backdrop>
+    );
+  }
   return (
     <Modal open={showModal} onClose={() => setShowModal(false)}>
       <Box style={modal_style} className='modal add-location'>

@@ -9,6 +9,15 @@ export async function postCategory(req: any, res: NextApiResponse) {
   try {
     await dbConnection();
 
+    // check if exist
+    const isExist = await Category.findOne({
+      category_name: req.body.category_name,
+    });
+    if (isExist) {
+      res.status(409).send({ message: "Already exist this category" });
+      return;
+    }
+
     //icon upload to cloudinary;
     const { error, result } = await imageUpload(
       req.file.path,

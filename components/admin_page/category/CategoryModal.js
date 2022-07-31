@@ -1,5 +1,5 @@
 import { Remove } from "@mui/icons-material";
-import { Modal, Box, Button } from "@mui/material";
+import { Modal, Box, Button, Backdrop, CircularProgress } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { buttonType, modal_style, parentCategory } from "../shared";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
@@ -147,6 +147,16 @@ const CategoryModal = (props) => {
     setBasicData({ ...exist });
   }
 
+  if (loading) {
+    return (
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress color='inherit' />
+      </Backdrop>
+    );
+  }
   return (
     <Modal open={showModal} onClose={() => setShowModal(false)}>
       <Box sx={modal_style} className='modal add-category-modal'>

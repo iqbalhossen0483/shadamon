@@ -6,6 +6,15 @@ import { ordering } from "./ordering";
 export async function postLocation(req: NextApiRequest, res: NextApiResponse) {
   try {
     await dbConnection();
+    // check if exist
+    const isExist = await Location.findOne({
+      location_name: req.body.location_name,
+    });
+    if (isExist) {
+      res.status(409).send({ message: "Already exist this Location" });
+      return;
+    }
+
     req.body.ordering = parseInt(req.body.ordering);
     await ordering(req.body.ordering);
 

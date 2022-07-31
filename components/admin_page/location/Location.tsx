@@ -15,9 +15,12 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LocationModal from "./LocationModal";
 import { useRouter } from "next/router";
+import Spinner from "../../utilitize/Spinner";
 
 const Location = () => {
   const [addLocation, setAddLocation] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [updateLocation, setUpdateLocation] = useState(false);
   const [locations, setLocations] = useState<LocationData[] | null>(null);
   const store = useStore();
@@ -36,10 +39,13 @@ const Location = () => {
   useEffect(() => {
     (async () => {
       const { data, error } = await fetchApi("/api/location");
-      if (!error) setLocations(data);
-      else store?.State.setAlert({ msg: error.message, type: "error" });
+      if (!error) {
+        setLocations(data);
+        setLoading(false);
+      } else store?.State.setAlert({ msg: error.message, type: "error" });
     })();
-  }, [store?.State]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [update]);
 
   async function deleteLocation(id: string) {
     const { data, error } = await fetchApi("/api/location", {
@@ -78,6 +84,7 @@ const Location = () => {
     });
     if (!error) {
       store?.State.setAlert({ msg: data.message, type: "success" });
+      setUpdate((prev) => !prev);
       return { error: false };
     } else {
       store?.State.setAlert({ msg: error.message, type: "error" });
@@ -98,6 +105,7 @@ const Location = () => {
     );
     if (!error) {
       store?.State.setAlert({ msg: data.message, type: "success" });
+      setUpdate((prev) => !prev);
       return { error: false };
     } else {
       store?.State.setAlert({ msg: error.message, type: "error" });
@@ -105,6 +113,9 @@ const Location = () => {
     }
   }
 
+  if (loading) {
+    return <Spinner />;
+  }
   return (
     <Container className='location-container'>
       <Header title='Location' />
