@@ -196,7 +196,7 @@ const LocationModal = ({ showModal, setShowModal, title, submitter }) => {
             <input
               value={locationData.ordering}
               onChange={(e) => handleInput(e.target.value, "ordering")}
-              type='text'
+              type='number'
               required
               placeholder='Ordering'
             />
