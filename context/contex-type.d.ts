@@ -9,6 +9,8 @@ interface StatesReturnType {
   setAlert: React.Dispatch<React.SetStateAction<Alert>>;
   showMyAccountPage: boolean;
   setShowMyAccountPage: Dispatch<SetStateAction<boolean>>;
+  showProductModal: boolean;
+  setShowProductModal: Dispatch<SetStateAction<boolean>>;
 }
 
 type AuthReturnType = {

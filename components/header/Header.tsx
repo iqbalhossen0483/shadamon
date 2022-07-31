@@ -92,8 +92,12 @@ const Header = () => {
                   <span className='notification'>14</span>
                 </button>
               </Tooltip>
-              <Button className='add-post-btn' size='small'>
-                post ad
+              <Button
+                onClick={() => store?.State.setShowProductModal(true)}
+                className='add-post-btn'
+                size='small'
+              >
+                post add
               </Button>
 
               {/* login log out butn start */}

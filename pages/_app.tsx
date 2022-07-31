@@ -15,6 +15,7 @@ import AlertProvider from "../context/provider/AlertProvider";
 import Footer from "../components/footer/Footer";
 import MyAccount from "../components/myAccount/MyAccount";
 import { useRouter } from "next/router";
+import Product from "../components/product/Product";
 
 type Props = {
   Component: NextComponentType<NextPageContext, any, {}>;
@@ -31,6 +32,7 @@ function Layout({ Component, pageProps }: Props) {
       {router.pathname !== "/admin" && <LoginRegister />}
       <MyAccount />
       <AlertProvider />
+      <Product />
       {router.pathname !== "/admin" && <Footer />}
     </>
   );

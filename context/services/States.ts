@@ -5,6 +5,7 @@ const States = (): StatesReturnType => {
   const [showLoginRegister, setShowLoginRegister] = useState(false);
   const [showMyAccountPage, setShowMyAccountPage] = useState(false);
   const [alert, setAlert] = useState<Alert>({ msg: "", type: "info" });
+  const [showProductModal, setShowProductModal] = useState(false);
   return {
     showLoginRegister,
     setShowLoginRegister,
@@ -12,6 +13,8 @@ const States = (): StatesReturnType => {
     setAlert,
     showMyAccountPage,
     setShowMyAccountPage,
+    showProductModal,
+    setShowProductModal,
   };
 };
 
