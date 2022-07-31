@@ -2,7 +2,6 @@ import { Box, Modal } from "@mui/material";
 import React from "react";
 import useStore from "../../context/hooks/useStore";
 import { modal_style } from "../admin_page/shared";
-import CloseBack from "../LoginRegister.tsx/components/CloseBack";
 
 const Product = () => {
   const store = useStore();
