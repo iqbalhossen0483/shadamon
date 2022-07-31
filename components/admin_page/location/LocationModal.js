@@ -1,21 +1,26 @@
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import { Box, Button, Modal } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { modal_style } from "../shared";
 import AddIcon from "@mui/icons-material/Add";
 import { Remove } from "@mui/icons-material";
 import { useRef } from "react";
+import useStore from "../../../context/hooks/useStore";
+import { fetchApi } from "../../../client/services/fetchApi";
+import { useRouter } from "next/router";
 
-const AddLocation = ({ addLocation, setAddLocation }) => {
-  const [subLocation, setSubLocation] = useState({ location_1: "" });
-  const [loading, setLoading] = useState(false);
-  const submitBtn = useRef(null);
-  const [locationData, setLocationData] = useState({
-    location_name: "",
-    map_link: "",
-    ordering: "",
-    status: "Yes",
-  });
+const LocationModal = ({ showModal, setShowModal, title, submitter }) => {
+  const [subLocation, setSubLocation] = useState({ location_1: "" }),
+    [loading, setLoading] = useState(false),
+    submitBtn = useRef(null),
+    store = useStore(),
+    router = useRouter(),
+    [locationData, setLocationData] = useState({
+      location_name: "",
+      map_link: "",
+      ordering: "",
+      status: "Yes",
+    });
 
   function handleRemove(key, i) {
     if (i > 0) {
@@ -35,6 +40,30 @@ const AddLocation = ({ addLocation, setAddLocation }) => {
     setLocationData({ ...exist });
   }
 
+  useEffect(() => {
+    if (title === "Update Location" && router.query.id && showModal) {
+      (async () => {
+        const { data, error } = await fetchApi(
+          `/api/location?id=${router.query.id}`
+        );
+        if (!error) {
+          setLocationData({
+            location_name: data.location_name,
+            map_link: data.map_link,
+            ordering: data.ordering,
+            status: data.status,
+          });
+          const sub = {};
+          data.sub_location.forEach((s, i) => {
+            sub[`location_${i + 1}`] = s;
+          });
+          setSubLocation(sub);
+        }
+      })();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.query.id, showModal]);
+
   async function handleSubmit(e) {
     e.preventDefault();
     const payload = {};
@@ -47,15 +76,33 @@ const AddLocation = ({ addLocation, setAddLocation }) => {
       if (value) sub.push(value);
     });
     payload.sub_location = sub;
-    console.log(payload);
+    payload.created_by = {
+      uid: store.auth.user.uid,
+      name: store.auth.user.displayName,
+    };
+    const date = new Date().toISOString();
+    payload.created_at = new Date(date);
+
+    const { error } = await submitter(payload);
+
+    if (!error) {
+      setShowModal(false);
+      setSubLocation({ location_1: "" });
+      setLocationData({
+        location_name: "",
+        map_link: "",
+        ordering: "",
+        status: "Yes",
+      });
+    }
   }
 
   return (
-    <Modal open={addLocation} onClose={() => setAddLocation(false)}>
+    <Modal open={showModal} onClose={() => setShowModal(false)}>
       <Box style={modal_style} className='modal add-location'>
         <header>
           <div>
-            <AddBoxRoundedIcon /> <span>Add Location</span>
+            <AddBoxRoundedIcon /> <span>{title}</span>
           </div>
           <div>
             <Button
@@ -68,7 +115,7 @@ const AddLocation = ({ addLocation, setAddLocation }) => {
             </Button>
             <Button
               onClick={() => {
-                setAddLocation(false);
+                setShowModal(false);
               }}
               variant='contained'
               className='cancel'
@@ -94,6 +141,7 @@ const AddLocation = ({ addLocation, setAddLocation }) => {
                     <input
                       type='text'
                       value={value}
+                      required
                       onChange={(e) =>
                         setSubLocation((prev) => {
                           const newP = prev;
@@ -173,4 +221,4 @@ const AddLocation = ({ addLocation, setAddLocation }) => {
   );
 };
 
-export default AddLocation;
+export default LocationModal;

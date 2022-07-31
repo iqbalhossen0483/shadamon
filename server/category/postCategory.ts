@@ -7,7 +7,7 @@ import { ordering } from "./ordering";
 
 export async function postCategory(req: any, res: NextApiResponse) {
   try {
-    dbConnection();
+    await dbConnection();
 
     //icon upload to cloudinary;
     const { error, result } = await imageUpload(

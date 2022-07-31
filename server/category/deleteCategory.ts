@@ -8,7 +8,7 @@ export async function deleteCategory(
   res: NextApiResponse
 ) {
   try {
-    dbConnection();
+    await dbConnection();
     const result = await Category.deleteOne({ _id: req.headers.id });
     if (result.deletedCount > 0) {
       if (req.headers.icon) {

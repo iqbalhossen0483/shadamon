@@ -7,7 +7,7 @@ import { ordering } from "./ordering";
 
 export async function updateCategory(req: any, res: NextApiResponse) {
   try {
-    dbConnection();
+    await dbConnection();
     const _id = req.body.id;
     delete req.body.id;
     req.body.sub_category = JSON.parse(req.body.sub_category);

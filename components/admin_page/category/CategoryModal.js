@@ -1,14 +1,14 @@
 import { Remove } from "@mui/icons-material";
 import { Modal, Box, Button } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import { buttonType, modal_style, parentCategory } from "../../shared";
+import { buttonType, modal_style, parentCategory } from "../shared";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import AddIcon from "@mui/icons-material/Add";
-import Select from "../../../utilitize/Select";
-import AddFeature from "../../add_feature/AddFeature";
-import useStore from "../../../../context/hooks/useStore";
-import { fetchApi } from "../../../../client/services/fetchApi";
+import Select from "../../utilitize/Select";
 import { useRouter } from "next/router";
+import useStore from "../../../context/hooks/useStore";
+import AddFeature from "../add_feature/AddFeature";
+import { fetchApi } from "../../../client/services/fetchApi";
 
 const CategoryModal = (props) => {
   const [subCategory, setSubCategory] = useState({ category_1: "" });
