@@ -1,5 +1,6 @@
 import {
-  IconButton,
+  Button,
+  Container,
   Table,
   TableBody,
   TableCell,
@@ -8,12 +9,11 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Header from "../components/header/Header";
-import AddIcon from "@mui/icons-material/Add";
 import { fetchApi } from "../../../client/services/fetchApi";
 import useStore from "../../../context/hooks/useStore";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CategoryModal from "../components/header/shared/CategoryModal";
+import CategoryModal from "../components/shared/CategoryModal";
 import { useRouter } from "next/router";
 import Spinner from "../../utilitize/Spinner";
 
@@ -123,13 +123,12 @@ const Category = () => {
   }
 
   return (
-    <div className='add-category-container'>
+    <Container className='category-container'>
       <Header title='Add Category' />
       <div className='first-header'>
-        <IconButton onClick={() => setAddCategory(true)}>
-          <AddIcon />
-        </IconButton>
-        <p>Categories</p>
+        <Button variant='contained' onClick={() => setAddCategory(true)}>
+          Add Category
+        </Button>
       </div>
       <Table>
         <TableHead>
@@ -143,7 +142,7 @@ const Category = () => {
         </TableHead>
         <TableBody>
           {categories?.map((category) => (
-            <TableRow key={category._id}>
+            <TableRow hover key={category._id}>
               <TableCell>{category.category_name}</TableCell>
               <TableCell>{category.ordering}</TableCell>
               <TableCell>{category.status}</TableCell>
@@ -186,7 +185,7 @@ const Category = () => {
         showModal={updateCategory}
         submitter={putCategory}
       />
-    </div>
+    </Container>
   );
 };
 

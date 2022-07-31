@@ -6,7 +6,7 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import SearchIcon from "@mui/icons-material/Search";
 import SortIcon from "@mui/icons-material/Sort";
-import { AppBar, Button, IconButton, Tooltip } from "@mui/material";
+import { Button, IconButton, Tooltip } from "@mui/material";
 import useStore from "../../context/hooks/useStore";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import CurrencyBitcoinIcon from "@mui/icons-material/CurrencyBitcoin";
