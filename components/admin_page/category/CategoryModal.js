@@ -7,7 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Select from "../../utilitize/Select";
 import { useRouter } from "next/router";
 import useStore from "../../../context/hooks/useStore";
-import AddFeature from "../add_feature/AddFeature";
+import AddFeature from "../features/Feature";
 import { fetchApi } from "../../../client/services/fetchApi";
 
 const CategoryModal = (props) => {
