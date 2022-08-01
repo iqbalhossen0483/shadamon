@@ -12,15 +12,10 @@ export async function updateCategory(req: any, res: NextApiResponse) {
     delete req.body.id;
     req.body.sub_category = JSON.parse(req.body.sub_category);
     req.body.features = JSON.parse(req.body.features);
-    req.body.active_features = JSON.parse(req.body.active_features);
-    req.body.buttons = JSON.parse(req.body.buttons);
-    req.body.created_by = JSON.parse(req.body.created_by);
     req.body.ordering = parseInt(req.body.ordering);
-    req.body.free_post = parseInt(req.body.free_post);
+    req.body.created_by = JSON.parse(req.body.created_by);
 
-    if (req.file === undefined) {
-      req.body.icon = JSON.parse(req.body.icon);
-    } else {
+    if (req.file) {
       req.imgId = req.body.imgId;
       delete req.body.imgId;
       const { error, result } = await imageUpload(
@@ -34,6 +29,8 @@ export async function updateCategory(req: any, res: NextApiResponse) {
         url: result.secure_url,
         id: result.public_id,
       };
+    } else {
+      req.body.icon = JSON.parse(req.body.icon);
     }
 
     await ordering(req.body.ordering);

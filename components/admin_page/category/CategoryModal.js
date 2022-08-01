@@ -12,7 +12,7 @@ import {
   TableRow,
   Tooltip,
 } from "@mui/material";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Feature from "../features/Feature";
 import { modal_style, parentCategory } from "../shared";
 import SubCategoryModal from "./SubCategoryModal";
@@ -21,6 +21,7 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
 import useStore from "../../../context/hooks/useStore";
 import { useRouter } from "next/router";
+import { fetchApi } from "../../../client/services/fetchApi";
 
 const CategoryModal = (props) => {
   const [features, setFeatures] = useState([]),
@@ -116,6 +117,12 @@ const CategoryModal = (props) => {
       uid: store.auth.user.uid,
       name: store.auth.user.displayName,
     });
+    if (title === "Update Category") {
+      data.id = router.query.id;
+    }
+    if (title === "Update Category" && !data.icon) {
+      data.icon = JSON.stringify(window.icon);
+    }
 
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
@@ -136,6 +143,27 @@ const CategoryModal = (props) => {
     }
     setLoading(false);
   }
+
+  //for updating data
+  useEffect(() => {
+    if (title === "Update Category" && router.query.id && showModal) {
+      (async () => {
+        const { data } = await fetchApi(`/api/category?id=${router.query.id}`);
+        if (data) {
+          setCategory({
+            parant_category: data.parant_category,
+            category_name: data.category_name,
+            icon: "",
+            status: data.status,
+            ordering: data.ordering,
+          });
+          setFeatures(data.features);
+          setSubCategory(data.sub_category);
+          window.icon = data.icon;
+        }
+      })();
+    }
+  }, [router.query.id, showModal, title]);
 
   return (
     <Modal open={showModal} onClose={() => setShowModal(false)}>
