@@ -1,7 +1,9 @@
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import {
+  Backdrop,
   Box,
   Button,
+  CircularProgress,
   Divider,
   IconButton,
   Modal,
@@ -165,6 +167,17 @@ const CategoryModal = (props) => {
     }
   }, [router.query.id, showModal, title]);
 
+  if (loading) {
+    return (
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress color='inherit' />
+      </Backdrop>
+    );
+  }
+
   return (
     <Modal open={showModal} onClose={() => setShowModal(false)}>
       <Box sx={modal_style} className='modal add-category-modal'>
@@ -225,6 +238,7 @@ const CategoryModal = (props) => {
               <input
                 type='number'
                 placeholder='Ordering'
+                required
                 value={category.ordering}
                 onChange={(e) =>
                   handleCategoryInput("ordering", e.target.value)

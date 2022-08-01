@@ -2,6 +2,7 @@ import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
 import { Box, Button, Modal } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
+import useStore from "../../../context/hooks/useStore";
 import Select from "../../utilitize/Select";
 import { buttonType, modal_style } from "../shared";
 
@@ -25,6 +26,7 @@ const SubCategoryModal = (props) => {
   });
   const submitBtn = useRef(null);
   const router = useRouter();
+  const store = useStore();
 
   function handleSubCaInput(name, value) {
     setSubCategory((prev) => {
@@ -66,6 +68,15 @@ const SubCategoryModal = (props) => {
   function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
+
+    if (!buttons.length || !selectedFeature.length) {
+      store.State.setAlert({
+        msg: "Feature and Button type is requied feild",
+        type: "warning",
+      });
+      setLoading(false);
+      return;
+    }
     const active_features = [];
     for (let i = 0; i < selectedFeature.length; i++) {
       const element = features.find(
@@ -122,6 +133,7 @@ const SubCategoryModal = (props) => {
         <form onSubmit={(e) => handleSubmit(e)}>
           <input
             type='text'
+            required
             value={subCategory.sub_category_name}
             onChange={(e) =>
               handleSubCaInput("sub_category_name", e.target.value)
@@ -154,12 +166,14 @@ const SubCategoryModal = (props) => {
           </Select>
           <input
             type='number'
+            required
             value={subCategory.free_post}
             onChange={(e) => handleSubCaInput("free_post", e.target.value)}
             placeholder='Free Post'
           />
           <input
             type='number'
+            required
             value={subCategory.ordering}
             onChange={(e) => handleSubCaInput("ordering", e.target.value)}
             placeholder='Ordering'
