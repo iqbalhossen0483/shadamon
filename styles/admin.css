@@ -59,34 +59,45 @@
   /* combined */
   .add-category-modal .category .header,
   .add-feature-modal .header,
-  .add-location header {
+  .add-location header,
+  .sub-category-container header {
     @apply flex justify-between items-center py-1 px-5 border-b;
   }
   .add-category-modal .category .header svg,
   .add-feature-modal .header svg,
-  .add-location header svg {
+  .add-location header svg,
+  .sub-category-container header svg {
     @apply text-gray-500;
   }
   .add-category-modal .category .header .save,
   .add-feature-modal .header .save,
-  .add-location header .save {
+  .add-location header .save,
+  .sub-category-container header .save {
     @apply text-gray-100 shadow-none bg-violet-700 hover:bg-violet-700 normal-case;
   }
   .add-category-modal .category .header .cancel,
   .add-feature-modal .header .cancel,
-  .add-location header .cancel {
+  .add-location header .cancel,
+  .sub-category-container header .cancel {
     @apply text-gray-900 shadow-none bg-gray-200 hover:bg-gray-200 normal-case ml-2;
   }
-  .add-category-modal .category form,
   .add-feature-modal form,
   .add-location form {
     @apply grid grid-cols-5 gap-2 p-5;
   }
-  .add-category-modal .category form div,
+  .add-category-modal .category form .status,
+  .sub-category-container form .status {
+    @apply flex justify-start items-center gap-5;
+  }
+  .add-category-modal .features td,
+  .add-category-modal .features th,
+  .add-category-modal .category td,
+  .add-category-modal .category th {
+    @apply py-2 px-2 text-center;
+  }
   .add-feature-modal form div {
     @apply space-y-2;
   }
-
   .add-remove-in-feature {
     @apply flex space-x-2 absolute top-0 left-full ml-2;
   }
@@ -99,11 +110,15 @@
     @apply bg-green-600 hover:bg-green-600 border-green-600 py-1  rounded text-white
     normal-case;
   }
+
   .add-category-modal {
     @apply w-[80%] grid grid-cols-5;
   }
   .add-category-modal .category {
-    @apply border-r-2 col-span-3;
+    @apply border-r-2 col-span-3 px-5;
+  }
+  .add-category-modal .category .add-sub-btn button {
+    @apply bg-violet-700 hover:bg-violet-700 text-white normal-case ml-auto;
   }
   .add-category-modal .features header {
     @apply border-b pt-1;
@@ -114,9 +129,17 @@
   .add-category-modal .features {
     @apply col-span-2;
   }
-  .add-category-modal .features td,
-  .add-category-modal .features th {
-    @apply py-2 px-2;
+  .add-category-modal .category form {
+    @apply grid grid-cols-2 gap-3 py-3;
+  }
+  .add-category-modal .category form input[type="file"] {
+    @apply file:bg-violet-700 file:text-white file:border-violet-700 file:rounded 
+    text-gray-500;
+  }
+
+  /* sub category */
+  .sub-category-container form {
+    @apply px-10 space-y-2 mt-5;
   }
 
   /* location */

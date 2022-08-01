@@ -17,7 +17,7 @@ import useStore from "../../../context/hooks/useStore";
 import FeatureModal from "./FeatureModal";
 import { useRouter } from "next/router";
 
-const AddFeature = ({ features, setFeatures }) => {
+const Feature = ({ features, setFeatures }) => {
   const [showAddFeature, setShowAddFeature] = useState(false);
   const [showUpdateFeature, setShowUpdateFeature] = useState(false);
   const featureHeader = ["Feature Name", "Input", "Order", "Status", ""];
@@ -62,12 +62,19 @@ const AddFeature = ({ features, setFeatures }) => {
       (opt) => opt.ordering === data.ordering
     );
     if (neddOrdered) {
-      featuresData.forEach((opt) => {
-        opt.ordering = opt.ordering + 1;
-      });
-      featuresData.push(data);
-      setFeatures(featuresData);
-    } else setFeatures([...featuresData, data]);
+      let i = data.ordering;
+      for (const feature of featuresData) {
+        const exist = feature.ordering === i;
+        if (exist) {
+          feature.ordering = feature.ordering + 1;
+          i++;
+        }
+      }
+    }
+    const sorted = [...featuresData, data].sort(
+      (a, b) => a.ordering - b.ordering
+    );
+    setFeatures(sorted);
     //till;
     return { error: false };
   }
@@ -135,4 +142,4 @@ const AddFeature = ({ features, setFeatures }) => {
   );
 };
 
-export default AddFeature;
+export default Feature;

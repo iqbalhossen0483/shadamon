@@ -1,167 +1,147 @@
-import { Remove } from "@mui/icons-material";
-import { Modal, Box, Button, Backdrop, CircularProgress } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
-import { buttonType, modal_style, parentCategory } from "../shared";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Modal,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Tooltip,
+} from "@mui/material";
+import React, { useRef, useState } from "react";
+import Feature from "../features/Feature";
+import { modal_style, parentCategory } from "../shared";
+import SubCategoryModal from "./SubCategoryModal";
 import AddIcon from "@mui/icons-material/Add";
-import Select from "../../utilitize/Select";
-import { useRouter } from "next/router";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import DeleteIcon from "@mui/icons-material/Delete";
 import useStore from "../../../context/hooks/useStore";
-import AddFeature from "../features/Feature";
-import { fetchApi } from "../../../client/services/fetchApi";
+import { useRouter } from "next/router";
 
 const CategoryModal = (props) => {
-  const [subCategory, setSubCategory] = useState({ category_1: "" });
-  const [selectedFeature, setSetectedFeature] = useState([]);
-  const [parant_category, setParentC] = useState("Sell Anything");
-  const { showModal, setShowModal, submitter, title } = props;
-  const [selectedBtn, setSelectedBtn] = useState([]);
-  const [features, setFeatures] = useState([]);
-  const [icon, setIcon] = useState("");
-  const [loading, setLoading] = useState(false);
-  const submitBtn = useRef(null);
-  const [basicData, setBasicData] = useState({
-    free_post: "",
-    ordering: "",
-    category_name: "",
-    status: "Yes",
-  });
-  const store = useStore();
-  const router = useRouter();
+  const [features, setFeatures] = useState([]),
+    [addSubCategory, setAddSubCategory] = useState(false),
+    [updateSubCategory, setUpdateSubCategory] = useState(false),
+    [loading, setLoading] = useState(false),
+    { showModal, setShowModal, submitter, title } = props,
+    [category, setCategory] = useState({
+      parant_category: "Sell Anything",
+      category_name: "",
+      icon: "",
+      status: "Yes",
+      ordering: "",
+    }),
+    [subCategory, setSubCategory] = useState([]),
+    submitBtn = useRef(null),
+    subHeaders = ["Sub-Category Name", "Free Post", "Ordering", "Status"],
+    store = useStore(),
+    router = useRouter();
 
-  useEffect(() => {
-    if (title === "Update Category" && router.query.id && showModal) {
-      (async () => {
-        const { data, error } = await fetchApi(
-          `/api/category?id=${router.query.id}`
-        );
-        if (!error) {
-          setFeatures(data.features);
-          setSelectedBtn(data.buttons);
-          const sft = [];
-          data.active_features.forEach((ft) => {
-            sft.push(ft.feature_name);
-          });
-          const subCategory = {};
-          data.sub_category.forEach((sub, i) => {
-            subCategory[`category_${i + 1}`] = sub;
-          });
-          setSubCategory(subCategory);
-          setSetectedFeature(sft);
-          setParentC(data.parant_category);
-          setBasicData({
-            category_name: data.category_name,
-            free_post: data.free_post,
-            ordering: data.ordering,
-            status: data.status,
-          });
-          setIcon(data.icon);
-          window.imgId = data.icon.id;
-        } else store?.State.setAlert({ msg: error.message, type: "error" });
-      })();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.query.id, showModal]);
-
-  function handleRemove(key, i) {
-    if (i > 0) {
-      const sub = subCategory;
-      delete sub[key];
-      setSubCategory({ ...sub });
-    }
-  }
-  function handleAdd(index) {
-    const sub = subCategory;
-    sub[`category_${index + 2}`] = "";
-    setSubCategory({ ...sub });
-  }
-
-  async function onSubmit(e) {
-    e.preventDefault();
-    setLoading(true);
-
-    //packeging..
-    const payload = {};
-    const sub_category = [];
-    Object.entries(subCategory).forEach(([_, value]) => {
-      sub_category.push(value);
+  function handleCategoryInput(name, value) {
+    setCategory((prev) => {
+      prev[name] = value;
+      return { ...prev };
     });
-    const active_features = [];
-    for (let i = 0; i < selectedFeature.length; i++) {
-      const element = features.find(
-        (opt) => opt.feature_name === selectedFeature[i]
+  }
+
+  function addUpdateSubCategory(data, type) {
+    data.ordering = parseInt(data.ordering);
+    data.free_post = parseInt(data.free_post);
+    let subCategoryData;
+    if (type === "Update Sub-Category") {
+      subCategoryData = subCategory.filter(
+        (ft) => ft.sub_category_name !== router.query.name
       );
-      if (element) active_features.push(element);
-    }
-    payload.sub_category = JSON.stringify(sub_category);
-    payload.features = JSON.stringify(features);
-    payload.active_features = JSON.stringify(active_features);
-    payload.buttons = JSON.stringify(selectedBtn);
-    const date = new Date().toISOString();
-    payload.created_at = new Date(date);
-    payload.created_by = JSON.stringify({
-      uid: store?.auth.user?.uid,
-      name: store?.auth.user?.displayName,
-    });
-    payload.icon = icon.length ? icon[0] : JSON.stringify(icon);
-    payload.free_post = parseInt(basicData.free_post);
-    payload.ordering = parseInt(basicData.ordering);
-    payload.category_name = basicData.category_name;
-    payload.status = basicData.status;
-    payload.parant_category = parant_category;
+    } else subCategoryData = subCategory;
 
-    if (title === "Update Category") {
-      payload.id = router.query.id;
-    }
-    if (title === "Update Category" && icon.length) {
-      payload.imgId = window.imgId;
+    //validate is exist
+    const exist = subCategoryData.find(
+      (opt) => opt.sub_category_name === data.sub_category_name
+    );
+    if (exist) {
+      store?.State.setAlert({
+        msg: "Alreary added this Sub Category",
+        type: "warning",
+      });
+      return { error: true };
     }
     //till;
 
-    //create form data and post;
+    //change ordering
+    const neddOrdered = subCategoryData.find(
+      (opt) => opt.ordering === data.ordering
+    );
+    if (neddOrdered) {
+      let i = data.ordering;
+      for (const sub of subCategoryData) {
+        const exist = sub.ordering === i;
+        if (exist) {
+          sub.ordering = sub.ordering + 1;
+          i++;
+        }
+      }
+    }
+    const sorted = [...subCategoryData, data].sort(
+      (a, b) => a.ordering - b.ordering
+    );
+    setSubCategory(sorted);
+    //till;
+    return { error: false };
+  }
+
+  function deleteSubCategory(name) {
+    const exist = subCategory.filter((sbt) => sbt.sub_category_name !== name);
+    setSubCategory(exist);
+  }
+  function handleUpdate(name) {
+    setUpdateSubCategory(true);
+    router.push(
+      router.pathname + "?add_category=true&sub_category=true&name=" + name
+    );
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+    const data = { ...category, features, sub_category: subCategory };
+    data.sub_category = JSON.stringify(data.sub_category);
+    data.features = JSON.stringify(data.features);
+    const date = new Date().toISOString();
+    data.created_at = new Date(date);
+    data.created_by = JSON.stringify({
+      uid: store.auth.user.uid,
+      name: store.auth.user.displayName,
+    });
+
     const formData = new FormData();
-    Object.entries(payload).forEach(([key, value]) => {
+    Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value);
     });
 
-    // do action
     const { error } = await submitter(formData);
     if (!error) {
-      setSubCategory({ category_1: "" });
-      setBasicData({
-        free_post: "",
-        ordering: "",
+      setCategory({
+        parant_category: "Sell Anything",
         category_name: "",
+        icon: "",
         status: "Yes",
+        ordering: "",
       });
       setFeatures([]);
-      setSetectedFeature([]);
-      setSelectedBtn([]);
+      setSubCategory([]);
     }
     setLoading(false);
   }
 
-  function handleInput(value, name) {
-    const exist = basicData;
-    exist[name] = value;
-    setBasicData({ ...exist });
-  }
-
-  if (loading) {
-    return (
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={loading}
-      >
-        <CircularProgress color='inherit' />
-      </Backdrop>
-    );
-  }
   return (
     <Modal open={showModal} onClose={() => setShowModal(false)}>
       <Box sx={modal_style} className='modal add-category-modal'>
         <section className='category'>
-          <div className='header '>
+          <header className='header '>
             <div>
               <AddBoxRoundedIcon /> <span>{title}</span>
             </div>
@@ -184,114 +164,59 @@ const CategoryModal = (props) => {
                 Cancel
               </Button>
             </div>
-          </div>
+          </header>
 
-          <form onSubmit={(e) => onSubmit(e)}>
-            <div className='col-span-3 grid grid-cols-3'>
-              <div className='col-span-2'>
-                <select onChange={(e) => setParentC(e.target.value)}>
-                  {parentCategory.map((category) => (
-                    <option
-                      selected={parant_category === category}
-                      key={category}
-                      value={category}
-                    >
-                      {category}
-                    </option>
-                  ))}
-                </select>
-                <input
-                  onChange={(e) => handleInput(e.target.value, "category_name")}
-                  type='text'
-                  value={basicData.category_name}
-                  required
-                  placeholder='Category Name'
-                />
-                {Object.entries(subCategory).map(([key, value], i, arr) => (
-                  <div className='relative' key={key}>
-                    <input
-                      onChange={(e) =>
-                        setSubCategory((prev) => {
-                          const newP = prev;
-                          newP[key] = e.target.value;
-                          return { ...newP };
-                        })
-                      }
-                      value={value || ""}
-                      type='text'
-                      placeholder='Sub-category'
-                    />
-                    {i === arr.length - 1 && (
-                      <section className='add-remove'>
-                        <button
-                          onClick={() => handleAdd(i)}
-                          className='border'
-                          type='button'
-                        >
-                          <AddIcon />
-                        </button>
-                        <button
-                          onClick={() => handleRemove(key, i)}
-                          className='border'
-                          type='button'
-                        >
-                          <Remove />
-                        </button>
-                      </section>
-                    )}
-                  </div>
-                ))}
-              </div>
-              <div></div>
-            </div>
-
-            <div className='col-span-2'>
-              <Select
-                selectedOptions={selectedFeature}
-                setSelectedOptions={setSetectedFeature}
-                label='Features'
+          <form onSubmit={(e) => handleSubmit(e)}>
+            <div className='space-y-3'>
+              <select
+                onChange={(e) =>
+                  handleCategoryInput("parant_category", e.target.value)
+                }
               >
-                {features.length ? (
-                  features.map((feature, index) => (
-                    <p key={index}>{feature.feature_name}</p>
-                  ))
-                ) : (
-                  <p>None</p>
-                )}
-              </Select>
-              <Select
-                selectedOptions={selectedBtn}
-                setSelectedOptions={setSelectedBtn}
-                label='Button Type'
-              >
-                {buttonType.map((btn, index) => (
-                  <p key={index}>{btn}</p>
+                {parentCategory.map((ctg, index) => (
+                  <option
+                    selected={category.parent_category === ctg}
+                    key={index}
+                    value={ctg}
+                  >
+                    {ctg}
+                  </option>
                 ))}
-              </Select>
+              </select>
               <input
-                onChange={(e) => handleInput(e.target.value, "free_post")}
-                type='number'
-                value={basicData.free_post}
-                placeholder='Free Post'
+                type='text'
+                onChange={(e) =>
+                  handleCategoryInput("category_name", e.target.value)
+                }
+                required
+                placeholder='Category Name'
+                value={category.category_name}
               />
+            </div>
+            <div className='space-y-3'>
               <input
-                onChange={(e) => handleInput(e.target.value, "ordering")}
-                value={basicData.ordering}
                 type='number'
                 placeholder='Ordering'
+                value={category.ordering}
+                onChange={(e) =>
+                  handleCategoryInput("ordering", e.target.value)
+                }
               />
               <input
-                onChange={(e) => setIcon(e.target.files)}
                 required={title === "Add Category"}
+                onChange={(e) => handleCategoryInput("icon", e.target.files[0])}
                 type='file'
                 accept='image/*'
               />
-              <div className='flex justify-between items-center'>
+
+              <div className='status'>
                 <p>Status</p>
-                <div className='space-x-3'>
+                <div className='space-x-2'>
                   <input
-                    onChange={(e) => handleInput(e.target.value, "status")}
-                    checked={basicData.status === "Yes"}
+                    checked={category.status === "Yes"}
+                    onChange={(e) =>
+                      handleCategoryInput("status", e.target.value)
+                    }
                     id='yes'
                     value='Yes'
                     type='radio'
@@ -299,8 +224,10 @@ const CategoryModal = (props) => {
                   />
                   <label htmlFor='yes'>Yes</label>
                   <input
-                    onChange={(e) => handleInput(e.target.value, "status")}
-                    checked={basicData.status === "No"}
+                    checked={category.status === "No"}
+                    onChange={(e) =>
+                      handleCategoryInput("status", e.target.value)
+                    }
                     value='No'
                     id='no'
                     type='radio'
@@ -310,12 +237,78 @@ const CategoryModal = (props) => {
                 </div>
               </div>
             </div>
-            <button ref={submitBtn} hidden type='submit'>
-              submi
+            <button hidden type='submit' ref={submitBtn}>
+              submit
             </button>
           </form>
+
+          <Divider sx={{ marginTop: 5 }} />
+          <Table>
+            <TableHead>
+              <TableRow>
+                {subHeaders.map((head) => (
+                  <TableCell key={head}>{head}</TableCell>
+                ))}
+                <TableCell>
+                  <Tooltip title='Add Sub Category'>
+                    <IconButton onClick={() => setAddSubCategory(true)}>
+                      <AddIcon />
+                    </IconButton>
+                  </Tooltip>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {subCategory.length ? (
+                subCategory.map((sct) => (
+                  <TableRow key={sct.sub_category_name}>
+                    <TableCell>{sct.sub_category_name}</TableCell>
+                    <TableCell>{sct.free_post}</TableCell>
+                    <TableCell>{sct.ordering}</TableCell>
+                    <TableCell>{sct.status}</TableCell>
+                    <TableCell>
+                      <div className='space-x-2'>
+                        <button
+                          onClick={() => handleUpdate(sct.sub_category_name)}
+                        >
+                          <BorderColorIcon />
+                        </button>
+                        <button
+                          onClick={() =>
+                            deleteSubCategory(sct.sub_category_name)
+                          }
+                        >
+                          <DeleteIcon />
+                        </button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <tr className='text-center text-gray-500'>
+                  <th>No Sub Category Added</th>
+                </tr>
+              )}
+            </TableBody>
+          </Table>
         </section>
-        <AddFeature features={features} setFeatures={setFeatures} />
+
+        <Feature features={features} setFeatures={setFeatures} />
+        <SubCategoryModal
+          showModal={addSubCategory}
+          setShowModal={setAddSubCategory}
+          submitter={addUpdateSubCategory}
+          title='Add Sub-Category'
+          features={features}
+        />
+        <SubCategoryModal
+          showModal={updateSubCategory}
+          setShowModal={setUpdateSubCategory}
+          submitter={addUpdateSubCategory}
+          title='Update Sub-Category'
+          features={features}
+          subCategoryArr={subCategory}
+        />
       </Box>
     </Modal>
   );

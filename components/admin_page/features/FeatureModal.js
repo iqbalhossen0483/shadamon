@@ -106,7 +106,7 @@ const FeatureModal = (props) => {
   return (
     <Modal open={showModal} onClose={() => setShowModal(false)}>
       <Box sx={modal_style} className='modal add-feature-modal'>
-        <div className='header'>
+        <header className='header'>
           <div>
             <AddBoxRoundedIcon /> <span>{title}</span>
           </div>
@@ -129,7 +129,7 @@ const FeatureModal = (props) => {
               Cancel
             </Button>
           </div>
-        </div>
+        </header>
 
         <form onSubmit={(e) => onSubmit(e)}>
           <div className='col-span-3 grid grid-cols-3'>

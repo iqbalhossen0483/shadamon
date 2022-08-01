@@ -13,9 +13,9 @@ import { fetchApi } from "../../../client/services/fetchApi";
 import useStore from "../../../context/hooks/useStore";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CategoryModal from "./CategoryModal";
 import { useRouter } from "next/router";
 import Spinner from "../../utilitize/Spinner";
+import CategoryModal from "./CategoryModal";
 
 const Category = () => {
   const [addCategory, setAddCategory] = useState(false);

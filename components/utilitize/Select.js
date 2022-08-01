@@ -3,7 +3,7 @@ import {
   KeyboardArrowDown,
   KeyboardArrowUp,
 } from "@mui/icons-material";
-import React, {  useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const Select = (props) => {
   const [options, setOptions] = useState([]);
@@ -12,12 +12,12 @@ const Select = (props) => {
   const { children, label, selectedOptions, setSelectedOptions } = props;
 
   useEffect(() => {
-    const childrenArr = Array.from(children );
+    const childrenArr = Array.from(children);
     const textArr = [];
     if (childrenArr.length) {
       childrenArr.forEach((child) => {
         if (!selectedOptions.includes(child?.props.children)) {
-          textArr.push(child?.props.children);
+          if (child?.props.children) textArr.push(child?.props.children);
         }
       });
       setOptions(textArr);
