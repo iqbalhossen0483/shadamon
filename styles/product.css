@@ -1,0 +1,13 @@
+@tailwind components;
+
+@layer components {
+  .add-product {
+    @apply px-5 pb-2 pt-6;
+  }
+  .add-product .category header {
+    @apply text-center leading-[18px] text-gray-500;
+  }
+  .add-product .category main div {
+    @apply shadow-none my-0;
+  }
+}

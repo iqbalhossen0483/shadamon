@@ -5,18 +5,18 @@ import "../styles/globals.css";
 import "../styles/home.css";
 import "../styles/admin.css";
 import "../styles/header.css";
+import "../styles/product.css";
 import "../styles/footer.css";
 import "../styles/myAccount.css";
 import "../styles/loginRegister.css";
-import Header from "../components/header/Header";
 import StoreProvider from "../context/provider/StoreProvider";
 import LoginRegister from "../components/LoginRegister.tsx/LoginRegister";
 import AlertProvider from "../context/provider/AlertProvider";
 import Footer from "../components/footer/Footer";
 import MyAccount from "../components/myAccount/MyAccount";
 import { useRouter } from "next/router";
-import Product from "../components/product/Product";
 import AdminRoute from "../context/protected_route/AdminRoute";
+import AddProduct from "../components/product/AddProduct";
 
 type Props = {
   Component: NextComponentType<NextPageContext, any, {}>;
@@ -39,7 +39,7 @@ function Layout({ Component, pageProps }: Props) {
       {router.pathname !== "/admin" && <LoginRegister />}
       <MyAccount />
       <AlertProvider />
-      <Product />
+      <AddProduct />
       {router.pathname !== "/admin" && <Footer />}
     </>
   );

@@ -6,17 +6,24 @@ interface Feature {
   sub_features: string[];
 }
 
+interface SubCategory {
+  _id: string;
+  sub_category_name: string;
+  free_post: Number;
+  ordering: Number;
+  status: "Yes" | "No";
+  buttons: string[];
+  active_features: Feature;
+}
+
 interface Category {
   _id: string;
   parant_category: string;
   category_name: string;
-  free_post: string;
-  ordering: string;
+  ordering: Number;
   status: "Yes" | "No";
-  sub_category: string[];
+  sub_category: SubCategory[];
   features: Feature;
-  active_features: Feature;
-  buttons: string[];
   icon: { url: string; id: string };
   created_by: {
     uid: string;
