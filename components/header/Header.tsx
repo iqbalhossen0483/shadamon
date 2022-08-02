@@ -153,7 +153,7 @@ const Header = () => {
       <div
         className={`header-third-menu ${
           showheader ? "top-[46px]" : "top-[0px]"
-        }`}
+        } ${store?.auth.user ? "mt-0" : "mt-[55px]"}`}
       >
         <div className='hidden lg:block'></div>
         <main>

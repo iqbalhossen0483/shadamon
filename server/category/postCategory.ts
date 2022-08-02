@@ -47,8 +47,10 @@ export async function postCategory(req: any, res: NextApiResponse) {
         res.send({ message: "Added Successfully" });
       }
     });
-  } catch (error) {
+  } catch (error: any) {
     await deleteImage(req.imgId);
-    res.status(500).send({ message: "server error" });
+    res
+      .status(error.status || 500)
+      .send({ message: error.messsage || "server error" });
   }
 }

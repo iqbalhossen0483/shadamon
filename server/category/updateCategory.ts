@@ -40,9 +40,10 @@ export async function updateCategory(req: any, res: NextApiResponse) {
       deleteImage(req.imgId);
     }
     res.send(result);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({ message: "server error" });
+  } catch (error: any) {
+    res
+      .status(error.status || 500)
+      .send({ message: error.messsage || "server error" });
   }
 }
 

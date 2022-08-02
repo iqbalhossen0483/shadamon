@@ -6,6 +6,7 @@ const States = (): StatesReturnType => {
   const [showMyAccountPage, setShowMyAccountPage] = useState(false);
   const [alert, setAlert] = useState<Alert>({ msg: "", type: "info" });
   const [showProductModal, setShowProductModal] = useState(false);
+  const [redirectUrl, setRedirectUrl] = useState("");
   return {
     showLoginRegister,
     setShowLoginRegister,
@@ -15,6 +16,8 @@ const States = (): StatesReturnType => {
     setShowMyAccountPage,
     showProductModal,
     setShowProductModal,
+    redirectUrl,
+    setRedirectUrl,
   };
 };
 

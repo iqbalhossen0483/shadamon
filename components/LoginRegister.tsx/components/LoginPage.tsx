@@ -7,6 +7,8 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import Input from "../../utilitize/Input";
 import CloseBack from "./CloseBack";
 import TopPart from "./TopPart";
+import { modal_style } from "../../admin_page/shared";
+import { useRouter } from "next/router";
 
 type User = {
   name: string;
@@ -26,27 +28,24 @@ const LoginPage = ({ showLogin, setShowLogin }: Props) => {
   const [login, setLogin] = useState(true);
   const { register, handleSubmit } = useForm<User>();
   const store = useStore();
-  const style = {
-    position: "absolute" as "absolute",
-    overflow: "auto",
-    display: "block",
-  };
+  const router = useRouter();
 
   function handleError(error: null | string) {
     if (!error) {
       setShowLogin(false);
       store?.State.setShowLoginRegister(false);
+      router.push(store?.State.redirectUrl || "/");
     } else {
       store?.State.setAlert({ msg: error, type: "error" });
     }
   }
   function validateEmail(email: string) {
-    var re =
+    const re =
       /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   }
   function validatePhone(phone: string) {
-    var re = /^(?:(?:\+|00)88|01)?\d{11}$/;
+    const re = /^(?:(?:\+|00)88|01)?\d{11}$/;
     return re.test(phone);
   }
 
@@ -116,7 +115,10 @@ const LoginPage = ({ showLogin, setShowLogin }: Props) => {
 
   return (
     <Modal open={showLogin} onClose={() => setShowLogin(false)}>
-      <Box sx={style} className='login-register-container login-container'>
+      <Box
+        sx={modal_style}
+        className='login-register-container login-container'
+      >
         <CloseBack showLogin={showLogin} setShowLogin={setShowLogin} />
         <TopPart title={login ? "Login" : "Sign Up"} />
         <form onSubmit={handleSubmit(onSubmit)}>

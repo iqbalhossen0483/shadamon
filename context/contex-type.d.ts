@@ -11,6 +11,8 @@ interface StatesReturnType {
   setShowMyAccountPage: Dispatch<SetStateAction<boolean>>;
   showProductModal: boolean;
   setShowProductModal: Dispatch<SetStateAction<boolean>>;
+  redirectUrl: string;
+  setRedirectUrl: Dispatch<SetStateAction<string>>;
 }
 
 type AuthReturnType = {

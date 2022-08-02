@@ -7,15 +7,13 @@ import EmailIcon from "@mui/icons-material/Email";
 import LoginPage from "./components/LoginPage";
 import CloseBack from "./components/CloseBack";
 import TopPart from "./components/TopPart";
+import { modal_style } from "../admin_page/shared";
+import { useRouter } from "next/router";
 
-const LoginRegister = () => {
+const LoginRegister = ({ title }: { title?: string }) => {
   const [showLogin, setShowLogin] = useState(false);
   const store = useStore();
-  const style = {
-    position: "absolute" as "absolute",
-    overflow: "auto",
-    display: "block",
-  };
+  const router = useRouter();
 
   async function googleLogIn() {
     if (store) {
@@ -24,6 +22,7 @@ const LoginRegister = () => {
         store.State.setAlert({ msg: error, type: "error" });
       } else {
         store?.State.setShowLoginRegister(false);
+        router.push(store.State.redirectUrl || "/");
       }
     }
   }
@@ -35,6 +34,7 @@ const LoginRegister = () => {
         store.State.setAlert({ msg: error, type: "error" });
       } else {
         store?.State.setShowLoginRegister(false);
+        router.push(store.State.redirectUrl || "/");
       }
     }
   }
@@ -42,10 +42,18 @@ const LoginRegister = () => {
   return (
     <div>
       <Modal
-        open={store?.State.showLoginRegister || false}
-        onClose={() => store?.State.setShowLoginRegister(false)}
+        open={
+          title && title === "login_page"
+            ? true
+            : store?.State.showLoginRegister || false
+        }
+        onClose={() => {
+          if (!title && title !== "login_page") {
+            store?.State.setShowLoginRegister(false);
+          }
+        }}
       >
-        <Box sx={style} className='login-register-container'>
+        <Box sx={modal_style} className='login-register-container'>
           {/* close button */}
           <CloseBack showLogin={showLogin} setShowLogin={setShowLogin} />
 

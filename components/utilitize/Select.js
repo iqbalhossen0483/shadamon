@@ -81,7 +81,10 @@ const Select = (props) => {
         <div onClick={(e) => e.stopPropagation()} className='options'>
           {options?.map((opt, index) => (
             <button
-              onClick={(e) => handleAdd(e.target)}
+              onClick={(e) => {
+                handleAdd(e.target);
+                setIsOpen(false);
+              }}
               type='button'
               key={index}
             >

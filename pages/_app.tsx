@@ -16,6 +16,7 @@ import Footer from "../components/footer/Footer";
 import MyAccount from "../components/myAccount/MyAccount";
 import { useRouter } from "next/router";
 import Product from "../components/product/Product";
+import AdminRoute from "../context/protected_route/AdminRoute";
 
 type Props = {
   Component: NextComponentType<NextPageContext, any, {}>;
@@ -28,7 +29,13 @@ function Layout({ Component, pageProps }: Props) {
   return (
     <>
       <Metahead />
-      <Component {...pageProps} />
+      {router.pathname === "/admin" ? (
+        <AdminRoute>
+          <Component {...pageProps} />
+        </AdminRoute>
+      ) : (
+        <Component {...pageProps} />
+      )}
       {router.pathname !== "/admin" && <LoginRegister />}
       <MyAccount />
       <AlertProvider />
