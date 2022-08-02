@@ -30,6 +30,7 @@ type AuthReturnType = {
     password: string
   ): Promise<{ error: null | string }>;
   resetPassword(email: string): Promise<{ error: any }>;
+  loading: boolean;
 };
 
 declare global {

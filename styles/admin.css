@@ -81,8 +81,7 @@
   .sub-category-container header .cancel {
     @apply text-gray-900 shadow-none bg-gray-200 hover:bg-gray-200 normal-case ml-2;
   }
-  .add-feature-modal form,
-  .add-location form {
+  .add-feature-modal form {
     @apply grid grid-cols-5 gap-2 p-5;
   }
   .add-category-modal .category form .status,
@@ -92,7 +91,9 @@
   .add-category-modal .features td,
   .add-category-modal .features th,
   .add-category-modal .category td,
-  .add-category-modal .category th {
+  .add-category-modal .category th,
+  .add-location td,
+  .add-location th {
     @apply py-2 px-2 text-center;
   }
   .add-feature-modal form div {
@@ -149,6 +150,9 @@
   .location-container .first-header button {
     @apply bg-green-600 hover:bg-green-600 border-green-600 py-1  rounded text-white
     normal-case;
+  }
+  .add-location form {
+    @apply grid grid-cols-2 gap-6 px-5 pt-3;
   }
   .add-location form .add-remove {
     @apply absolute bottom-0 left-full ml-2 flex gap-1;

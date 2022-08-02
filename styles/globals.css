@@ -28,7 +28,7 @@
   }
 
   .spinner {
-    @apply flex justify-center items-center h-screen text-xl text-gray-500 font-semibold;
+    @apply flex justify-center items-center  text-gray-500;
   }
 
   form input[type="text"],

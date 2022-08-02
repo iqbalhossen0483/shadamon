@@ -8,14 +8,14 @@ const AdminRoute = ({ children }: { children: JSX.Element }): JSX.Element => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!store?.auth.user) {
+    if (!store?.auth.user && !store?.auth.loading) {
       router.push("/login");
       store?.State.setRedirectUrl("/admin");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store?.auth.user]);
 
-  return store?.auth.user ? children : <Spinner />;
+  return store?.auth.user && !store.auth.loading ? children : <Spinner />;
 };
 
 export default AdminRoute;

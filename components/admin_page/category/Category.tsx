@@ -72,6 +72,7 @@ const Category = () => {
   }
 
   async function deleteCategory(id: string, icon: string) {
+    setLoading(true);
     const { data, error } = await fetchApi("/api/category", {
       method: "DELETE",
       headers: {
@@ -97,6 +98,7 @@ const Category = () => {
         type: "error",
       });
     }
+    setLoading(false);
   }
 
   async function putCategory(formData: FormData) {
@@ -118,10 +120,6 @@ const Category = () => {
     }
   }
 
-  if (loading) {
-    return <Spinner />;
-  }
-
   return (
     <Container className='category-container'>
       <Header title='Add Category' />
@@ -141,36 +139,53 @@ const Category = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {categories?.map((category) => (
-            <TableRow hover key={category._id}>
-              <TableCell>{category.category_name}</TableCell>
-              <TableCell>{category.ordering}</TableCell>
-              <TableCell>{category.status}</TableCell>
-              <TableCell>{category.created_at.slice(0, 10)}</TableCell>
-              <TableCell>{category.created_by.name}</TableCell>
-              <TableCell>
-                <div className='space-x-2'>
-                  <button
-                    onClick={() => {
-                      setUpdateCategory(true);
-                      router.push(
-                        `${router.pathname}?add_category=true&id=${category._id}`
-                      );
-                    }}
-                  >
-                    <BorderColorIcon />
-                  </button>
-                  <button
-                    onClick={() =>
-                      deleteCategory(category._id, category.icon.id)
-                    }
-                  >
-                    <DeleteIcon />
-                  </button>
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
+          {!loading ? (
+            categories?.length ? (
+              categories.map((category) => (
+                <TableRow hover key={category._id}>
+                  <TableCell>{category.category_name}</TableCell>
+                  <TableCell>{category.ordering}</TableCell>
+                  <TableCell>{category.status}</TableCell>
+                  <TableCell>{category.created_at.slice(0, 10)}</TableCell>
+                  <TableCell>{category.created_by.name}</TableCell>
+                  <TableCell>
+                    <div className='space-x-2'>
+                      <button
+                        onClick={() => {
+                          setUpdateCategory(true);
+                          router.push(
+                            `${router.pathname}?add_category=true&id=${category._id}`
+                          );
+                        }}
+                      >
+                        <BorderColorIcon />
+                      </button>
+                      <button
+                        disabled={loading}
+                        onClick={() =>
+                          deleteCategory(category._id, category.icon.id)
+                        }
+                      >
+                        <DeleteIcon />
+                      </button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <tr>
+                <td>
+                  <b>No Data</b>
+                </td>
+              </tr>
+            )
+          ) : (
+            <tr>
+              <td>
+                <Spinner />
+              </td>
+            </tr>
+          )}
         </TableBody>
       </Table>
       <CategoryModal

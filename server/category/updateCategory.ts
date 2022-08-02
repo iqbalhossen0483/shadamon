@@ -7,13 +7,18 @@ import { ordering } from "./ordering";
 
 export async function updateCategory(req: any, res: NextApiResponse) {
   try {
+    req.body.created_by = JSON.parse(req.body.created_by);
+    if (!req.body.created_by.uid) {
+      res.status(401).send({ message: "Athentication Failed" });
+      return;
+    }
+
     await dbConnection();
     const _id = req.body.id;
     delete req.body.id;
     req.body.sub_category = JSON.parse(req.body.sub_category);
     req.body.features = JSON.parse(req.body.features);
     req.body.ordering = parseInt(req.body.ordering);
-    req.body.created_by = JSON.parse(req.body.created_by);
 
     if (req.file) {
       req.imgId = req.body.imgId;

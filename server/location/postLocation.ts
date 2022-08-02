@@ -5,6 +5,11 @@ import { ordering } from "./ordering";
 
 export async function postLocation(req: NextApiRequest, res: NextApiResponse) {
   try {
+    if (!req.body.created_by.uid) {
+      res.status(401).send({ message: "Athentication Failed" });
+      return;
+    }
+
     await dbConnection();
     // check if exist
     const isExist = await Location.findOne({

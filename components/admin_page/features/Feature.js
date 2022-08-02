@@ -45,7 +45,7 @@ const Feature = ({ features, setFeatures }) => {
     } else featuresData = features;
 
     //validate is exist
-    const exist = featuresData.find(
+    const exist = features.find(
       (opt) => opt.feature_name === data.feature_name
     );
     if (exist) {

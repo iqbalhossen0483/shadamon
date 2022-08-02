@@ -8,12 +8,19 @@ export async function updateLocation(
   res: NextApiResponse
 ) {
   try {
+    if (!req.body.created_by.uid) {
+      res.status(401).send({ message: "Athentication Failed" });
+      return;
+    }
+
     await dbConnection();
     req.body.ordering = parseInt(req.body.ordering);
     await ordering(req.body.ordering);
     const result = await Location.updateOne({ _id: req.query.id }, req.body);
     res.send(result);
-  } catch (error) {
-    res.status(500).send({ message: "server error" });
+  } catch (error: any) {
+    res
+      .status(error.status || 500)
+      .send({ message: error.message || "server error" });
   }
 }

@@ -117,7 +117,14 @@ const SideMenu = () => {
             <MenuIcon />
           </IconButton>
         )}
-        {open && <h2 className='text-xl font-semibold'>SHADAMON</h2>}
+        {open && (
+          <h2
+            onClick={() => router.push("/")}
+            className='text-xl font-semibold cursor-pointer'
+          >
+            SHADAMON
+          </h2>
+        )}
       </DrawerHeader>
       <Divider className='bg-gray-600' />
 

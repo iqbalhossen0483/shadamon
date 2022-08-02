@@ -1,3 +1,12 @@
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import { fetchApi } from "../../../client/services/fetchApi";
+import useStore from "../../../context/hooks/useStore";
+import DeleteIcon from "@mui/icons-material/Delete";
+import React, { useEffect, useState } from "react";
+import Header from "../components/header/Header";
+import Spinner from "../../utilitize/Spinner";
+import LocationModal from "./LocationModal";
+import { useRouter } from "next/router";
 import {
   Button,
   Container,
@@ -7,15 +16,6 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { fetchApi } from "../../../client/services/fetchApi";
-import useStore from "../../../context/hooks/useStore";
-import Header from "../components/header/Header";
-import BorderColorIcon from "@mui/icons-material/BorderColor";
-import DeleteIcon from "@mui/icons-material/Delete";
-import LocationModal from "./LocationModal";
-import { useRouter } from "next/router";
-import Spinner from "../../utilitize/Spinner";
 
 const Location = () => {
   const [addLocation, setAddLocation] = useState(false);
@@ -48,6 +48,7 @@ const Location = () => {
   }, [update]);
 
   async function deleteLocation(id: string) {
+    setLoading(true);
     const { data, error } = await fetchApi("/api/location", {
       method: "DELETE",
       headers: {
@@ -72,6 +73,7 @@ const Location = () => {
         type: "error",
       });
     }
+    setLoading(false);
   }
 
   async function postLocation(payload: any) {
@@ -113,9 +115,6 @@ const Location = () => {
     }
   }
 
-  if (loading) {
-    return <Spinner />;
-  }
   return (
     <Container className='location-container'>
       <Header title='Location' />
@@ -133,34 +132,52 @@ const Location = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {locations &&
-            locations.map((loc) => (
-              <TableRow key={loc._id}>
-                <TableCell>{loc.location_name}</TableCell>
-                <TableCell>{loc.sub_location.length}</TableCell>
-                <TableCell>{loc.ordering}</TableCell>
-                <TableCell>{loc.status}</TableCell>
-                <TableCell>{loc.created_at.slice(0, 10)}</TableCell>
-                <TableCell>{loc.created_by.name}</TableCell>
-                <TableCell>
-                  <div className='space-x-2'>
-                    <button
-                      onClick={() => {
-                        setUpdateLocation(true);
-                        router.push(
-                          `${router.pathname}?add_location=true&id=${loc._id}`
-                        );
-                      }}
-                    >
-                      <BorderColorIcon />
-                    </button>
-                    <button onClick={() => deleteLocation(loc._id)}>
-                      <DeleteIcon />
-                    </button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
+          {!loading ? (
+            locations?.length ? (
+              locations.map((loc) => (
+                <TableRow key={loc._id}>
+                  <TableCell>{loc.location_name}</TableCell>
+                  <TableCell>{loc.sub_location.length}</TableCell>
+                  <TableCell>{loc.ordering}</TableCell>
+                  <TableCell>{loc.status}</TableCell>
+                  <TableCell>{loc.created_at.slice(0, 10)}</TableCell>
+                  <TableCell>{loc.created_by.name}</TableCell>
+                  <TableCell>
+                    <div className='space-x-2'>
+                      <button
+                        onClick={() => {
+                          setUpdateLocation(true);
+                          router.push(
+                            `${router.pathname}?add_location=true&id=${loc._id}`
+                          );
+                        }}
+                      >
+                        <BorderColorIcon />
+                      </button>
+                      <button
+                        disabled={loading}
+                        onClick={() => deleteLocation(loc._id)}
+                      >
+                        <DeleteIcon />
+                      </button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <tr>
+                <td>
+                  <b>No Data</b>
+                </td>
+              </tr>
+            )
+          ) : (
+            <tr>
+              <td>
+                <Spinner />
+              </td>
+            </tr>
+          )}
         </TableBody>
       </Table>
 

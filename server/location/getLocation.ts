@@ -9,7 +9,7 @@ export async function getLocation(req: NextApiRequest, res: NextApiResponse) {
       const result = await Location.findOne({ _id: req.query.id });
       res.send(result);
     } else {
-      const result = await Location.find({}).sort({ ordering: 1 });
+      const result = await Location.find({}).sort({ created_at: -1 });
       res.send(result);
     }
   } catch (error) {

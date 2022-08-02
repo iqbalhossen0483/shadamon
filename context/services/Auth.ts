@@ -129,6 +129,7 @@ const Auth = (): AuthReturnType => {
     emailSignUp,
     emailSingIn,
     resetPassword,
+    loading,
   };
 };
 

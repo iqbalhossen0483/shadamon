@@ -1,16 +1,33 @@
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import { Backdrop, Box, Button, CircularProgress, Modal } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { modal_style } from "../shared";
-import AddIcon from "@mui/icons-material/Add";
-import { Remove } from "@mui/icons-material";
-import { useRef } from "react";
-import useStore from "../../../context/hooks/useStore";
 import { fetchApi } from "../../../client/services/fetchApi";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import useStore from "../../../context/hooks/useStore";
+import DeleteIcon from "@mui/icons-material/Delete";
+import React, { useEffect, useState } from "react";
+import SubLocationModal from "./SubLocationModal";
+import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/router";
+import { modal_style } from "../shared";
+import { useRef } from "react";
+import {
+  Backdrop,
+  Box,
+  Button,
+  CircularProgress,
+  Divider,
+  IconButton,
+  Modal,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Tooltip,
+} from "@mui/material";
 
 const LocationModal = ({ showModal, setShowModal, title, submitter }) => {
-  const [subLocation, setSubLocation] = useState({ location_1: "" }),
+  const [subLocation, setSubLocation] = useState([]),
+    [showSubLocation, setShowSubLocation] = useState(false),
     [loading, setLoading] = useState(false),
     submitBtn = useRef(null),
     store = useStore(),
@@ -22,24 +39,61 @@ const LocationModal = ({ showModal, setShowModal, title, submitter }) => {
       status: "Yes",
     });
 
-  function handleRemove(key, i) {
-    if (i > 0) {
-      const sub = subLocation;
-      delete sub[key];
-      setSubLocation({ ...sub });
-    }
-  }
-  function handleAdd(index) {
-    const sub = subLocation;
-    sub[`category_${index + 2}`] = "";
-    setSubLocation({ ...sub });
-  }
   function handleInput(value, name) {
     const exist = locationData;
     exist[name] = value;
     setLocationData({ ...exist });
   }
 
+  //sub location functions;
+  function addAndUpdateSubLocation(data, type) {
+    data.ordering = parseInt(data.ordering);
+
+    let locations;
+    if (type === "Update Sub Location") {
+      locations = subLocation.filter(
+        (sub) => sub.sub_location_name !== router.query.name
+      );
+    } else locations = subLocation;
+
+    //check is exist;
+    const isExist = locations.find(
+      (sub) => sub.sub_location_name === data.sub_location_name
+    );
+    if (isExist) {
+      store.State.setAlert({
+        msg: "Already exist this Location",
+        type: "warning",
+      });
+      return { error: true };
+    }
+    //change ordering
+    const neddOrdered = locations.find((opt) => opt.ordering === data.ordering);
+    if (neddOrdered) {
+      let i = data.ordering;
+      for (const location of locations) {
+        const exist = location.ordering === i;
+        if (exist) {
+          location.ordering = location.ordering + 1;
+          i++;
+        }
+      }
+    }
+    const sorted = [...locations, data].sort((a, b) => a.ordering - b.ordering);
+    setSubLocation(sorted);
+    return { error: false };
+  }
+  function deleteSubLocation(name) {
+    const exist = subLocation.filter((sub) => sub.sub_location_name !== name);
+    setSubLocation(exist);
+  }
+  function handleSubUpdate(name) {
+    router.push("/admin?add_location=true&name=" + name);
+    setShowSubLocation(true);
+  }
+  //till;
+
+  //update location function;
   useEffect(() => {
     if (title === "Update Location" && router.query.id && showModal) {
       (async () => {
@@ -53,30 +107,19 @@ const LocationModal = ({ showModal, setShowModal, title, submitter }) => {
             ordering: data.ordering,
             status: data.status,
           });
-          const sub = {};
-          data.sub_location.forEach((s, i) => {
-            sub[`location_${i + 1}`] = s;
-          });
-          setSubLocation(sub);
+          setSubLocation(data.sub_location);
         }
       })();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query.id, showModal]);
+  //till;
 
+  //post location;
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    const payload = {};
-    payload.location_name = locationData.location_name;
-    payload.map_link = locationData.map_link;
-    payload.ordering = locationData.ordering;
-    payload.status = locationData.status;
-    const sub = [];
-    Object.entries(subLocation).forEach(([_, value]) => {
-      if (value) sub.push(value);
-    });
-    payload.sub_location = sub;
+    const payload = { ...locationData, sub_location: subLocation };
     payload.created_by = {
       uid: store.auth.user.uid,
       name: store.auth.user.displayName,
@@ -88,7 +131,7 @@ const LocationModal = ({ showModal, setShowModal, title, submitter }) => {
 
     if (!error) {
       setShowModal(false);
-      setSubLocation({ location_1: "" });
+      setSubLocation([]);
       setLocationData({
         location_name: "",
         map_link: "",
@@ -99,6 +142,7 @@ const LocationModal = ({ showModal, setShowModal, title, submitter }) => {
     setLoading(false);
   }
 
+  //spinner;
   if (loading) {
     return (
       <Backdrop
@@ -138,61 +182,22 @@ const LocationModal = ({ showModal, setShowModal, title, submitter }) => {
         </header>
 
         <form onSubmit={(e) => handleSubmit(e)}>
-          <div className='col-span-3 grid grid-cols-3'>
-            <div className='col-span-2 space-y-2'>
-              <input
-                type='text'
-                value={locationData.location_name}
-                required
-                onChange={(e) => handleInput(e.target.value, "location_name")}
-                placeholder='Location Name'
-              />
-              <div className='relative space-y-2'>
-                {Object.entries(subLocation).map(([key, value], index, arr) => (
-                  <React.Fragment key={key}>
-                    <input
-                      type='text'
-                      value={value}
-                      required
-                      onChange={(e) =>
-                        setSubLocation((prev) => {
-                          const newP = prev;
-                          newP[key] = e.target.value;
-                          return { ...newP };
-                        })
-                      }
-                      placeholder='Sub Location'
-                    />
-                    {index === arr.length - 1 && (
-                      <section className='add-remove'>
-                        <button
-                          onClick={() => handleAdd(index)}
-                          className='border'
-                          type='button'
-                        >
-                          <AddIcon />
-                        </button>
-                        <button
-                          onClick={() => handleRemove(key, index)}
-                          className='border'
-                          type='button'
-                        >
-                          <Remove />
-                        </button>
-                      </section>
-                    )}
-                  </React.Fragment>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className='col-span-2 space-y-2'>
+          <div className='space-y-2'>
+            <input
+              type='text'
+              value={locationData.location_name}
+              required
+              onChange={(e) => handleInput(e.target.value, "location_name")}
+              placeholder='Location Name'
+            />
             <input
               value={locationData.map_link}
               onChange={(e) => handleInput(e.target.value, "map_link")}
               type='url'
               placeholder='Location Map Link'
             />
+          </div>
+          <div className='space-y-2'>
             <input
               value={locationData.ordering}
               onChange={(e) => handleInput(e.target.value, "ordering")}
@@ -228,6 +233,61 @@ const LocationModal = ({ showModal, setShowModal, title, submitter }) => {
             submit
           </button>
         </form>
+
+        <Divider sx={{ margin: "30px 0" }} />
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Sub Location Name</TableCell>
+              <TableCell>Order</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>
+                <Tooltip title='Add Sub Location'>
+                  <IconButton onClick={() => setShowSubLocation(true)}>
+                    <AddIcon />
+                  </IconButton>
+                </Tooltip>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {subLocation.map((sub, index) => (
+              <TableRow key={index}>
+                <TableCell>{sub.sub_location_name}</TableCell>
+                <TableCell>{sub.ordering}</TableCell>
+                <TableCell>{sub.status}</TableCell>
+                <TableCell>
+                  <div className='space-x-2'>
+                    <button
+                      onClick={() => handleSubUpdate(sub.sub_location_name)}
+                    >
+                      <BorderColorIcon />
+                    </button>
+                    <button
+                      onClick={() => deleteSubLocation(sub.sub_location_name)}
+                    >
+                      <DeleteIcon />
+                    </button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+
+        <SubLocationModal
+          setShowModal={setShowSubLocation}
+          showModal={showSubLocation}
+          title='Add Sub Location'
+          submitter={addAndUpdateSubLocation}
+        />
+        <SubLocationModal
+          setShowModal={setShowSubLocation}
+          showModal={showSubLocation}
+          title='Update Sub Location'
+          submitter={addAndUpdateSubLocation}
+          subLocation={subLocation}
+        />
       </Box>
     </Modal>
   );

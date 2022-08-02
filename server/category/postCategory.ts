@@ -7,6 +7,12 @@ import { ordering } from "./ordering";
 
 export async function postCategory(req: any, res: NextApiResponse) {
   try {
+    req.body.created_by = JSON.parse(req.body.created_by);
+    if (!req.body.created_by.uid) {
+      res.status(401).send({ message: "Athentication Failed" });
+      return;
+    }
+
     await dbConnection();
     // check if exist
     const isExist = await Category.findOne({
@@ -30,7 +36,6 @@ export async function postCategory(req: any, res: NextApiResponse) {
     req.body.sub_category = JSON.parse(req.body.sub_category);
     req.body.features = JSON.parse(req.body.features);
     req.body.ordering = parseInt(req.body.ordering);
-    req.body.created_by = JSON.parse(req.body.created_by);
     req.body.icon = {
       url: result.secure_url,
       id: result.public_id,
@@ -42,7 +47,7 @@ export async function postCategory(req: any, res: NextApiResponse) {
     await newCategory.save(async (err: any) => {
       if (err) {
         await deleteImage(req.imgId);
-        res.status(500).send({ message: err.message });
+        res.status(err.status || 500).send({ message: err.message });
       } else {
         res.send({ message: "Added Successfully" });
       }

@@ -4,10 +4,16 @@ const User = new Schema({
   uid: { type: String, required: true },
   name: { type: String, required: true },
 });
+const SubLocation = new Schema({
+  sub_location_name: { type: String, required: true },
+  map_link: { type: String },
+  ordering: { type: Number, required: true },
+  status: { type: String, enum: ["Yes", "No"], required: true },
+});
 
 const LocationSchema = new Schema({
   location_name: { type: String, required: true },
-  sub_location: { type: [String], required: true, default: [] },
+  sub_location: { type: [SubLocation], required: true, default: [] },
   map_link: { type: String },
   ordering: { type: Number, required: true },
   created_at: { type: Date, required: true },

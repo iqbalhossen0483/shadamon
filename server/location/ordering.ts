@@ -1,4 +1,3 @@
-import Category from "../schema/CategorySchema";
 import Location from "../schema/LocationSchema";
 
 export async function ordering(postOrder: number) {
@@ -16,10 +15,10 @@ export async function ordering(postOrder: number) {
     }
   }
   if (needUpdate.length) {
-    needUpdate.forEach(async (category) => {
+    needUpdate.forEach(async (location) => {
       await Location.updateOne(
-        { _id: category.id },
-        { ordering: category.ordering + 1 }
+        { _id: location.id },
+        { ordering: location.ordering + 1 }
       );
     });
   }

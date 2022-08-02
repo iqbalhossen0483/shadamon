@@ -1,9 +1,9 @@
-import { Remove } from "@mui/icons-material";
-import { Box, Button, Modal } from "@mui/material";
 import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
-import { featureType, modal_style } from "../shared";
-import AddIcon from "@mui/icons-material/Add";
 import React, { useEffect, useRef, useState } from "react";
+import { featureType, modal_style } from "../shared";
+import { Box, Button, Modal } from "@mui/material";
+import { Remove } from "@mui/icons-material";
+import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/router";
 
 const FeatureModal = (props) => {
