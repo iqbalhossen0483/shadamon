@@ -102,9 +102,8 @@ const CategoryModal = (props) => {
   }
   function handleUpdate(name) {
     setUpdateSubCategory(true);
-    router.push(
-      router.pathname + "?add_category=true&sub_category=true&name=" + name
-    );
+    const url = `/admin?add_category=true&id=${router.query.id}&sub_category=true&name=${name}`;
+    router.push(url);
   }
 
   async function handleSubmit(e) {

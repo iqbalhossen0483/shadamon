@@ -16,13 +16,42 @@
   .add-product .category main .item p {
     @apply cursor-pointer hover:underline;
   }
-  .add-product .location-container {
+
+  /* sub-category  */
+  #details-container {
+    @apply px-5 rounded transition-all;
+  }
+  #summery {
+    @apply relative w-full flex items-center gap-3 pb-1 cursor-pointer;
+  }
+  #summery .icon {
+    @apply absolute top-2/4 -right-[2px] -translate-y-2/4;
+  }
+  #description div {
+    @apply flex justify-between items-center cursor-pointer pl-3;
+  }
+  #description div svg {
+    @apply text-[10px] text-gray-400 mr-1;
+  }
+
+  .add-product .location-container,
+  .add-product .features-container {
     @apply mt-7 ml-4;
   }
   .add-product .location-container .details {
-    @apply bg-gray-100 rounded pl-10 -mt-2;
+    @apply bg-gray-100 rounded pl-10;
   }
   .add-product .location-container .details p {
     @apply cursor-pointer;
+  }
+
+  .add-product .features-container header {
+    @apply flex justify-between text-gray-700 border-b pb-2;
+  }
+  .add-product .features-container header div {
+    @apply space-x-1;
+  }
+  .add-product .features-container header div svg {
+    @apply text-primary text-lg;
   }
 }

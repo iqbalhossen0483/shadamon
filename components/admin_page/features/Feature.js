@@ -26,9 +26,8 @@ const Feature = ({ features, setFeatures }) => {
 
   function handleUpdate(name) {
     setShowUpdateFeature(true);
-    router.push(
-      router.pathname + "?add_category=true&feature=true&name=" + name
-    );
+    const url = `/admin?add_category=true&id=${router.query.id}&feature=true&name=${name}`;
+    router.push(url);
   }
 
   function deleteFeature(name) {

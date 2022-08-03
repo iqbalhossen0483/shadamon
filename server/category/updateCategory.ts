@@ -46,6 +46,7 @@ export async function updateCategory(req: any, res: NextApiResponse) {
     }
     res.send(result);
   } catch (error: any) {
+    console.log(error);
     res
       .status(error.status || 500)
       .send({ message: error.messsage || "server error" });

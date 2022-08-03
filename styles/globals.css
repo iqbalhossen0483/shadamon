@@ -64,21 +64,4 @@
   .select-component .icons {
     @apply absolute right-0 top-0;
   }
-
-  /* details and summery */
-  #details-container {
-    @apply px-5 rounded;
-  }
-  #summery {
-    @apply relative w-full flex items-center gap-3 pb-1 cursor-pointer;
-  }
-  #summery .icon {
-    @apply absolute top-2/4 -right-[2px] -translate-y-2/4;
-  }
-  #description div {
-    @apply flex justify-between items-center cursor-pointer pl-3;
-  }
-  #description div svg {
-    @apply text-[10px] text-gray-400 mr-1;
-  }
 }

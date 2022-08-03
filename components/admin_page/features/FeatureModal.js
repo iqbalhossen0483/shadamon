@@ -65,9 +65,7 @@ const FeatureModal = (props) => {
     });
   }
   function handleIsSub(value) {
-    if (value === "input") {
-      setIsSub(false);
-    } else if (value === "url") {
+    if (value === "input" || value === "url" || value === "description") {
       setIsSub(false);
     } else {
       setIsSub(true);

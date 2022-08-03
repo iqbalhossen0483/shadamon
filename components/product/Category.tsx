@@ -1,31 +1,24 @@
-import { AccordionDetails, AccordionSummary } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import Image from "next/image";
-import { styled } from "@mui/material/styles";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useStore from "../../context/hooks/useStore";
-import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
 import { AllC, OrderDetails } from "./AddProduct";
 import { useEffect, useRef, useState } from "react";
-import { Details } from "../utilitize/Details";
+import { SubCategory } from "./SubCategory";
 
-const Accordion = styled((props: AccordionProps) => (
-  <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({ theme }) => ({
-  borderTop: `1px solid ${theme.palette.divider}`,
-  "&:before": {
-    display: "none",
-  },
-}));
 type Props = {
   categories: AllC;
   setOrderDetails: React.Dispatch<React.SetStateAction<OrderDetails>>;
   setShowItem: React.Dispatch<React.SetStateAction<number>>;
+  redirect: number | null;
 };
 
-const Category = ({ categories, setOrderDetails, setShowItem }: Props) => {
+const Category = (props: Props) => {
   const [expanded, setExpanded] = useState<number | null>(null);
+  const [showPic, setShowPic] = useState(true);
   const store = useStore();
   const accordinWrapper = useRef<HTMLDivElement>(null);
+  const { categories, setOrderDetails, setShowItem, redirect } = props;
 
   useEffect(() => {
     window.addEventListener("click", (e) => {
@@ -38,22 +31,22 @@ const Category = ({ categories, setOrderDetails, setShowItem }: Props) => {
 
   function handleCategory(
     parentCategory: string,
-    categoryName: string,
-    subCategoryName: string
+    category: string,
+    subCategory: string
   ) {
     setOrderDetails((prev) => {
-      prev.category = categoryName;
-      prev.parent_category = parentCategory;
-      prev.subCategoryName = subCategoryName;
+      prev.category = category;
+      prev.parentCategory = parentCategory;
+      prev.subCategory = subCategory;
       return { ...prev };
     });
-    setShowItem((prev) => prev + 1);
+    setShowItem((prev) => redirect || prev + 1);
   }
 
   return (
     <section className='category'>
       <header>
-        {!expanded && (
+        {showPic && (
           <Image width={95} height={100} src='/shopping-bag.png' alt='logo' />
         )}
         <p>Welcome! {store?.auth.user?.displayName}</p>
@@ -63,68 +56,97 @@ const Category = ({ categories, setOrderDetails, setShowItem }: Props) => {
         <p>Choice Your Option Below</p>
       </header>
 
-      <main ref={accordinWrapper} className='mt-5 text-lg'>
-        <Accordion expanded={expanded === 1} onChange={() => setExpanded(1)}>
+      <main
+        onClick={() => setShowPic(false)}
+        ref={accordinWrapper}
+        className='mt-5 text-lg'
+      >
+        <Accordion
+          disableGutters
+          sx={{ boxShadow: "none" }}
+          expanded={expanded === 1}
+          onChange={() => setExpanded(1)}
+        >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <p>
               <b>Sell</b> Anything
             </p>
           </AccordionSummary>
           <AccordionDetails sx={{ padding: 0 }}>
-            {categories.sell_Anything.map((ct) => (
-              <Details data={ct} key={ct._id} fn={handleCategory} />
+            {categories.Sell_Anything.map((ct) => (
+              <SubCategory data={ct} key={ct._id} fn={handleCategory} />
             ))}
           </AccordionDetails>
         </Accordion>
 
-        <Accordion expanded={expanded === 2} onChange={() => setExpanded(2)}>
+        <Accordion
+          disableGutters
+          sx={{ boxShadow: "none" }}
+          expanded={expanded === 2}
+          onChange={() => setExpanded(2)}
+        >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <p>
               <b>Rent</b> Anything
             </p>
           </AccordionSummary>
           <AccordionDetails sx={{ padding: 0 }}>
-            {categories.rent_Anything.map((ct) => (
-              <Details data={ct} key={ct._id} fn={handleCategory} />
+            {categories.Rent_Anything.map((ct) => (
+              <SubCategory data={ct} key={ct._id} fn={handleCategory} />
             ))}
           </AccordionDetails>
         </Accordion>
 
-        <Accordion expanded={expanded === 3} onChange={() => setExpanded(3)}>
+        <Accordion
+          disableGutters
+          sx={{ boxShadow: "none" }}
+          expanded={expanded === 3}
+          onChange={() => setExpanded(3)}
+        >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <p>
               Post a <b>Job</b>
             </p>
           </AccordionSummary>
           <AccordionDetails sx={{ padding: 0 }}>
-            {categories.post_a_Job.map((ct) => (
-              <Details data={ct} key={ct._id} fn={handleCategory} />
+            {categories.Post_a_Job.map((ct) => (
+              <SubCategory data={ct} key={ct._id} fn={handleCategory} />
             ))}
           </AccordionDetails>
         </Accordion>
 
-        <Accordion expanded={expanded === 4} onChange={() => setExpanded(4)}>
+        <Accordion
+          disableGutters
+          sx={{ boxShadow: "none" }}
+          expanded={expanded === 4}
+          onChange={() => setExpanded(4)}
+        >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <p>
               Create a <b>Office, Bit</b>
             </p>
           </AccordionSummary>
           <AccordionDetails sx={{ padding: 0 }}>
-            {categories.create_Office_Bit.map((ct) => (
-              <Details data={ct} key={ct._id} fn={handleCategory} />
+            {categories.Create_a_Office_Bit.map((ct) => (
+              <SubCategory data={ct} key={ct._id} fn={handleCategory} />
             ))}
           </AccordionDetails>
         </Accordion>
 
-        <Accordion expanded={expanded === 5} onChange={() => setExpanded(5)}>
+        <Accordion
+          disableGutters
+          sx={{ boxShadow: "none" }}
+          expanded={expanded === 5}
+          onChange={() => setExpanded(5)}
+        >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <p>
               Look Something to <b>Buy</b>
             </p>
           </AccordionSummary>
           <AccordionDetails sx={{ padding: 0 }}>
-            {categories.look_Something_to_Buy.map((ct) => (
-              <Details data={ct} key={ct._id} fn={handleCategory} />
+            {categories.Look_Something_to_Buy.map((ct) => (
+              <SubCategory data={ct} key={ct._id} fn={handleCategory} />
             ))}
           </AccordionDetails>
         </Accordion>

@@ -13,7 +13,7 @@ type Props = {
   ) => void;
 };
 
-export const Details = ({ data, fn }: Props) => {
+export const SubCategory = ({ data, fn }: Props) => {
   const [showDetails, setShowDetails] = useState(false);
 
   return (

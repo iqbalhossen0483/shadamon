@@ -1,4 +1,5 @@
 interface Feature {
+  _id: string;
   ordering: string;
   status: "Yes" | "No";
   feature_name: string;
@@ -13,7 +14,7 @@ interface SubCategory {
   ordering: Number;
   status: "Yes" | "No";
   buttons: string[];
-  active_features: Feature;
+  active_features: Feature[];
 }
 
 interface Category {

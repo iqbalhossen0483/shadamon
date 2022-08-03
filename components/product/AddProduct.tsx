@@ -6,35 +6,39 @@ import { modal_style } from "../admin_page/shared";
 import BackButton from "../utilitize/BackIButton";
 import CloseButton from "../utilitize/CloseButton";
 import Category from "./Category";
+import Features from "./Features";
 import Location from "./Location";
 export type AllC = {
-  sell_Anything: Category[];
-  rent_Anything: Category[];
-  post_a_Job: Category[];
-  create_Office_Bit: Category[];
-  look_Something_to_Buy: Category[];
+  Sell_Anything: Category[];
+  Rent_Anything: Category[];
+  Post_a_Job: Category[];
+  Create_a_Office_Bit: Category[];
+  Look_Something_to_Buy: Category[];
 };
 export type OrderDetails = {
-  parent_category: string;
+  parentCategory: string;
+  subCategory: string;
   category: string;
-  subCategoryName: string;
   location: string;
+  subLocation: string;
 };
 
 const AddProduct = () => {
   const [showItem, setShowItem] = useState(1);
+  const [redirect, setRedirect] = useState<number | null>(null);
   const [orderDetails, setOrderDetails] = useState<OrderDetails>({
-    parent_category: "",
+    parentCategory: "",
     category: "",
-    subCategoryName: "",
+    subCategory: "",
     location: "",
+    subLocation: "",
   });
   const [categories, setCategories] = useState<AllC>({
-    sell_Anything: [],
-    rent_Anything: [],
-    post_a_Job: [],
-    create_Office_Bit: [],
-    look_Something_to_Buy: [],
+    Sell_Anything: [],
+    Rent_Anything: [],
+    Post_a_Job: [],
+    Create_a_Office_Bit: [],
+    Look_Something_to_Buy: [],
   });
   const store = useStore();
 
@@ -44,25 +48,42 @@ const AddProduct = () => {
       if (!error) {
         if (data.length) {
           const categoryData: AllC = {
-            sell_Anything: [],
-            rent_Anything: [],
-            post_a_Job: [],
-            create_Office_Bit: [],
-            look_Something_to_Buy: [],
+            Sell_Anything: [],
+            Rent_Anything: [],
+            Post_a_Job: [],
+            Create_a_Office_Bit: [],
+            Look_Something_to_Buy: [],
           };
           for (const category of data) {
             if (category.parent_category === "Sell Anything") {
-              categoryData.sell_Anything.push(category);
+              categoryData.Sell_Anything.push(category);
             } else if (category.parent_category === "Rent Anything") {
-              categoryData.rent_Anything.push(category);
+              categoryData.Rent_Anything.push(category);
             } else if (category.parent_category === "Post a Job") {
-              categoryData.post_a_Job.push(category);
+              categoryData.Post_a_Job.push(category);
             } else if (category.parent_category === "Create a Office, Bit") {
-              categoryData.create_Office_Bit.push(category);
+              categoryData.Create_a_Office_Bit.push(category);
             } else if (category.parent_category === "Look Something to Buy") {
-              categoryData.look_Something_to_Buy.push(category);
+              categoryData.Look_Something_to_Buy.push(category);
             }
           }
+          categoryData.Sell_Anything = categoryData.Sell_Anything.sort(
+            (a, b) => a.ordering - b.ordering
+          );
+          categoryData.Rent_Anything = categoryData.Rent_Anything.sort(
+            (a, b) => a.ordering - b.ordering
+          );
+          categoryData.Post_a_Job = categoryData.Post_a_Job.sort(
+            (a, b) => a.ordering - b.ordering
+          );
+          categoryData.Look_Something_to_Buy =
+            categoryData.Look_Something_to_Buy.sort(
+              (a, b) => a.ordering - b.ordering
+            );
+          categoryData.Create_a_Office_Bit =
+            categoryData.Create_a_Office_Bit.sort(
+              (a, b) => a.ordering - b.ordering
+            );
           setCategories(categoryData);
         }
       } else
@@ -92,9 +113,23 @@ const AddProduct = () => {
               categories={categories}
               setOrderDetails={setOrderDetails}
               setShowItem={setShowItem}
+              redirect={redirect}
             />
           )}
-          {showItem === 2 && <Location />}
+          {showItem === 2 && (
+            <Location
+              setOrderDetails={setOrderDetails}
+              setShowItem={setShowItem}
+            />
+          )}
+          {showItem === 3 && (
+            <Features
+              orderDetails={orderDetails}
+              categories={categories}
+              setShowItem={setShowItem}
+              setRedirect={setRedirect}
+            />
+          )}
         </Box>
       </Modal>
     </div>

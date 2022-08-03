@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "server/user/updateUser.js", "server/schema/CategorySchema.js", "components/utilitize/Select.js", "components/admin_page/components/header/shared/CategoryModal.js", "components/admin_page/features/AddFeature.js", "components/admin_page/category/CategoryModal.js", "components/utilitize/Details.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "server/user/updateUser.js", "server/schema/CategorySchema.js", "components/utilitize/Select.js", "components/admin_page/components/header/shared/CategoryModal.js", "components/admin_page/features/AddFeature.js", "components/admin_page/category/CategoryModal.js", "components/product/SubCategory.tsx", "components/product/Features.js"],
   "exclude": ["node_modules"]
 }
