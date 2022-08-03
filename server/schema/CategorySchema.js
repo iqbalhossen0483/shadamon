@@ -30,7 +30,7 @@ const SubCategory = new Schema({
 });
 
 const CategorySchema = new Schema({
-  parant_category: { type: String, required: true },
+  parent_category: { type: String, required: true },
   category_name: { type: String, required: true },
   ordering: { type: Number, required: true },
   status: { type: String, enum: ["Yes", "No"], default: "Yes" },

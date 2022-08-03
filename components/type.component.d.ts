@@ -18,9 +18,9 @@ interface SubCategory {
 
 interface Category {
   _id: string;
-  parant_category: string;
+  parent_category: string;
   category_name: string;
-  ordering: Number;
+  ordering: number;
   status: "Yes" | "No";
   sub_category: SubCategory[];
   features: Feature;
@@ -30,4 +30,26 @@ interface Category {
     name: string;
   };
   created_at: string;
+}
+
+interface SubLocation {
+  _id: string;
+  sub_location_name: string;
+  map_link?: string | undefined;
+  ordering: number;
+  status: "Yes" | "No";
+}
+
+interface Location {
+  _id: string;
+  location_name: string;
+  sub_location: SubLocation[];
+  map_link?: string | undefined;
+  ordering: number;
+  created_at: string;
+  created_by: {
+    uid: string;
+    name: string;
+  };
+  status: "Yes" | "No";
 }

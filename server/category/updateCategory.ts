@@ -38,7 +38,7 @@ export async function updateCategory(req: any, res: NextApiResponse) {
       req.body.icon = JSON.parse(req.body.icon);
     }
 
-    await ordering(req.body.ordering);
+    await ordering(req.body.ordering, req.body.parent_category);
 
     const result = await Category.updateOne({ _id }, req.body);
     if (result.modifiedCount > 0) {

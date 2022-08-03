@@ -7,7 +7,22 @@
   .add-product .category header {
     @apply text-center leading-[18px] text-gray-500;
   }
-  .add-product .category main div {
-    @apply shadow-none my-0;
+  .add-product .category main .details {
+    @apply bg-gray-100;
+  }
+  .add-product .category main .item {
+    @apply flex gap-4 items-center ml-3;
+  }
+  .add-product .category main .item p {
+    @apply cursor-pointer hover:underline;
+  }
+  .add-product .location-container {
+    @apply mt-7 ml-4;
+  }
+  .add-product .location-container .details {
+    @apply bg-gray-100 rounded pl-10 -mt-2;
+  }
+  .add-product .location-container .details p {
+    @apply cursor-pointer;
   }
 }

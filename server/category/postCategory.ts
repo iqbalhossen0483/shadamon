@@ -16,6 +16,7 @@ export async function postCategory(req: any, res: NextApiResponse) {
     await dbConnection();
     // check if exist
     const isExist = await Category.findOne({
+      parent_category: req.body.parent_category,
       category_name: req.body.category_name,
     });
     if (isExist) {
@@ -41,7 +42,7 @@ export async function postCategory(req: any, res: NextApiResponse) {
       id: result.public_id,
     };
 
-    await ordering(req.body.ordering);
+    await ordering(req.body.ordering, req.body.parent_category);
 
     const newCategory = new Category(req.body);
     await newCategory.save(async (err: any) => {

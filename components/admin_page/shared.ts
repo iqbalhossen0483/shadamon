@@ -15,7 +15,7 @@ export const parentCategory = [
   "Rent Anything",
   "Post a Job",
   "Create a Office, Bit",
-  "Look Somthing to Buy",
+  "Look Something to Buy",
 ];
 
 export const modal_style = {

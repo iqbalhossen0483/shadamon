@@ -107,6 +107,9 @@
   .category-container .first-header {
     @apply flex justify-end py-2 border-b-2;
   }
+  .category-container .first-header select {
+    @apply focus:outline-none border-gray-500 border rounded mr-5;
+  }
   .category-container .first-header button {
     @apply bg-green-600 hover:bg-green-600 border-green-600 py-1  rounded text-white
     normal-case;

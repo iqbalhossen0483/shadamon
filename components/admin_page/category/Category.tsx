@@ -16,6 +16,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useRouter } from "next/router";
 import Spinner from "../../utilitize/Spinner";
 import CategoryModal from "./CategoryModal";
+import { parentCategory } from "../shared";
 
 const Category = () => {
   const [addCategory, setAddCategory] = useState(false);
@@ -23,10 +24,12 @@ const Category = () => {
   const [categories, setCategories] = useState<Category[] | null>(null);
   const [update, setUpdate] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [disableBtn, setDisableBtn] = useState(false);
   const store = useStore();
   const router = useRouter();
 
   const tableHeaders = [
+    "Parent Category",
     "Category Name",
     "Order",
     "Status",
@@ -72,7 +75,7 @@ const Category = () => {
   }
 
   async function deleteCategory(id: string, icon: string) {
-    setLoading(true);
+    setDisableBtn(true);
     const { data, error } = await fetchApi("/api/category", {
       method: "DELETE",
       headers: {
@@ -98,7 +101,7 @@ const Category = () => {
         type: "error",
       });
     }
-    setLoading(false);
+    setDisableBtn(false);
   }
 
   async function putCategory(formData: FormData) {
@@ -120,10 +123,27 @@ const Category = () => {
     }
   }
 
+  async function filterCategory(value: string) {
+    setLoading(true);
+    const { data, error } = await fetchApi(`/api/category?filter=${value}`);
+    if (!error) {
+      setCategories(data);
+    } else store?.State.setAlert({ msg: "Somthing was wrong.", type: "error" });
+    setLoading(false);
+  }
+
   return (
     <Container className='category-container'>
       <Header title='Add Category' />
       <div className='first-header'>
+        <select onChange={(e) => filterCategory(e.target.value)}>
+          <option value='All'>All</option>
+          {parentCategory.map((ptc) => (
+            <option key={ptc} value={ptc}>
+              {ptc}
+            </option>
+          ))}
+        </select>
         <Button variant='contained' onClick={() => setAddCategory(true)}>
           Add Category
         </Button>
@@ -143,6 +163,7 @@ const Category = () => {
             categories?.length ? (
               categories.map((category) => (
                 <TableRow hover key={category._id}>
+                  <TableCell>{category.parent_category}</TableCell>
                   <TableCell>{category.category_name}</TableCell>
                   <TableCell>{category.ordering}</TableCell>
                   <TableCell>{category.status}</TableCell>
@@ -161,7 +182,7 @@ const Category = () => {
                         <BorderColorIcon />
                       </button>
                       <button
-                        disabled={loading}
+                        disabled={disableBtn}
                         onClick={() =>
                           deleteCategory(category._id, category.icon.id)
                         }

@@ -8,6 +8,9 @@ export async function getCategory(req: NextApiRequest, res: NextApiResponse) {
     if (req.query.id) {
       const result = await Category.findOne({ _id: req.query.id });
       res.send(result);
+    } else if (req.query.filter && req.query.filter !== "All") {
+      const result = await Category.find({ parent_category: req.query.filter });
+      res.send(result);
     } else {
       const categories = await Category.find({}).sort({ created_at: -1 });
       res.send(categories);

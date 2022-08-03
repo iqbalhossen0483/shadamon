@@ -32,7 +32,7 @@ const CategoryModal = (props) => {
     [loading, setLoading] = useState(false),
     { showModal, setShowModal, submitter, title } = props,
     [category, setCategory] = useState({
-      parant_category: "Sell Anything",
+      parent_category: "Sell Anything",
       category_name: "",
       icon: "",
       status: "Yes",
@@ -134,7 +134,7 @@ const CategoryModal = (props) => {
     const { error } = await submitter(formData);
     if (!error) {
       setCategory({
-        parant_category: "Sell Anything",
+        parent_category: "Sell Anything",
         category_name: "",
         icon: "",
         status: "Yes",
@@ -153,7 +153,7 @@ const CategoryModal = (props) => {
         const { data } = await fetchApi(`/api/category?id=${router.query.id}`);
         if (data) {
           setCategory({
-            parant_category: data.parant_category,
+            parent_category: data.parent_category,
             category_name: data.category_name,
             icon: "",
             status: data.status,
@@ -211,7 +211,7 @@ const CategoryModal = (props) => {
             <div className='space-y-3'>
               <select
                 onChange={(e) =>
-                  handleCategoryInput("parant_category", e.target.value)
+                  handleCategoryInput("parent_category", e.target.value)
                 }
               >
                 {parentCategory.map((ctg, index) => (
